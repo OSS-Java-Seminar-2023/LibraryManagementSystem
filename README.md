@@ -15,7 +15,7 @@
 Developers
 </h2>
 
-Petar Topić
+Petar Topić <br>
 Martina Hrgovič
 
 <h2 id="introduction">
