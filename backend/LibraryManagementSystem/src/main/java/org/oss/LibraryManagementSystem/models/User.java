@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -50,7 +52,8 @@ public class User {
 
     @Column(name = "date_of_birth")
     @NotNull(message = "Date of birth shouldn't be null")
-    private Timestamp dateOfBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateOfBirth;
 
     @ManyToMany
     @JoinTable(

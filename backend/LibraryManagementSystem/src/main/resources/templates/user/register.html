@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up page</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">
+                    <!--                    <div class="img" style="background-image: url(images/bg-1.jpg);"></div>-->
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Sign up</h3>
+                            </div>
+                        </div>
+                        <form th:action="@{/users/register}" method="POST">
+                            <!--Check for errors-->
+                            <div th:if="${error}">
+                                <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${error}">
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">First name</label>
+                                <input type="text" class="form-control" name="firstName" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Last name</label>
+                                <input type="text" class="form-control" name="lastName" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Username</label>
+                                <input type="text" class="form-control" name="username" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Email</label>
+                                <input type="text" class="form-control" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-placeholder">Password</label>
+                                <input id="password-field" type="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-placeholder">Confirm password</label>
+                                <input id="password-field-confirm" type="password" name="confirmPassword" class="form-control" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Contact number</label>
+                                <input type="number" class="form-control" name="contactNumber" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Date of birth</label>
+                                <input type="date" class="form-control" name="dateOfBirth" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign up</button>
+                            </div>
+                        </form>
+                        <p class="text-center">Already have an account? <a th:href="@{/login}">Log In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

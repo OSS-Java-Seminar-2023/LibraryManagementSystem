@@ -63,6 +63,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorization -> authorization
                         .requestMatchers("/").authenticated()
+                        .requestMatchers("/users/register").permitAll()
                         .requestMatchers("/books/**").hasAnyRole("LIBRARIAN, ADMIN")
                 .anyRequest().authenticated())
                 .formLogin(form -> form

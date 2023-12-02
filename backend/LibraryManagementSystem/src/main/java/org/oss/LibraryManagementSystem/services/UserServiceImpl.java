@@ -1,9 +1,12 @@
 package org.oss.LibraryManagementSystem.services;
 
-import org.apache.catalina.User;
+import org.oss.LibraryManagementSystem.dto.UserDto;
+import org.oss.LibraryManagementSystem.mapper.UserMapper;
 import org.oss.LibraryManagementSystem.models.Role;
+import org.oss.LibraryManagementSystem.models.User;
 import org.oss.LibraryManagementSystem.repositories.RoleRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
+import org.oss.LibraryManagementSystem.utils.Validator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,5 +25,40 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+    }
+
+    @Override
+    public boolean areInputsInvalid(UserDto request) {
+        return Validator.isStringNullOrEmpty(request.getFirstName()) ||
+                Validator.isStringNullOrEmpty(request.getLastName()) ||
+                Validator.isStringNullOrEmpty(request.getUsername()) ||
+                Validator.isStringNullOrEmpty(request.getEmail()) ||
+                Validator.isStringNullOrEmpty(request.getPassword()) ||
+                Validator.isStringNullOrEmpty(request.getContactNumber());
+    }
+
+    @Override
+    public User registerUser(UserDto request) {
+        if(areInputsInvalid(request)) {
+            throw new RuntimeException("Invalid user input");
+        }
+
+        // Is email taken
+        if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("User with that email already exists");
+        }
+
+        // Is username taken
+        if(userRepository.getUserByUsername(request.getUsername()).isPresent()) {
+            throw new RuntimeException("User with that username already exists");
+        }
+
+        User userEntity = UserMapper.mapDtoToEntity(request);
+        // Enable user account by default
+        userEntity.setEnabled(true);
+
+        // Add role of user as a default
+
+        return userRepository.save(userEntity);
     }
 }
