@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<body>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">
+                    <!--                    <div class="img" style="background-image: url(images/bg-1.jpg);"></div>-->
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Log in</h3>
+                            </div>
+                        </div>
+                        <form th:action="@{/users/authenticateUser}" method="POST">
+                            <!--Check for errors-->
+                            <div th:if="${param.error}" >
+                                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                    Invalid username or password.
+                                </div>
+                            </div>
+                            <!--Check for logout-->
+                            <div th:if="${param.logout}" >
+                                <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                                    You have logged out.
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder">Username</label>
+                                <input type="text" class="form-control" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-placeholder">Password</label>
+                                <input id="password-field" type="password" name="password" class="form-control" required>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+                            </div>
+                        </form>
+                        <p class="text-center">Not a member? <a data-toggle="tab" th:href="@{/register}">Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

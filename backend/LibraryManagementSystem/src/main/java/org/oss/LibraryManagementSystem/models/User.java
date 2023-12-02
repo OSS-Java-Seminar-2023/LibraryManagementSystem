@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +17,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +31,10 @@ public class User {
     @Column(name = "last_name")
     @NotNull(message = "Last name shouldn't be null")
     private String lastName;
+
+    @Column(name = "username")
+    @NotNull(message = "Username shouldn't be null")
+    private String username;
 
     @Column(name = "email")
     @NotNull(message = "Email shouldn't be null")
@@ -46,10 +52,14 @@ public class User {
     @NotNull(message = "Date of birth shouldn't be null")
     private Timestamp dateOfBirth;
 
-    @ManyToOne
-    @JoinColumn(name="user_role", referencedColumnName = "id")
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Role role;
+    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "enabled")
     private boolean enabled;

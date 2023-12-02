@@ -1,13 +1,23 @@
 CREATE TABLE "user" (
     id UUID NOT NULL PRIMARY KEY,
-    firstName VARCHAR(255) NOT NULL,
-    lastName VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    contactNumber VARCHAR(255) NOT NULL,
-    dateOfBirth DATE NOT NULL,
-    role VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(255) NOT NULL,
+    date_of_birth DATE NOT NULL,
     enabled BOOLEAN NOT NULL
+);
+
+CREATE TABLE role (
+    id SERIAL NOT NULL PRIMARY KEY,
+    "name" VARCHAR NOT NULL
+);
+
+CREATE TABLE user_role (
+    user_id UUID NOT NULL REFERENCES "user"(id),
+    role_id INT NOT NULL REFERENCES role(id)
 );
 
 CREATE TABLE BookInfo (

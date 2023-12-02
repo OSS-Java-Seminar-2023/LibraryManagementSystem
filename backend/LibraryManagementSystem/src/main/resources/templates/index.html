@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Library management system</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<body>
+    <h2>Library Management System</h2>
+
+    <!-- Display username and role-->
+    <p>
+        User: <span sec:authentication="principal.username"></span>
+
+        Role: <span sec:authentication="principal.authorities"></span>
+    </p>
+    <!--Logout button-->
+    <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
+</body>
+</html>
