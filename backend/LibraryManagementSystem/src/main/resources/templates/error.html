@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<body>
+    <div class="d-flex align-items-center justify-content-center vh-100 bg-dark">
+        <div class="text-center">
+            <h1 class="display-1 fw-bold text-white" th:text="${error}"></h1>
+            <p class="lead fs-3 text-muted">
+                <span class="text-danger">Oops!</span>
+                Looks like there was a problem...
+            </p>
+            <a class="btn btn-lg btn-secondary mt-3" th:href="@{/}">Go to homepage</a>
+        </div>
+    </div>
+</body>
+</html>

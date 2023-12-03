@@ -5,18 +5,28 @@
     <title>Library management system</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
+<style>
+    .vh-90 {
+        height: 80vh;
+    }
+</style>
 <body>
-    <h2>Library Management System</h2>
+    <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+        <div class="container-fluid d-flex vh-90 align-items-center flex-column justify-content-center">
+            <h1 class="display-3 mb-4">Library Management System</h1>
+            <p class="lead mb-4">
+                Library Management System is a web application that manages the library.
+                <br/>
+                It enables viewing the library catalog and taking actions on library materials and users.
+            </p>
+        </div>
 
     <!-- Display username and role-->
-    <p>
-        User: <span sec:authentication="principal.username"></span>
+<!--    <p>-->
+<!--        User: <span sec:authentication="principal.username"></span>-->
 
-        Role: <span sec:authentication="principal.authorities"></span>
-    </p>
-    <!--Logout button-->
-    <form th:action="@{/logout}" method="POST">
-        <input type="submit" value="Logout"/>
-    </form>
+<!--        Role:-->
+<!--    </p>-->
+<!--    <div sec:authentication="principal.authorities"></div>-->
 </body>
 </html>
