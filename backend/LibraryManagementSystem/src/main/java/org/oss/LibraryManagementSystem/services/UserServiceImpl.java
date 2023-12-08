@@ -9,12 +9,14 @@ import org.oss.LibraryManagementSystem.repositories.UserRepository;
 import org.oss.LibraryManagementSystem.utils.Validator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +62,17 @@ public class UserServiceImpl implements UserService {
         // Add role of user as a default
 
         return userRepository.save(userEntity);
+    }
+
+    @Override
+    public User getCurrentUserDetails() {
+        var user = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(user.getName());
+        return userRepository.findByEmail(user.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

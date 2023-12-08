@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>User details</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<body>
+    <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+    <div class="container">
+        <h1 class="display-4 text-center my-5">User Details:</h1>
+        <div class="d-flex justify-content-center align-content-center">
+            <div class="card w-100">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title" th:text="${'#' + user.id}"></h4>
+                    <h3 class="card-title" th:text="${user.firstName + ' ' + user.lastName}"></h3>
+                    <p class="card-subtitle" th:text="${user.email}"></p>
+                </div>
+                <div class="card-body">
+                    <div class="card-row mb-2">
+                        <strong>ID:</strong>
+                        <span th:text="${user.id}"></span>
+                    </div>
+
+                    <div class="card-row mb-2">
+                        <strong>First Name:</strong>
+                        <span th:text="${user.firstName}"></span>
+                    </div>
+
+                    <div class="card-row mb-2">
+                        <strong>Last Name:</strong>
+                        <span th:text="${user.lastName}"></span>
+                    </div>
+
+                    <div class="card-row mb-2">
+                        <strong>Email:</strong>
+                        <span th:text="${user.email}"></span>
+                    </div>
+
+                    <div class="card-row mb-2">
+                        <strong>Date Of Birth:</strong>
+                        <span th:text="${user.dateOfBirth}"></span>
+                    </div>
+
+                    <div class="card-row mb-2">
+                        <strong>Contact Number:</strong>
+                        <span th:text="${user.contactNumber}"></span>
+                    </div>
+
+                    <div class="card-row">
+                        <strong>Roles:</strong>
+                        <span th:each="role : ${user.roles}" th:text="${role.name}"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="links-container">
+            <a class="btn btn-outline-dark mt-4" href="/users" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Back</a>
+
+            <a class="btn btn-outline-dark mt-4" href="/" sec:authorize="hasAnyAuthority('MEMBER')">Back</a>
+        </div>
+    </div>
+</body>
+</html>

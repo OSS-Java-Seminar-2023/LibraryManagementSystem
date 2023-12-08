@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Access denied</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
+<style>
+    .vh-90 {
+        height: 100vh;
+    }
+</style>
 <body>
-    <h2>Access Denied - You are not allowed to access this resource.</h2>
+    <div class="container">
+        <div class="d-flex w-100 flex-column justify-content-center align-content-center vh-90">
+            <h2>Access Denied - You are not allowed to access this resource.</h2>
 
-    <a th:href="@{/}">Go back to home page</a>
+            <a th:href="@{/}">Go back to home page</a>
+        </div>
+    </div>
 </body>
 </html>
