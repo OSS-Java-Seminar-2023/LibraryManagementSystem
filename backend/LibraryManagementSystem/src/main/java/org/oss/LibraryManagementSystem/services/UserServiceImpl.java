@@ -24,9 +24,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    private final EmailService emailService;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -60,6 +63,9 @@ public class UserServiceImpl implements UserService {
         userEntity.setEnabled(true);
 
         // Add role of user as a default
+
+        // Send email
+        emailService.sendEmail(request.getEmail(), "Library Management System - User account creation", "Thank you for registering account in our Library Management System.");
 
         return userRepository.save(userEntity);
     }
