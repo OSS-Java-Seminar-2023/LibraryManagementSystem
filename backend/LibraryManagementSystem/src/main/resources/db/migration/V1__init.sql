@@ -42,7 +42,7 @@ CREATE TABLE Category (
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE BoookInfoCategory (
+CREATE TABLE BookInfoCategory (
     bookInfoId UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id),
     categoryId UUID NOT NULL REFERENCES Category(id)
 );
