@@ -31,7 +31,7 @@
                     <a class="nav-link" href="#">Categories</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
-                    <a class="nav-link" href="#">Users</a>
+                    <a class="nav-link" href="/users">Users</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('MEMBER')">
                     <a class="nav-link" href="/users/myDetails">My Details</a>

@@ -4,9 +4,11 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 public class UserDto {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String username;
@@ -14,4 +16,5 @@ public class UserDto {
     private String password;
     private String contactNumber;
     private Date dateOfBirth;
+    private String role;
 }

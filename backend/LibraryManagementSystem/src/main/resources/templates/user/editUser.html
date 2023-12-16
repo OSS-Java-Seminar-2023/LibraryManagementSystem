@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<style>
+    .padding {
+        padding: 0 8rem;
+    }
+</style>
+<body>
+<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+
+<div class="container-fluid padding">
+    <h1 class="display-4 mt-2">Edit User</h1>
+
+    <form class="my-4" method="POST" th:action="@{/users/updateUser}">
+        <input name="id" th:value="${userRequest.id}" type="hidden">
+        <input name="password" th:value="${userRequest.password}" type="hidden">
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">First Name</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="firstName" required type="text" th:value="${userRequest.firstName}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="lastName" required type="text" th:value="${userRequest.lastName}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="username" required type="text" th:value="${userRequest.username}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">E-mail</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="email" required type="email" th:value="${userRequest.email}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Contact Number</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="contactNumber" required type="number" th:value="${userRequest.contactNumber}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Date of Birth</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="dateOfBirth" required type="date" th:value="${dateOfBirth}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Role</label>
+            <div class="col-sm-10">
+                <select class="form-select" name="role">
+                    <option th:each="option: ${roleOptions}"
+                            th:if="${(#authorization.expression('hasAuthority(''LIBRARIAN'')') and option.name == 'MEMBER') or #authorization.expression('hasAuthority(''ADMIN'')')}"
+                            th:text="${option.name}" th:value="${option.name}"
+                    ></option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-lg btn-success" type="submit">Edit user</button>
+    </form>
+</div>
+</body>
+</html>
