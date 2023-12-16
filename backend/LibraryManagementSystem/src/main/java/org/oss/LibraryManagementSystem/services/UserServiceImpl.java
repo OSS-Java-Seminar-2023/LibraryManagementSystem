@@ -113,20 +113,20 @@ public class UserServiceImpl implements UserService {
     public User editUser(UserDto userDto) throws ParseException {
         User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new RuntimeException("User not found"));
         System.out.println(user);
-//        user.setId(userDto.getId());
+        user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
-//        user.setLastName(userDto.getLastName());
-//        user.setUsername(userDto.getUsername());
-//        user.setEmail(userDto.getEmail());
-//        user.setContactNumber(userDto.getContactNumber());
-//        user.setDateOfBirth(userDto.getDateOfBirth());
-//
-//        var roleUser = roleRepository.findRoleByName(userDto.getRole());
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(roleUser);
-//        user.setRoles(roles);
-//
-//        user.setPassword(userDto.getPassword());
+        user.setLastName(userDto.getLastName());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setContactNumber(userDto.getContactNumber());
+        user.setDateOfBirth(userDto.getDateOfBirth());
+
+        var roleUser = roleRepository.findRoleByName(userDto.getRole());
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleUser);
+        user.setRoles(roles);
+
+        user.setPassword(userDto.getPassword());
 
         return userRepository.save(user);
     }
