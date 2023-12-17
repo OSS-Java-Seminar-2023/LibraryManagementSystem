@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<style>
+    .padding {
+        padding: 0 8rem;
+    }
+</style>
+<body>
+<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+
+<div class="container-fluid padding">
+    <h1 class="display-4 mt-2">Edit Category</h1>
+
+    <form class="my-4" method="POST" th:action="@{/categories/updateCategory}">
+        <input name="id" th:value="${category.id}" type="hidden">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Category Name</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="name" required type="text" th:value="${category.name}">
+            </div>
+        </div>
+        <button class="btn btn-lg btn-success" type="submit">Edit Category</button>
+    </form>
+    <a class="btn btn-outline-dark mt-4" th:href="@{'/categories'}" >Back</a>
+</div>
+</body>
+</html>

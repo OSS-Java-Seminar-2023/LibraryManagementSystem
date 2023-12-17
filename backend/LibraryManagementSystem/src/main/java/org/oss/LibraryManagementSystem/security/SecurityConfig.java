@@ -19,26 +19,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsManager() {
-//        UserDetails petar = User.builder()
-//                .username("petar")
-//                .password("{noop}petar123")
-//                .roles("LIBRARIAN").build();
-//
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password("{noop}user123")
-//                .roles("USER").build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password("{noop}admin123")
-//                .roles("ADMIN").build();
-//        return new InMemoryUserDetailsManager(petar, user, admin);
-//    }
-
-    // Add jdbc support
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
@@ -67,8 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorization -> authorization
                         .requestMatchers("/").authenticated()
                         .requestMatchers("/users/register").permitAll()
-                        .requestMatchers("/books/**").hasAnyRole("LIBRARIAN, ADMIN")
-                .anyRequest().authenticated())
+                .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/users/login")
                         .loginProcessingUrl("/users/authenticateUser")

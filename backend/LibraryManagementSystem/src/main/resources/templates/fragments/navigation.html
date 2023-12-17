@@ -28,7 +28,7 @@
                     <a class="nav-link" th:href="@{'/'}">Authors</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
-                    <a class="nav-link" th:href="@{'/'}">Categories</a>
+                    <a class="nav-link" th:href="@{'/categories'}">Categories</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                     <a class="nav-link" th:href="@{'/users'}">Users</a>

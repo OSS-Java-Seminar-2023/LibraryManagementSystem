@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<style>
+    .padding {
+        padding: 0 8rem;
+    }
+</style>
+<body>
+<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+
+<div class="container-fluid padding">
+    <h1 class="display-4 mt-2">Categories</h1>
+
+    <div class="table-responsive mt-4">
+        <div class="w-100 d-flex flex-column justify-content-center align-items-start">
+            <a class="btn btn-success mb-4" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/categories/add}">Add new Category</a>
+        </div>
+        <table class="table table-hover align-middle">
+            <thead class="thead-dark">
+            <tr>
+                <th># Id</th>
+                <th>Category Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="category : ${categories}">
+                <th scope="row" th:text="${category.id.toString().substring(0,8)+'...'}"></th>
+                <td th:text="${category.name}"></td>
+                <td>
+                <a class="btn btn-warning" th:href="@{/categories/edit/{categoryId}(categoryId=${category.id})}"
+                       title="Edit Category"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a class="btn btn-danger btnDelete"
+                       role="button"
+                       th:href="@{/categories/delete/{categoryId}(categoryId=${category.id})}"
+                       sec:authorize="hasAnyAuthority('ADMIN')"
+                       th:categoryName="${category.name}"
+                       title="Delete Category"
+                    >
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal py-5" id="deleteModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Confirm Delete</h1>
+            </div>
+            <div class="modal-body py-0">
+                <p><span id="confirmText"></span></p>
+            </div>
+            <div class="modal-footer flex-column border-top-0">
+                <a class="btn btn-lg btn-danger w-100 mx-0 mb-2" id="yesBtn" type="button">Delete Category</a>
+                <button class="btn btn-lg btn-light w-100 mx-0 noBtn" data-bs-dismiss="modal" type="button">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    $(".btnDelete").on("click", function (e) {
+        e.preventDefault();
+        let href = $(this).attr("href");
+        let categoryName = $(this).attr("categoryName");
+        $("#confirmText").html("Are you sure you want to delete category: \<b\>" + categoryName + "\<\/b\>?");
+        $('#deleteModal #yesBtn').attr('href', href);
+        $("#deleteModal").show();
+    });
+
+    $(".noBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#deleteModal").hide();
+    });
+
+</script>
+</html>

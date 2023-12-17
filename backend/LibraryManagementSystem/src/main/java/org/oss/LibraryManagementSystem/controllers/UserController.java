@@ -108,7 +108,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
-    public String deleteUserPage(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+    public String deleteUser(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
         try {
             userService.deleteUserById(id);
             redirectAttributes.addFlashAttribute("message", "The user with id=" + id + " has been deleted successfully!");
@@ -122,15 +122,13 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String editUserPage(@PathVariable UUID id, Model model) {
         var roles = roleRepository.findAll();
-        Optional<User> user = userRepository.findById(id);
-
-        User userEntity = user.get();
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(userEntity.getDateOfBirth());
+        String formattedDate = dateFormat.format(user.getDateOfBirth());
 
         model.addAttribute("dateOfBirth", formattedDate);
-        model.addAttribute("userRequest", userEntity);
+        model.addAttribute("userRequest", user);
         model.addAttribute("roleOptions", roles);
 
         System.out.println(formattedDate);
