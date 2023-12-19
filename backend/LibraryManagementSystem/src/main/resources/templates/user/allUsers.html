@@ -6,59 +6,421 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .padding {
-        padding: 0 8rem;
+    .container-users {
+        padding: 4rem 12rem;
+    }
+
+    .container-users h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .users-stats-filters {
+        display: flex;
+        /*margin-bottom: 2rem;*/
+    }
+
+    .total-users {
+        background-color: var(--bg700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        margin-right: 2rem;
+    }
+
+    .total-icon > i {
+        font-size: 4rem;
+        color: var(--primary500);
+        padding-right: 1rem;
+    }
+
+    .total-info {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.6rem;
+        font-weight: 300;
+    }
+
+    .total-info > span {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+
+    .filters {
+        display: flex;
+    }
+
+    .search-input {
+        margin-right: 2rem;
+        padding: 1rem;
+        background-color: var(--bg700);
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+    }
+
+    .search-input input {
+        border: none;
+        outline: none;
+        font-size: 1.8rem;
+        padding: 1rem;
+        background-color: var(--bg700);
+    }
+
+    .search-input button {
+        border: none;
+        outline: none;
+        background-color: var(--bg700);
+        font-size: 2.2rem;
+        color: var(--primary500);
+        padding: 1rem;
+    }
+
+    .search-input button:hover {
+        cursor: pointer;
+    }
+
+    .filter-container:not(:last-child) {
+        margin-right: 2rem;
+    }
+
+    .filter-container {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.4rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+    }
+
+    .filter-container > label {
+        margin-bottom: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .filter-container > select {
+        border: 1.5px solid var(--bg1000);
+        background-color: var(--bg700);
+        color: var(--primary500);
+        outline: none;
+    }
+
+    .btn-add {
+        font-size: 1.4rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        text-decoration: none;
+        color: black;
+        margin-right: 2rem;
+        font-size: 1.6rem;
+    }
+
+    .btn-details {
+        font-size: 1.4rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        text-decoration: none;
+        color: black;
+        font-size: 1.6rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        box-sizing: border-box;
+        margin: 2rem 0;
+    }
+
+    .table {
+        font-size: 1.8rem;
+        border: 1.5px solid var(--bg1000);
+        border-radius: .4rem;
+        border-collapse: collapse;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: scroll;
+    }
+
+    .table-head tr>th:first-child {
+        padding-left: 1rem;
+    }
+
+    .table-head tr>th{
+        text-align: start;
+        border-bottom: 1.5px solid var(--bg1000);
+        padding: 1rem 1rem 1rem 0;
+    }
+
+    .table-head tr>th>a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .id {
+        padding-left: 1rem;
+        text-align: start;
+    }
+
+    .table-content tr>td,th {
+        padding: 1rem 1rem 1rem 0;
+    }
+
+    .table-content tr>td {
+        font-size: 1.6rem;
+        text-align: start;
+    }
+
+    .table-content tr>td>a {
+        color: var(--primary500);
+        text-decoration: none;
+    }
+
+    .table-content-row {
+        box-sizing: border-box;
+        border: 1.5px solid var(--bg1000);
+    }
+
+    .admin-user {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--error-text);
+    }
+
+    .librarian-user {
+        background-color: var(--primary400);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--primary600);
+    }
+
+    .member-user {
+        background-color: var(--bg800);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: black;
+    }
+
+    .action-btn {
+        background-color: var(--bg800);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: black;
+        border: 1px solid black;
+    }
+
+    .action-btn > i {
+        color: black;
+    }
+
+    .delete-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--error-text);
+        border: 1px solid var(--error-text);
+    }
+
+    .delete-btn > i {
+        color: var(--error-text);
+    }
+
+    .actions-row>a:not(:last-child) {
+        margin-right: 1rem;
+    }
+
+    .enabled-user>div {
+        background-color: var(--sucess-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--sucess-text);
+    }
+
+    .disabled-user>div {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--error-text);
+    }
+
+    .loans-row div>a {
+        margin-right: 1rem;
+        text-decoration: none;
+    }
+
+    .modal-overlay {
+        background-color: rgba(0,0,0,0.2);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+    }
+
+    .delete-modal {
+        background-color: white;
+        padding: 1rem;
+        border-radius: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .modal-header h1{
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .modal-body {
+        margin-bottom: 1rem;
+    }
+
+    .yes-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-right: 1rem;
+        text-decoration: none;
+    }
+
+    .no-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
     }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
 
-    <div class="container-fluid padding">
-        <h1 class="display-4 mt-2">Users</h1>
+    <div class="container-users">
+        <h1>Users</h1>
 
-        <div class="table-responsive mt-4">
-            <div class="w-100 d-flex flex-column justify-content-center align-items-start">
-                <a class="btn btn-success mb-4" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/users/add}">Add new User</a>
-                <a class="btn btn-outline-dark mb-4" th:href="@{'/users/myDetails'}" >My Details</a>
+        <div class="users-stats-filters">
+            <div class="total-users">
+                <div class="total-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="total-info">
+                    Total users:
+                    <span th:text="${count}"></span>
+                </div>
             </div>
-            <table class="table table-hover align-middle">
-                <thead class="thead-dark">
-                <tr>
-                    <th># Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>E-Mail</th>
-                    <th>Date Of Birth</th>
-                    <th>Contact Number</th>
-                    <th>Role</th>
-                    <th>Loans</th>
-                    <th>Actions</th>
-                </tr>
+            <div class="filters">
+                <div class="search-input">
+                    <input type="text" name="search" id="search" placeholder="Search users">
+                    <button><i class="bi bi-search"></i></button>
+                </div>
+
+                <div class="filter-container">
+                    <label for="roleName">Filter by role</label>
+                    <select class="form-select" id="roleName" name="roleName"
+                            onchange="changeRoleName()" th:value="${roleName}"
+                    >
+                        <option disabled selected>All roles</option>
+                        <option th:each="role: ${roleOptions}"
+                                th:selected="${role.name == roleName}"
+                                th:text="${role.name}"
+                                th:value="${role.name}"
+                        ></option>
+                    </select>
+                </div>
+
+                <div class="filter-container">
+                    <label for="pageSize">Items per page</label>
+                    <select class="form-select" id="pageSize" name="size"
+                            onchange="changePageSize()" th:value="${pageSize}"
+                    >
+                        <option th:selected="${3 == pageSize}" th:text="3" th:value="3"></option>
+                        <option th:selected="${6 == pageSize}" th:text="6" th:value="6"></option>
+                        <option th:selected="${9 == pageSize}" th:text="9" th:value="9"></option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/users/add}">Add new User</a>
+            <a class="btn-details" th:href="@{'/users/myDetails'}" >My Details</a>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead class="table-head">
+                    <tr>
+                        <th># Id</th>
+                        <th>
+                            <a href="">
+                                First Name
+                                <i class="bi bi-sort-up"></i>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="">
+                                Last Name
+                                <i class="bi bi-sort-up"></i>
+                            </a>
+                        </th>
+                        <th>E-Mail</th>
+                        <th>
+                            <a href="">
+                                Date Of Birth
+                                <i class="bi bi-sort-up"></i>
+                            </a>
+                        </th>
+                        <th>Contact Number</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                        <th>Loans</th>
+                        <th>Enabled</th>
+                    </tr>
                 </thead>
 
-                <tbody>
-                    <tr th:each="user : ${users}">
-                        <th scope="row" th:text="${user.id.toString().substring(0,5)+'...'}"></th>
+                <tbody class="table-content">
+                    <tr th:each="user : ${users}" class="table-content-row">
+                        <th th:text="${user.id.toString().substring(0,5)+'...'}" class="id"></th>
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td><a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a></td>
                         <td th:text="${user.dateOfBirth}"></td>
                         <td><a th:href="'tel:' + ${user.contactNumber}" th:text="${user.contactNumber}"></a></td>
                         <td th:each="role : ${user.roles}">
-                            <span th:text="${role.name}"></span>
+                            <span th:text="${role.name}" th:class="${(role.name == 'ADMIN') ? 'admin-user' : (role.name == 'LIBRARIAN' ? 'librarian-user' : 'member-user')}"></span>
                         </td>
-                        <td>
-                            <a class="btn btn-primary" role="button" th:href="@{/users/{userId}(userId=${user.id})}"
+                        <td class="actions-row">
+                            <a class="action-btn" role="button" th:href="@{/users/{userId}(userId=${user.id})}"
                                title="User Details"
                             >
                                 <i class="bi bi-person-lines-fill"></i>
                             </a>
-                            <a class="btn btn-warning" th:href="@{/users/edit/{userId}(userId=${user.id})}"
+                            <a class="action-btn" th:href="@{/users/edit/{userId}(userId=${user.id})}"
                                title="Edit User"
                             >
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a class="btn btn-danger btnDelete"
+                            <a class="delete-btn"
                                role="button"
                                th:href="@{/users/delete/{userId}(userId=${user.id})}"
                                th:if="${currentUserRole == 'ADMIN' && currentUser.get().getEmail() != user.email}"
@@ -70,21 +432,24 @@
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
-                        <td>
+                        <td class="loans-row">
                             <div th:if="${user.roles.stream().findFirst().get().getName() == 'MEMBER'}">
-                                <a class="btn btn-dark" role="button"
+                                <a class="action-btn" role="button"
                                    th:href="@{/loans/{memberId}/current(memberId=${user.id})}"
                                    title="Current Loans"
                                 >
                                     Current Loans
                                 </a>
-                                <a class="btn btn-dark" role="button"
+                                <a class="action-btn" role="button"
                                    th:href="@{/loans/{memberId}/previous(memberId=${user.id})}"
                                    title="Previous Loans"
                                 >
                                     Previous Loans
                                 </a>
                             </div>
+                        </td>
+                        <td th:class="${user.isEnabled() == true ? 'enabled-user' : 'disabled-user'}">
+                            <div th:text="${user.isEnabled() == true ? 'Enabled' : 'Disabled'}"></div>
                         </td>
                     </tr>
                 </tbody>
@@ -93,27 +458,24 @@
         </div>
     </div>
 
-    <div class="modal py-5" id="deleteModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header border-bottom-0">
-                    <h1 class="modal-title fs-5">Confirm Delete</h1>
-                </div>
-                <div class="modal-body py-0">
-                    <p><span id="confirmText"></span></p>
-                </div>
-                <div class="modal-footer flex-column border-top-0">
-                    <a class="btn btn-lg btn-danger w-100 mx-0 mb-2" id="yesBtn" type="button">Delete user</a>
-                    <button class="btn btn-lg btn-light w-100 mx-0 noBtn" data-bs-dismiss="modal" type="button">Close
-                    </button>
-                </div>
+    <div class="modal-overlay" id="deleteModal">
+        <div class="delete-modal">
+            <div class="modal-header">
+                <h1>Confirm Delete</h1>
+            </div>
+            <div class="modal-body">
+                <p><span id="confirmText"></span></p>
+            </div>
+            <div class="modal-footer">
+                <a class="yes-btn" id="yesBtn" type="button">Delete user</a>
+                <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </div>
     </div>
 </body>
 
 <script type="text/javascript">
-        $(".btnDelete").on("click", function (e) {
+        $(".delete-btn").on("click", function (e) {
             e.preventDefault();
             let href = $(this).attr("href");
             let userEmail = $(this).attr("userEmail");
@@ -121,7 +483,7 @@
             let userLastName = $(this).attr("userLastName");
             $("#confirmText").html("Are you sure you want to delete user: \<b\>" + userFirstName + " " + userLastName + " (" + userEmail + ")\<\/b\>?");
             $('#deleteModal #yesBtn').attr('href', href);
-            $("#deleteModal").show();
+            $("#deleteModal").css('display', 'flex');
         });
 
         $(".noBtn").on("click", function (e) {

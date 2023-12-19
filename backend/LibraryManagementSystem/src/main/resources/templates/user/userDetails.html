@@ -5,61 +5,109 @@
     <title>User details</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
+<style>
+    .details-container {
+        padding: 4rem var(--padding-container);
+    }
+
+    .details-container h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .details-card {
+        width: 100%;
+        border: 1.5px solid var(--bg1000);
+        border-radius: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .details-card-header {
+        background-color: var(--primary400);
+        padding: 1rem;
+        color: var(--primary600)
+    }
+
+    .details-card-content {
+        box-sizing: border-box;
+        padding: 1rem;
+    }
+
+    .details-card-content > div:not(:last-child) {
+        padding-bottom: 1rem;
+    }
+
+    .links-container {
+        box-sizing: border-box;
+        margin-top: 2rem;
+    }
+
+    .back-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        margin-top: 4rem;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
+    }
+
+    .back-btn:hover {
+        background-color: var(--bg700);
+    }
+</style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
-    <div class="container">
-        <h1 class="display-4 text-center my-5">User Details:</h1>
-        <div class="d-flex justify-content-center align-content-center">
-            <div class="card w-100">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="card-title" th:text="${'#' + user.id}"></h4>
-                    <h3 class="card-title" th:text="${user.firstName + ' ' + user.lastName}"></h3>
-                    <p class="card-subtitle" th:text="${user.email}"></p>
-                </div>
-                <div class="card-body">
-                    <div class="card-row mb-2">
-                        <strong>ID:</strong>
-                        <span th:text="${user.id}"></span>
-                    </div>
-
-                    <div class="card-row mb-2">
-                        <strong>First Name:</strong>
-                        <span th:text="${user.firstName}"></span>
-                    </div>
-
-                    <div class="card-row mb-2">
-                        <strong>Last Name:</strong>
-                        <span th:text="${user.lastName}"></span>
-                    </div>
-
-                    <div class="card-row mb-2">
-                        <strong>Email:</strong>
-                        <span th:text="${user.email}"></span>
-                    </div>
-
-                    <div class="card-row mb-2">
-                        <strong>Date Of Birth:</strong>
-                        <span th:text="${user.dateOfBirth}"></span>
-                    </div>
-
-                    <div class="card-row mb-2">
-                        <strong>Contact Number:</strong>
-                        <span th:text="${user.contactNumber}"></span>
-                    </div>
-
-                    <div class="card-row">
-                        <strong>Roles:</strong>
-                        <span th:each="role : ${user.roles}" th:text="${role.name}"></span>
-                    </div>
+    <div class="details-container">
+        <h1>User Details:</h1>
+        <div class="details-card">
+            <div class="details-card-header">
+                <h4 class="title" th:text="${'#' + user.id}"></h4>
+                <h3 class="title" th:text="${user.firstName + ' ' + user.lastName}"></h3>
+                <p class="subtitle" th:text="${user.email}"></p>
+            </div>
+            <div class="details-card-content">
+                <div>
+                    <strong>ID:</strong>
+                    <span th:text="${user.id}"></span>
                 </div>
 
+                <div>
+                    <strong>First Name:</strong>
+                    <span th:text="${user.firstName}"></span>
+                </div>
+
+                <div>
+                    <strong>Last Name:</strong>
+                    <span th:text="${user.lastName}"></span>
+                </div>
+
+                <div>
+                    <strong>Email:</strong>
+                    <span th:text="${user.email}"></span>
+                </div>
+
+                <div>
+                    <strong>Date Of Birth:</strong>
+                    <span th:text="${user.dateOfBirth}"></span>
+                </div>
+
+                <div>
+                    <strong>Contact Number:</strong>
+                    <span th:text="${user.contactNumber}"></span>
+                </div>
+
+                <div>
+                    <strong>Roles:</strong>
+                    <span th:each="role : ${user.roles}" th:text="${role.name}"></span>
+                </div>
             </div>
         </div>
 
         <div class="links-container">
-            <a class="btn btn-outline-dark mt-4" href="/users" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Back</a>
+            <a class="back-btn" href="/users" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Back</a>
 
-            <a class="btn btn-outline-dark mt-4" href="/" sec:authorize="hasAnyAuthority('MEMBER')">Back</a>
+            <a class="back-btn" href="/" sec:authorize="hasAnyAuthority('MEMBER')">Back</a>
         </div>
     </div>
 </body>

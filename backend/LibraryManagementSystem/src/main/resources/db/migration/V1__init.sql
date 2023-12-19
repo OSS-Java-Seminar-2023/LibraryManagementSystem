@@ -16,8 +16,8 @@ CREATE TABLE role (
 );
 
 CREATE TABLE user_role (
-    user_id UUID NOT NULL REFERENCES "user"(id),
-    role_id INT NOT NULL REFERENCES role(id)
+    user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    role_id INT NOT NULL REFERENCES role(id) ON DELETE CASCADE
 );
 
 CREATE TABLE BookInfo (
@@ -33,8 +33,8 @@ CREATE TABLE Author (
 );
 
 CREATE TABLE BookInfoAuthor (
-    bookInfoId UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id),
-    authorId UUID NOT NULL REFERENCES Author(id)
+    bookInfoId UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id) ON DELETE CASCADE,
+    authorId UUID NOT NULL REFERENCES Author(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Category (
@@ -43,8 +43,8 @@ CREATE TABLE Category (
 );
 
 CREATE TABLE BookInfoCategory (
-    bookInfoId UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id),
-    categoryId UUID NOT NULL REFERENCES Category(id)
+    bookInfoId UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id) ON DELETE CASCADE,
+    categoryId UUID NOT NULL REFERENCES Category(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Book (
@@ -54,14 +54,14 @@ CREATE TABLE Book (
     ISBN VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL,
-    bookInfoId UUID NOT NULL REFERENCES BookInfo(id)
+    bookInfoId UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Loan (
     id UUID NOT NULL PRIMARY KEY,
-    memberId UUID NOT NULL REFERENCES "user"(id),
-    librarianId UUID NOT NULL REFERENCES "user"(id),
-    bookId UUID NOT NULL REFERENCES Book(id),
+    memberId UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    librarianId UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    bookId UUID NOT NULL REFERENCES Book(id) ON DELETE CASCADE,
     dateIssued DATE,
     dateReturned DATE
 );

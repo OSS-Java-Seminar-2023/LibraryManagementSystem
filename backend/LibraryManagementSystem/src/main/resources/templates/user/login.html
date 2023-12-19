@@ -6,49 +6,134 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <body>
-<section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="wrap">
-                    <!--                    <div class="img" style="background-image: url(images/bg-1.jpg);"></div>-->
-                    <div class="login-wrap p-4 p-md-5">
-                        <div class="d-flex">
-                            <div class="w-100">
-                                <h3 class="mb-4">Log in</h3>
-                            </div>
-                        </div>
-                        <form th:action="@{/users/authenticateUser}" method="POST">
-                            <!--Check for errors-->
-                            <div th:if="${param.error}" >
-                                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                    Invalid username or password.
-                                </div>
-                            </div>
-                            <!--Check for logout-->
-                            <div th:if="${param.logout}" >
-                                <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                                    You have logged out.
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label class="form-control-placeholder">Username</label>
-                                <input type="text" class="form-control" name="username" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-control-placeholder">Password</label>
-                                <input id="password-field" type="password" name="password" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
-                            </div>
-                        </form>
-                        <p class="text-center">Not a member? <a th:href="@{http://localhost:8080/users/register}">Sign Up</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<style>
+    .container-login {
+        display: flex;
+    }
+
+    .login-left {
+        width: 60%;
+        height: 100dvh;
+        background: linear-gradient(141deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
+    }
+
+    .login-right {
+        padding: 5rem;
+        font-size: 1.6rem;
+        width: 40%;
+    }
+
+    .login-header h3 {
+        margin-bottom: 2rem;
+        font-size: 3.4rem;
+        color: var(--primary500);
+    }
+
+    .login-header p {
+        margin-bottom: 3rem;
+    }
+
+    .error {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-bottom: 1.4rem;
+    }
+
+    .success {
+        background-color: var(--sucess-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--sucess-text);
+        border: 0.4px solid var(--sucess-text);
+        margin-bottom: 1.4rem;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 2.4rem;
+    }
+
+    .input-group label {
+        font-size: 2rem;
+        color: var(--primary500);
+    }
+    .input-group input {
+        padding: 1rem 0;
+        font-size: 1.6rem;
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+
+    .input-group input::placeholder {
+        display: flex;
+        align-items: center;
+    }
+
+    .login-button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .login-button-container button {
+        border: none;
+        outline: none;
+        background: var(--primary500);
+        color: white;
+        padding: 1rem 1.4rem;
+        font-size: 1.6rem;
+        border-radius: .4rem;
+    }
+
+    .login-button-container p>a {
+        color: var(--primary500);
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+</style>
+<div class="container-login">
+    <div class="login-left">
+
     </div>
-</section>
+    <div class="login-right">
+        <div class="login-header">
+            <h3 class="mb-4">Log in</h3>
+            <p>Enter your username and password in form to login</p>
+        </div>
+        <form th:action="@{/users/authenticateUser}" method="POST" class="login-form">
+            <!--Check for errors-->
+            <div th:if="${param.error}" class="error">
+                Invalid username or password.
+            </div>
+            <!--Check for logout-->
+            <div th:if="${param.logout}" class="success">
+                You have logged out.
+            </div>
+            <div class="input-group">
+                <label class="form-control-placeholder">Username</label>
+                <input type="text" class="form-control" name="username" required placeholder="Enter your username">
+            </div>
+            <div class="input-group">
+                <label class="form-control-placeholder">Password</label>
+                <input id="password-field" type="password" name="password" class="form-control" require placeholder="*******"d>
+            </div>
+            <div class="login-button-container">
+                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Log In</button>
+
+                <p class="text-center">Not a member? <a th:href="@{http://localhost:8080/users/register}">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

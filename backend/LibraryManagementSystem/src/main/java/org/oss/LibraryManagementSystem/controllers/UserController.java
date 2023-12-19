@@ -67,9 +67,16 @@ public class UserController {
             currentUserRoles.add(role.getName());
         }
 
+        var roles = roleRepository.findAll();
+
+        long usersCount = userService.getUserCount();
+
+        model.addAttribute("count", usersCount);
         model.addAttribute("users", users);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("currentUserRole", currentUserRoles.get(0));
+
+        model.addAttribute("roleOptions", roles);
         return "user/allUsers";
     }
 

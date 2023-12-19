@@ -21,4 +21,6 @@ public interface UserService {
     String deleteUserById(UUID id);
 
     User editUser(UserDto userDto) throws ParseException;
+
+    long getUserCount();
 }

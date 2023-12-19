@@ -6,82 +6,386 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .padding {
-        padding: 0 8rem;
+    .container-categories {
+        padding: 4rem 12rem;
+    }
+
+    .container-categories h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .categories-stats-filters {
+        display: flex;
+    }
+
+    .total-categories {
+        background-color: var(--bg700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        margin-right: 2rem;
+    }
+
+    .total-icon > i {
+        font-size: 4rem;
+        color: var(--primary500);
+        padding-right: 1rem;
+    }
+
+    .total-info {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.6rem;
+        font-weight: 300;
+    }
+
+    .total-info > span {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+
+    .filters {
+        display: flex;
+    }
+
+    .search-input {
+        margin-right: 2rem;
+        padding: 1rem;
+        background-color: var(--bg700);
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+    }
+
+    .search-input input {
+        border: none;
+        outline: none;
+        font-size: 1.8rem;
+        padding: 1rem;
+        background-color: var(--bg700);
+    }
+
+    .search-input button {
+        border: none;
+        outline: none;
+        background-color: var(--bg700);
+        font-size: 2.2rem;
+        color: var(--primary500);
+        padding: 1rem;
+    }
+
+    .search-input button:hover {
+        cursor: pointer;
+    }
+
+    .filter-container:not(:last-child) {
+        margin-right: 2rem;
+    }
+
+    .filter-container {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.4rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+    }
+
+    .filter-container > label {
+        margin-bottom: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .filter-container > select {
+        border: 1.5px solid var(--bg1000);
+        background-color: var(--bg700);
+        color: var(--primary500);
+        outline: none;
+    }
+
+    .btn-add {
+        font-size: 1.4rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        text-decoration: none;
+        color: black;
+        margin-right: 2rem;
+        font-size: 1.6rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        box-sizing: border-box;
+        margin: 2rem 0;
+    }
+
+    /* ----- Table Styles ----- */
+
+    .table {
+        font-size: 1.8rem;
+        border: 1.5px solid var(--bg1000);
+        border-radius: .4rem;
+        border-collapse: collapse;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border-spacing: 1rem;
+    }
+
+    .table-head tr>th:first-child {
+        padding-left: 1rem;
+    }
+
+    .table-head tr>th{
+        text-align: start;
+        border-bottom: 1.5px solid var(--bg1000);
+        padding: 1rem 1rem 1rem 0;
+    }
+
+    .table-head tr>th>a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .id-header {
+        padding-left: 1rem;
+    }
+
+    .id {
+        padding-left: 1rem;
+        text-align: start;
+    }
+
+    .table-content tr>td,th {
+        padding: 1rem 1rem 1rem 0;
+        text-align: start;
+    }
+
+    .table-content tr>td {
+        font-size: 1.6rem;
+        text-align: start;
+    }
+
+    .table-content tr>td>a {
+        color: var(--primary500);
+        text-decoration: none;
+    }
+
+    .table-content-row {
+        border: 1.5px solid var(--bg1000);
+    }
+
+    .action-btn {
+        background-color: var(--bg800);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: black;
+        border: 1px solid black;
+        box-sizing: border-box;
+    }
+
+    .action-btn > i {
+        color: black;
+    }
+
+    .delete-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--error-text);
+        border: 1px solid var(--error-text);
+    }
+
+    .delete-btn > i {
+        color: var(--error-text);
+    }
+
+    .actions-row {
+        display: flex;
+        margin: 1rem 0;
+    }
+
+    .actions-row>div:not(:last-child) {
+        margin-right: 1rem;
+    }
+
+    .loans-row div>a {
+        margin-right: 1rem;
+        text-decoration: none;
+    }
+
+    .modal-overlay {
+        background-color: rgba(0,0,0,0.2);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+    }
+
+    .delete-modal {
+        background-color: white;
+        padding: 1rem;
+        border-radius: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .modal-header h1{
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .modal-body {
+        margin-bottom: 1rem;
+    }
+
+    .yes-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-right: 1rem;
+        text-decoration: none;
+    }
+
+    .no-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
     }
 </style>
 <body>
-<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+    <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+    <div class="container-categories">
+        <h1>Categories</h1>
 
-<div class="container-fluid padding">
-    <h1 class="display-4 mt-2">Categories</h1>
-
-    <div class="table-responsive mt-4">
-        <div class="w-100 d-flex flex-column justify-content-center align-items-start">
-            <a class="btn btn-success mb-4" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/categories/add}">Add new Category</a>
-        </div>
-        <table class="table table-hover align-middle">
-            <thead class="thead-dark">
-            <tr>
-                <th># Id</th>
-                <th>Category Name</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="category : ${categories}">
-                <th scope="row" th:text="${category.id.toString().substring(0,8)+'...'}"></th>
-                <td th:text="${category.name}"></td>
-                <td>
-                <a class="btn btn-warning" th:href="@{/categories/edit/{categoryId}(categoryId=${category.id})}"
-                       title="Edit Category"
-                    >
-                        <i class="bi bi-pencil"></i>
-                    </a>
-                    <a class="btn btn-danger btnDelete"
-                       role="button"
-                       th:href="@{/categories/delete/{categoryId}(categoryId=${category.id})}"
-                       sec:authorize="hasAnyAuthority('ADMIN')"
-                       th:categoryName="${category.name}"
-                       title="Delete Category"
-                    >
-                        <i class="bi bi-trash"></i>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="modal py-5" id="deleteModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header border-bottom-0">
-                <h1 class="modal-title fs-5">Confirm Delete</h1>
+        <div class="categories-stats-filters">
+            <div class="total-categories">
+                <div class="total-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="total-info">
+                    Total users:
+                    <span th:text="${count}">4</span>
+                </div>
             </div>
-            <div class="modal-body py-0">
+            <div class="filters">
+                <div class="search-input">
+                    <input type="text" name="search" id="search" placeholder="Search users">
+                    <button><i class="bi bi-search"></i></button>
+                </div>
+
+                <div class="filter-container">
+                    <label for="roleName">Filter by role</label>
+                    <select class="form-select" id="roleName" name="roleName"
+                            onchange="changeRoleName()" th:value="${roleName}"
+                    >
+                        <option disabled selected>All roles</option>
+                        <option th:each="role: ${roleOptions}"
+                                th:selected="${role.name == roleName}"
+                                th:text="${role.name}"
+                                th:value="${role.name}"
+                        ></option>
+                    </select>
+                </div>
+
+                <div class="filter-container">
+                    <label for="pageSize">Items per page</label>
+                    <select class="form-select" id="pageSize" name="size"
+                            onchange="changePageSize()" th:value="${pageSize}"
+                    >
+                        <option th:selected="${3 == pageSize}" th:text="3" th:value="3"></option>
+                        <option th:selected="${6 == pageSize}" th:text="6" th:value="6"></option>
+                        <option th:selected="${9 == pageSize}" th:text="9" th:value="9"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/categories/add}">Add new Category</a>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead class="thead-head">
+                    <tr>
+                        <th class="id-header"># Id</th>
+                        <th>Category Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="table-content">
+                    <tr th:each="category : ${categories}" class="table-content-row">
+                        <th th:text="${category.id.toString().substring(0,8)+'...'}" class="id"></th>
+                        <td th:text="${category.name}"></td>
+                        <td class="actions-row">
+                            <div>
+                                <a class="action-btn" th:href="@{/categories/edit/{categoryId}(categoryId=${category.id})}"
+                                   title="Edit Category">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </div>
+                            <div>
+                                <a class="delete-btn"
+                                   role="button"
+                                   th:href="@{/categories/delete/{categoryId}(categoryId=${category.id})}"
+                                   sec:authorize="hasAnyAuthority('ADMIN')"
+                                   th:categoryName="${category.name}"
+                                   title="Delete Category"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="delete-modal">
+            <div class="modal-header">
+                <h1>Confirm Delete</h1>
+            </div>
+            <div class="modal-body">
                 <p><span id="confirmText"></span></p>
             </div>
-            <div class="modal-footer flex-column border-top-0">
-                <a class="btn btn-lg btn-danger w-100 mx-0 mb-2" id="yesBtn" type="button">Delete Category</a>
-                <button class="btn btn-lg btn-light w-100 mx-0 noBtn" data-bs-dismiss="modal" type="button">Close
-                </button>
+            <div class="modal-footer">
+                <a class="yes-btn" id="yesBtn" type="button">Delete category</a>
+                <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </div>
     </div>
-</div>
 </body>
 
 <script type="text/javascript">
-    $(".btnDelete").on("click", function (e) {
+    $(".delete-btn").on("click", function (e) {
         e.preventDefault();
         let href = $(this).attr("href");
         let categoryName = $(this).attr("categoryName");
         $("#confirmText").html("Are you sure you want to delete category: \<b\>" + categoryName + "\<\/b\>?");
         $('#deleteModal #yesBtn').attr('href', href);
-        $("#deleteModal").show();
+        $("#deleteModal").css('display', 'flex');
     });
 
     $(".noBtn").on("click", function (e) {

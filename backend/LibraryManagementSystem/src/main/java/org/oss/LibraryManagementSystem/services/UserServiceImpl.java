@@ -67,7 +67,8 @@ public class UserServiceImpl implements UserService {
 
         // Get default user role if no roles are defined
         Set<Role> roles = new HashSet<>();
-        if(request.getRole().isEmpty()) {
+        System.out.println(request.getRole());
+        if(request.getRole() == null) {
             Role defaultRole = roleRepository.getDefaultRole();
             roles.add(defaultRole);
         } else {
@@ -129,5 +130,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDto.getPassword());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public long getUserCount() {
+        return userRepository.count();
     }
 }
