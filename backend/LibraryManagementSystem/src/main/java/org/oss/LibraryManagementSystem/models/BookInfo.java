@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "book_info")
+@Table(name = "bookinfo")
 public class BookInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,16 +32,16 @@ public class BookInfo {
 
     @ManyToMany
     @JoinTable(
-            name = "bookInfo_author",
-            joinColumns = @JoinColumn(name = "bookInfo_id"),
+            name = "book_info_author",
+            joinColumns = @JoinColumn(name = "book_info_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private Set<Author> authors;
 
     @ManyToMany
     @JoinTable(
-            name = "bookInfo_category",
-            joinColumns = @JoinColumn(name = "bookInfo_id"),
+            name = "book_info_category",
+            joinColumns = @JoinColumn(name = "book_info_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
