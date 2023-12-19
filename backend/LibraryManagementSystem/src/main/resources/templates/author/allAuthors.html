@@ -2,25 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>All Users</title>
+    <title>Authors</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .container-users {
-        padding: 4rem 4rem;
+    .container-authors {
+        padding: 4rem 12rem;
     }
 
-    .container-users h1 {
+    .container-authors h1 {
         font-size: 2.8rem;
         margin-bottom: 1.2rem;
     }
 
-    .users-stats-filters {
+    .authors-stats-filters {
         display: flex;
-        /*margin-bottom: 2rem;*/
     }
 
-    .total-users {
+    .total-authors {
         background-color: var(--bg700);
         display: flex;
         align-items: center;
@@ -122,23 +121,13 @@
         font-size: 1.6rem;
     }
 
-    .btn-details {
-        font-size: 1.4rem;
-        background-color: var(--bg700);
-        justify-content: center;
-        padding: .8rem 1.2rem;
-        border-radius: .4rem;
-        border: 1px solid var(--primary500);
-        text-decoration: none;
-        color: black;
-        font-size: 1.6rem;
-    }
-
     .action-buttons {
         display: flex;
         box-sizing: border-box;
         margin: 2rem 0;
     }
+
+    /* ----- Table Styles ----- */
 
     .table {
         font-size: 1.8rem;
@@ -146,8 +135,9 @@
         border-radius: .4rem;
         border-collapse: collapse;
         width: 100%;
+        height: 100%;
         box-sizing: border-box;
-        overflow: scroll;
+        border-spacing: 1rem;
     }
 
     .table-head tr>th:first-child {
@@ -165,6 +155,10 @@
         color: black;
     }
 
+    .id-header {
+        padding-left: 1rem;
+    }
+
     .id {
         padding-left: 1rem;
         text-align: start;
@@ -172,6 +166,7 @@
 
     .table-content tr>td,th {
         padding: 1rem 1rem 1rem 0;
+        text-align: start;
     }
 
     .table-content tr>td {
@@ -185,32 +180,7 @@
     }
 
     .table-content-row {
-        box-sizing: border-box;
         border: 1.5px solid var(--bg1000);
-    }
-
-    .admin-user {
-        background-color: var(--error-bg);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: var(--error-text);
-    }
-
-    .librarian-user {
-        background-color: var(--primary400);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: var(--primary600);
-    }
-
-    .member-user {
-        background-color: var(--bg800);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: black;
     }
 
     .action-btn {
@@ -220,6 +190,7 @@
         text-align: center;
         color: black;
         border: 1px solid black;
+        box-sizing: border-box;
     }
 
     .action-btn > i {
@@ -239,24 +210,13 @@
         color: var(--error-text);
     }
 
-    .actions-row>a:not(:last-child) {
+    .actions-row {
+        display: flex;
+        margin: 1rem 0;
+    }
+
+    .actions-row>div:not(:last-child) {
         margin-right: 1rem;
-    }
-
-    .enabled-user>div {
-        background-color: var(--sucess-bg);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: var(--sucess-text);
-    }
-
-    .disabled-user>div {
-        background-color: var(--error-bg);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: var(--error-text);
     }
 
     .loans-row div>a {
@@ -313,38 +273,23 @@
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+    <div class="container-authors">
+        <h1>Authors</h1>
 
-    <div class="container-users">
-        <h1>Users</h1>
-
-        <div class="users-stats-filters">
-            <div class="total-users">
+        <div class="authors-stats-filters">
+            <div class="total-authors">
                 <div class="total-icon">
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-file-earmark"></i>
                 </div>
                 <div class="total-info">
-                    Total users:
-                    <span th:text="${count}"></span>
+                    Total authors:
+                    <span th:text="${count}">4</span>
                 </div>
             </div>
             <div class="filters">
                 <div class="search-input">
-                    <input type="text" name="search" id="search" placeholder="Search users">
+                    <input type="text" name="search" id="search" placeholder="Search authors">
                     <button><i class="bi bi-search"></i></button>
-                </div>
-
-                <div class="filter-container">
-                    <label for="roleName">Filter by role</label>
-                    <select class="form-select" id="roleName" name="roleName"
-                            onchange="changeRoleName()" th:value="${roleName}"
-                    >
-                        <option disabled selected>All roles</option>
-                        <option th:each="role: ${roleOptions}"
-                                th:selected="${role.name == roleName}"
-                                th:text="${role.name}"
-                                th:value="${role.name}"
-                        ></option>
-                    </select>
                 </div>
 
                 <div class="filter-container">
@@ -357,20 +302,18 @@
                         <option th:selected="${9 == pageSize}" th:text="9" th:value="9"></option>
                     </select>
                 </div>
-
             </div>
         </div>
 
         <div class="action-buttons">
-            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/users/add}">Add new User</a>
-            <a class="btn-details" th:href="@{'/users/myDetails'}" >My Details</a>
+            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/authors/add}">Add new Author</a>
         </div>
 
         <div class="table-container">
             <table class="table">
                 <thead class="table-head">
                     <tr>
-                        <th># Id</th>
+                        <th class="id-header"># Id</th>
                         <th>
                             <a href="">
                                 First Name
@@ -383,77 +326,37 @@
                                 <i class="bi bi-sort-up"></i>
                             </a>
                         </th>
-                        <th>E-Mail</th>
-                        <th>
-                            <a href="">
-                                Date Of Birth
-                                <i class="bi bi-sort-up"></i>
-                            </a>
-                        </th>
-                        <th>Contact Number</th>
-                        <th>Role</th>
                         <th>Actions</th>
-                        <th>Loans</th>
-                        <th>Enabled</th>
                     </tr>
                 </thead>
 
                 <tbody class="table-content">
-                    <tr th:each="user : ${users}" class="table-content-row">
-                        <th th:text="${user.id.toString().substring(0,5)+'...'}" class="id"></th>
-                        <td th:text="${user.firstName}"></td>
-                        <td th:text="${user.lastName}"></td>
-                        <td><a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a></td>
-                        <td th:text="${user.dateOfBirth}"></td>
-                        <td><a th:href="'tel:' + ${user.contactNumber}" th:text="${user.contactNumber}"></a></td>
-                        <td th:each="role : ${user.roles}">
-                            <span th:text="${role.name}" th:class="${(role.name == 'ADMIN') ? 'admin-user' : (role.name == 'LIBRARIAN' ? 'librarian-user' : 'member-user')}"></span>
-                        </td>
+                    <tr th:each="author : ${authors}" class="table-content-row">
+                        <th th:text="${author.id.toString().substring(0,8)+'...'}" class="id"></th>
+                        <td th:text="${author.firstName}"></td>
+                        <td th:text="${author.lastName}"></td>
                         <td class="actions-row">
-                            <a class="action-btn" role="button" th:href="@{/users/{userId}(userId=${user.id})}"
-                               title="User Details"
-                            >
-                                <i class="bi bi-person-lines-fill"></i>
-                            </a>
-                            <a class="action-btn" th:href="@{/users/edit/{userId}(userId=${user.id})}"
-                               title="Edit User"
-                            >
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <a class="delete-btn"
-                               role="button"
-                               th:href="@{/users/delete/{userId}(userId=${user.id})}"
-                               th:if="${currentUserRole == 'ADMIN' && currentUser.get().getEmail() != user.email}"
-                               th:userEmail="${user.email}"
-                               th:userFirstName="${user.firstName}"
-                               th:userLastName="${user.lastName}"
-                               title="Delete User"
-                            >
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </td>
-                        <td class="loans-row">
-                            <div th:if="${user.roles.stream().findFirst().get().getName() == 'MEMBER'}">
-                                <a class="action-btn" role="button"
-                                   th:href="@{/loans/{memberId}/current(memberId=${user.id})}"
-                                   title="Current Loans"
-                                >
-                                    Current Loans
+                            <div>
+                                <a class="action-btn" th:href="@{/authors/edit/{authorId}(authorId=${author.id})}"
+                                   title="Edit Author">
+                                    <i class="bi bi-pencil"></i>
                                 </a>
-                                <a class="action-btn" role="button"
-                                   th:href="@{/loans/{memberId}/previous(memberId=${user.id})}"
-                                   title="Previous Loans"
+                            </div>
+                            <div>
+                                <a class="delete-btn"
+                                   role="button"
+                                   th:href="@{/authors/delete/{authorId}(authorId=${author.id})}"
+                                   sec:authorize="hasAnyAuthority('ADMIN')"
+                                   th:authorFirstName="${author.firstName}"
+                                   th:authorLastName="${author.lastName}"
+                                   title="Delete Author"
                                 >
-                                    Previous Loans
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </div>
                         </td>
-                        <td th:class="${user.isEnabled() == true ? 'enabled-user' : 'disabled-user'}">
-                            <div th:text="${user.isEnabled() == true ? 'Enabled' : 'Disabled'}"></div>
-                        </td>
                     </tr>
                 </tbody>
-
             </table>
         </div>
     </div>
@@ -467,7 +370,7 @@
                 <p><span id="confirmText"></span></p>
             </div>
             <div class="modal-footer">
-                <a class="yes-btn" id="yesBtn" type="button">Delete user</a>
+                <a class="yes-btn" id="yesBtn" type="button">Delete author</a>
                 <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </div>
@@ -475,21 +378,20 @@
 </body>
 
 <script type="text/javascript">
-        $(".delete-btn").on("click", function (e) {
-            e.preventDefault();
-            let href = $(this).attr("href");
-            let userEmail = $(this).attr("userEmail");
-            let userFirstName = $(this).attr("userFirstName");
-            let userLastName = $(this).attr("userLastName");
-            $("#confirmText").html("Are you sure you want to delete user: \<b\>" + userFirstName + " " + userLastName + " (" + userEmail + ")\<\/b\>?");
-            $('#deleteModal #yesBtn').attr('href', href);
-            $("#deleteModal").css('display', 'flex');
-        });
+    $(".delete-btn").on("click", function (e) {
+        e.preventDefault();
+        let href = $(this).attr("href");
+        let authorFirstName = $(this).attr("authorFirstName");
+        let authorLastName = $(this).attr("authorLastName");
+        $("#confirmText").html("Are you sure you want to delete author: \<b\>" + authorFirstName + " " + authorLastName + "\<\/b\>?");
+        $('#deleteModal #yesBtn').attr('href', href);
+        $("#deleteModal").css('display', 'flex');
+    });
 
-        $(".noBtn").on("click", function (e) {
-            e.preventDefault();
-            $("#deleteModal").hide();
-        });
+    $(".noBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#deleteModal").hide();
+    });
 
 </script>
 </html>

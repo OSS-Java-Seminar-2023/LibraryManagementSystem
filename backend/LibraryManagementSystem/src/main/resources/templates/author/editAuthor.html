@@ -6,16 +6,16 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .edit-category-container {
+    .edit-author-container {
         padding: 4rem var(--padding-container);
     }
 
-    .edit-category-container h1 {
+    .edit-author-container h1 {
         font-size: 2.8rem;
         margin-bottom: 2rem;
     }
 
-    .edit-category-form {
+    .edit-author-form {
         width: 100%;
         margin-bottom: 2rem;
     }
@@ -84,18 +84,22 @@
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
 
-<div class="edit-category-container">
-    <h1>Edit Category</h1>
+<div class="edit-author-container">
+    <h1>Edit Author</h1>
 
-    <form class="edit-category-form" method="POST" th:action="@{/categories/updateCategory}">
-        <input name="id" th:value="${category.id}" type="hidden">
+    <form class="edit-author-form" method="POST" th:action="@{/authors/updateAuthor}">
+        <input name="id" th:value="${author.id}" type="hidden">
         <div class="input-group">
-            <label>Category Name</label>
-            <input class="form-control" name="name" required type="text" th:value="${category.name}">
+            <label>First Name</label>
+            <input class="form-control" name="firstName" required type="text" th:value="${author.firstName}">
         </div>
-        <button class="form-submit" type="submit">Edit Category</button>
+        <div class="input-group">
+            <label>Last Name</label>
+            <input class="form-control" name="lastName" required type="text" th:value="${author.lastName}">
+        </div>
+        <button class="form-submit" type="submit">Edit Author</button>
     </form>
-    <a class="back-btn" th:href="@{'/categories'}" >Back</a>
+    <a class="back-btn" th:href="@{'/authors'}" >Back</a>
 </div>
 </body>
 </html>

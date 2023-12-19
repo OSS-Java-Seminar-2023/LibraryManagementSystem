@@ -279,31 +279,17 @@
         <div class="categories-stats-filters">
             <div class="total-categories">
                 <div class="total-icon">
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-file-earmark"></i>
                 </div>
                 <div class="total-info">
-                    Total users:
+                    Total categories:
                     <span th:text="${count}">4</span>
                 </div>
             </div>
             <div class="filters">
                 <div class="search-input">
-                    <input type="text" name="search" id="search" placeholder="Search users">
+                    <input type="text" name="search" id="search" placeholder="Search categories">
                     <button><i class="bi bi-search"></i></button>
-                </div>
-
-                <div class="filter-container">
-                    <label for="roleName">Filter by role</label>
-                    <select class="form-select" id="roleName" name="roleName"
-                            onchange="changeRoleName()" th:value="${roleName}"
-                    >
-                        <option disabled selected>All roles</option>
-                        <option th:each="role: ${roleOptions}"
-                                th:selected="${role.name == roleName}"
-                                th:text="${role.name}"
-                                th:value="${role.name}"
-                        ></option>
-                    </select>
                 </div>
 
                 <div class="filter-container">
@@ -325,10 +311,15 @@
 
         <div class="table-container">
             <table class="table">
-                <thead class="thead-head">
+                <thead class="table-head">
                     <tr>
                         <th class="id-header"># Id</th>
-                        <th>Category Name</th>
+                        <th>
+                            <a href="">
+                                Name
+                                <i class="bi bi-sort-up"></i>
+                            </a>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>

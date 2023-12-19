@@ -33,9 +33,10 @@ public class CategoryController {
     @GetMapping
     public String getAllCategoriesPage(Model model) {
         List<Category> categories = categoryService.getAllCategories();
+        Long count = categoryRepository.count();
 
-        System.out.println(categories);
         model.addAttribute("categories", categories);
+        model.addAttribute("count", count);
         return "category/allCategories";
     }
 

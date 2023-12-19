@@ -45,4 +45,9 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryDto.getName());
         return categoryRepository.save(category);
     }
+
+    @Override
+    public Long getCategoryCount() {
+        return categoryRepository.count();
+    }
 }

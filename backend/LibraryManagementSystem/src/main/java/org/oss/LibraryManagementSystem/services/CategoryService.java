@@ -14,4 +14,6 @@ public interface CategoryService {
     String deleteCategoryById(UUID id);
 
     Category editCategory(CategoryDto categoryDto);
+
+    Long getCategoryCount();
 }
