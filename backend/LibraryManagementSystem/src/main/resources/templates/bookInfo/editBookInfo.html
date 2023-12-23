@@ -49,7 +49,6 @@
         background-color: var(--primary400);
         border-radius: .4rem;
         padding: 1rem;
-        text-align: center;
         color: var(--primary600);
         border: none;
         text-align: start;
@@ -80,6 +79,15 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    .mult-select-tag {
+        font-size: 1.8rem;
+    }
+
+    .item-label {
+        font-size: 1.6rem;
+    }
+
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -87,34 +95,36 @@
 <div class="edit-bookInfo-container">
     <h1>Edit Book Information</h1>
 
-    <form class="edit-bookInfo-form" method="POST" th:action="@{/bookInfos/updateAuthor}">
+    <form class="edit-bookInfo-form" method="POST" th:action="@{/bookInfos/updateBookInfo}">
         <input name="id" th:value="${bookInfo.id}" type="hidden">
         <div class="input-group">
             <label>Title</label>
-            <input class="form-control" name="title" required type="text" th:value="${bookInfo.title}">
+            <input class="form-control" name="title" required type="text" th:value="${bookInfo.title}" placeholder="Enter title">
         </div>
 
         <div class="input-group">
             <label>Description</label>
-            <input class="form-control" name="description" required type="text" th:value="${bookInfo.description}">
+            <input class="form-control" name="description" required type="text" th:value="${bookInfo.description}" placeholder="Enter description">
         </div>
 
         <div class="input-group">
             <label>Authors</label>
-            <select class="form-select" name="authors">
+            <select class="form-select" name="authors" id="authors" multiple>
                 <option
                         th:each="author: ${authorOptions}"
                         th:text="${author.firstName + ' ' + author.lastName}" th:value="${author.id}"
+                        th:selected="${bookInfo.authors.contains(author)}"
                 ></option>
             </select>
         </div>
 
         <div class="input-group">
             <label>Categories</label>
-            <select class="form-select" name="categories">
+            <select class="form-select" name="categories" id="categories" multiple>
                 <option
                         th:each="category: ${categoryOptions}"
                         th:text="${category.name}" th:value="${category.id}"
+                        th:selected="${bookInfo.categories.contains(category)}"
                 ></option>
             </select>
         </div>
@@ -123,4 +133,29 @@
     <a class="back-btn" th:href="@{'/bookInfos'}">Back</a>
 </div>
 </body>
+<script>
+    new MultiSelectTag('authors', {
+        rounded: true,
+        shadow: true,
+        placeholder: 'Search',
+        tagColor: {
+            textColor: '#0069B4',
+            borderColor: '#0069B4',
+            bgColor: '#8DCEFC',
+            fontSize: 2
+        }
+    })
+
+    new MultiSelectTag('categories', {
+        rounded: true,
+        shadow: true,
+        placeholder: 'Search',
+        tagColor: {
+            textColor: '#0069B4',
+            borderColor: '#0069B4',
+            bgColor: '#8DCEFC',
+            fontSize: 2
+        }
+    })
+</script>
 </html>
