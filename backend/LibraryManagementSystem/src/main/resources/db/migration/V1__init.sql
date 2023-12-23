@@ -33,7 +33,7 @@ CREATE TABLE Author (
 );
 
 CREATE TABLE book_info_author (
-    book_info_id UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id) ON DELETE CASCADE,
+    book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE,
     author_id UUID NOT NULL REFERENCES Author(id) ON DELETE CASCADE
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE Category (
 );
 
 CREATE TABLE book_info_category (
-    book_info_id UUID NOT NULL PRIMARY KEY REFERENCES BookInfo(id) ON DELETE CASCADE,
+    book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE,
     category_id UUID NOT NULL REFERENCES Category(id) ON DELETE CASCADE
 );
 

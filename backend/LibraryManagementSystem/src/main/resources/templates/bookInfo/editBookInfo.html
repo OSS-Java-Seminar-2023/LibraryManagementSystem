@@ -6,16 +6,16 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .edit-author-container {
+    .edit-bookInfo-container {
         padding: 4rem var(--padding-container);
     }
 
-    .edit-author-container h1 {
+    .edit-bookInfo-container h1 {
         font-size: 2.8rem;
         margin-bottom: 2rem;
     }
 
-    .edit-author-form {
+    .edit-bookInfo-form {
         width: 100%;
         margin-bottom: 2rem;
     }
@@ -84,22 +84,43 @@
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
 
-<div class="edit-author-container">
-    <h1>Edit Author</h1>
+<div class="edit-bookInfo-container">
+    <h1>Edit Book Information</h1>
 
-    <form class="edit-author-form" method="POST" th:action="@{/authors/updateAuthor}">
-        <input name="id" th:value="${author.id}" type="hidden">
+    <form class="edit-bookInfo-form" method="POST" th:action="@{/bookInfos/updateAuthor}">
+        <input name="id" th:value="${bookInfo.id}" type="hidden">
         <div class="input-group">
-            <label>First Name</label>
-            <input class="form-control" name="firstName" required type="text" th:value="${author.firstName}">
+            <label>Title</label>
+            <input class="form-control" name="title" required type="text" th:value="${bookInfo.title}">
         </div>
+
         <div class="input-group">
-            <label>Last Name</label>
-            <input class="form-control" name="lastName" required type="text" th:value="${author.lastName}">
+            <label>Description</label>
+            <input class="form-control" name="description" required type="text" th:value="${bookInfo.description}">
         </div>
-        <button class="form-submit" type="submit">Edit Author</button>
+
+        <div class="input-group">
+            <label>Authors</label>
+            <select class="form-select" name="authors">
+                <option
+                        th:each="author: ${authorOptions}"
+                        th:text="${author.firstName + ' ' + author.lastName}" th:value="${author.id}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Categories</label>
+            <select class="form-select" name="categories">
+                <option
+                        th:each="category: ${categoryOptions}"
+                        th:text="${category.name}" th:value="${category.id}"
+                ></option>
+            </select>
+        </div>
+        <button class="form-submit" type="submit">Edit Book Information</button>
     </form>
-    <a class="back-btn" th:href="@{'/authors'}" >Back</a>
+    <a class="back-btn" th:href="@{'/bookInfos'}">Back</a>
 </div>
 </body>
 </html>

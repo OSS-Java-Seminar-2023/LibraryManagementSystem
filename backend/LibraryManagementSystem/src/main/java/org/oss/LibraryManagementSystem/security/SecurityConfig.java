@@ -47,6 +47,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorization -> authorization
                         .requestMatchers("/").authenticated()
                         .requestMatchers("/users/register").permitAll()
+                //Fix for cant load custom css files
                 .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/users/login")

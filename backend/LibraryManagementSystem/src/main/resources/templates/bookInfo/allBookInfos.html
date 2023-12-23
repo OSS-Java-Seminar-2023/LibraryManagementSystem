@@ -114,7 +114,7 @@
         justify-content: center;
         padding: .8rem 1.2rem;
         border-radius: .4rem;
-        border: 1px solid var(--primary500);
+        border: 1px solid var(--bg1000);
         text-decoration: none;
         color: black;
         margin-right: 2rem;
@@ -302,11 +302,24 @@
                         <option th:selected="${9 == pageSize}" th:text="9" th:value="9"></option>
                     </select>
                 </div>
+                <div class="filter-container">
+                    <label for="pageSize">Filter by categories</label>
+                    <select class="form-select" id="categoryName" name="categoryName"
+                            onchange="changeCategoryName()" th:value="${categoryName}"
+                    >
+                        <option disabled selected>All categories</option>
+                        <option th:each="category: ${categoryOptions}"
+                                th:selected="${category.name == categoryName}"
+                                th:text="${category.name}"
+                                th:value="${category.name}"
+                        ></option>
+                    </select>
+                </div>
             </div>
         </div>
 
         <div class="action-buttons">
-            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/authors/add}">Add new Book Information</a>
+            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/bookInfos/add}">Add new Book Information</a>
         </div>
 
         <div class="table-container">
@@ -328,10 +341,7 @@
                             </a>
                         </th>
                         <th>
-                            <a href="">
-                                Categories
-                                <i class="bi bi-sort-up"></i>
-                            </a>
+                            Categories
                         </th>
                         <th>Actions</th>
                     </tr>
@@ -343,10 +353,10 @@
                         <td th:text="${bookInfo.title}"></td>
                         <td th:text="${bookInfo.description}"></td>
                         <td>
-                            <span th:each="author : ${bookInfo.authors}" th:text="${author.firstName + ' ' + author.lastName + ' '}"></span>
+                            <span th:each="author : ${bookInfo.authors}" th:utext="${author.firstName + ' ' + author.lastName + '<br/>'}"></span>
                         </td>
                         <td>
-                            <span th:each="category : ${bookInfo.categories}" th:text="${category.name} + ' '"></span>
+                            <span th:each="category : ${bookInfo.categories}" th:utext="${category.name + '<br/>'}"></span>
                         </td>
                         <td class="actions-row">
                             <div>
@@ -399,9 +409,8 @@
     $(".delete-btn").on("click", function (e) {
         e.preventDefault();
         let href = $(this).attr("href");
-        let authorFirstName = $(this).attr("authorFirstName");
-        let authorLastName = $(this).attr("authorLastName");
-        $("#confirmText").html("Are you sure you want to delete author: \<b\>" + authorFirstName + " " + authorLastName + "\<\/b\>?");
+        let bookInfoTitle = $(this).attr("bookInfoTitle");
+        $("#confirmText").html("Are you sure you want to delete book information: \<b\>" + bookInfoTitle + "\<\/b\>?");
         $('#deleteModal #yesBtn').attr('href', href);
         $("#deleteModal").css('display', 'flex');
     });
