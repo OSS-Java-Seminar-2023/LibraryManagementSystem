@@ -45,15 +45,19 @@ public class BookInfoServiceImpl implements BookInfoService {
         Set<UUID> categoriesSet = bookInfoDto.getCategories();
 
         // Add authors from authorSet to bookInfoAuthors
-        for (UUID authorId : authorsSet) {
-            Author author = authorRepository.findById(authorId).orElse(null);
-            bookInfoAuthors.add(author);
+        if(authorsSet != null) {
+            for (UUID authorId : authorsSet) {
+                Author author = authorRepository.findById(authorId).orElse(null);
+                bookInfoAuthors.add(author);
+            }
         }
 
         // Add categories from categoriesSet to bookInfoCategoriews
-        for (UUID categoryId : categoriesSet) {
-            Category category = categoryRepository.findById(categoryId).orElse(null);
-            bookInfoCategories.add(category);
+        if(categoriesSet != null) {
+            for (UUID categoryId : categoriesSet) {
+                Category category = categoryRepository.findById(categoryId).orElse(null);
+                bookInfoCategories.add(category);
+            }
         }
 
         bookInfo.setAuthors(bookInfoAuthors);
@@ -85,15 +89,19 @@ public class BookInfoServiceImpl implements BookInfoService {
         Set<UUID> categoriesSet = bookInfoDto.getCategories();
 
         // Add authors from authorSet to bookInfoAuthors
-        for (UUID authorId : authorsSet) {
-            Author author = authorRepository.findById(authorId).orElse(null);
-            bookInfoAuthors.add(author);
+        if(authorsSet != null) {
+            for (UUID authorId : authorsSet) {
+                Author author = authorRepository.findById(authorId).orElse(null);
+                bookInfoAuthors.add(author);
+            }
         }
 
         // Add categories from categoriesSet to bookInfoCategoriews
-        for (UUID categoryId : categoriesSet) {
-            Category category = categoryRepository.findById(categoryId).orElse(null);
-            bookInfoCategories.add(category);
+        if(categoriesSet != null) {
+            for (UUID categoryId : categoriesSet) {
+                Category category = categoryRepository.findById(categoryId).orElse(null);
+                bookInfoCategories.add(category);
+            }
         }
 
         bookInfo.setAuthors(bookInfoAuthors);
