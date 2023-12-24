@@ -46,4 +46,7 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "book_Info_id", referencedColumnName = "id", nullable = false)
     private BookInfo bookInfo;
+
+    @Column(name = "image")
+    private String image;
 }

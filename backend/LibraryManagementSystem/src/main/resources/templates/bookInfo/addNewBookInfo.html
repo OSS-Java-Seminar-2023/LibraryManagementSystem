@@ -43,6 +43,11 @@
         align-items: center;
     }
 
+    .input-group p {
+        margin: .4rem 0;
+        font-size: 1.4rem;
+    }
+
     .form-select {
         margin-top: 1rem;
         width: 30%;
@@ -107,6 +112,7 @@
 
             <div class="input-group">
                 <label>Authors</label>
+                <p>Select none, one or multiple options</p>
                 <select class="form-select" name="authors" id="authors" multiple>
                     <option
                         th:each="author: ${authorOptions}"
@@ -117,6 +123,7 @@
 
             <div class="input-group">
                 <label>Categories</label>
+                <p>Select none, one or multiple options</p>
                 <select class="form-select" name="categories" id="categories" multiple>
                     <option
                         th:each="category: ${categoryOptions}"

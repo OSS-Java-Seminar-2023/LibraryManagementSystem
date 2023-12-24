@@ -6,20 +6,20 @@
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .container-categories {
+    .container-books {
         padding: 4rem 12rem;
     }
 
-    .container-categories h1 {
+    .container-books h1 {
         font-size: 2.8rem;
         margin-bottom: 1.2rem;
     }
 
-    .categories-stats-filters {
+    .books-stats-filters {
         display: flex;
     }
 
-    .total-categories {
+    .total-books {
         background-color: var(--bg700);
         display: flex;
         align-items: center;
@@ -270,14 +270,38 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    /* ----- Card container styles ----- */
+    .books-cards-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2rem;
+        padding: 2rem var(--padding-container);
+    }
+
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, .09);
+        /*padding: 2rem;*/
+        border-radius: 1.2rem;
+    }
+
+    .card > .card-top > .img {
+        width: 100%;
+        height: 200px;
+        background-color: black;
+    }
+
+    .card > .card-bottom {
+        padding: 2rem;
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
-    <div class="container-categories">
+    <div class="container-books">
         <h1>Books</h1>
 
-        <div class="categories-stats-filters">
-            <div class="total-categories">
+        <div class="books-stats-filters">
+            <div class="total-books">
                 <div class="total-icon">
                     <i class="bi bi-book"></i>
                 </div>
@@ -308,7 +332,20 @@
         <div class="action-buttons">
             <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/books/add}">Add new Book</a>
         </div>
+        <div class="books-cards-container">
+            <div class="card" th:each="book : ${books}">
+                <div class="card-top">
+                    <div class="img"></div>
+                </div>
+                <div class="card-bottom">
+                    <h1 th:text="${book.bookInfo.title}"></h1>
+                    <h2 th:each="author : ${book.bookInfo.authors}" th:text="${author.firstName + ' ' + author.lastName}"></h2>
 
+                    <p th:text="${book.bookInfo.description}"></p>
+                    <p th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></p>
+                </div>
+            </div>
+        </div>
 <!--        <div class="table-container">-->
 <!--            <table class="table">-->
 <!--                <thead class="table-head">-->
@@ -325,12 +362,12 @@
 <!--                </thead>-->
 
 <!--                <tbody class="table-content">-->
-<!--                    <tr th:each="category : ${categories}" class="table-content-row">-->
+<!--                    <tr th:each="category : ${books}" class="table-content-row">-->
 <!--                        <th th:text="${category.id.toString().substring(0,8)+'...'}" class="id"></th>-->
 <!--                        <td th:text="${category.name}"></td>-->
 <!--                        <td class="actions-row">-->
 <!--                            <div>-->
-<!--                                <a class="action-btn" th:href="@{/categories/edit/{categoryId}(categoryId=${category.id})}"-->
+<!--                                <a class="action-btn" th:href="@{/books/edit/{categoryId}(categoryId=${category.id})}"-->
 <!--                                   title="Edit Category">-->
 <!--                                    <i class="bi bi-pencil"></i>-->
 <!--                                </a>-->
@@ -338,7 +375,7 @@
 <!--                            <div>-->
 <!--                                <a class="delete-btn"-->
 <!--                                   role="button"-->
-<!--                                   th:href="@{/categories/delete/{categoryId}(categoryId=${category.id})}"-->
+<!--                                   th:href="@{/books/delete/{categoryId}(categoryId=${category.id})}"-->
 <!--                                   sec:authorize="hasAnyAuthority('ADMIN')"-->
 <!--                                   th:categoryName="${category.name}"-->
 <!--                                   title="Delete Category"-->

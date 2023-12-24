@@ -54,7 +54,8 @@ CREATE TABLE Book (
     ISBN VARCHAR(255) NOT NULL,
     book_status VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL,
-    book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE
+    book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE,
+    image VARCHAR(255)
 );
 
 CREATE TABLE Loan (
