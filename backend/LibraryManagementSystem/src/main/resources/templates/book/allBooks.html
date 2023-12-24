@@ -283,16 +283,51 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, .09);
         /*padding: 2rem;*/
         border-radius: 1.2rem;
+        height: 400px;
     }
 
+    .card > .card-top {
+        height: 45%;
+        width: 100%;
+    }
     .card > .card-top > .img {
         width: 100%;
-        height: 200px;
+        height: 100%;
+        object-fit: cover;
+        background-color: black;
+    }
+
+    .card > .card-top > .img-placeholder {
+        width: 100%;
+        height: 100%;
         background-color: black;
     }
 
     .card > .card-bottom {
         padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 55%;
+    }
+
+    .card-bottom-details h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .card-bottom-details p {
+        font-size: 1.6rem;
+    }
+
+    .card-bottom-category-and-link {
+        font-size: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-bottom-category-and-link a {
+        color: var(--primary500);
     }
 </style>
 <body>
@@ -335,14 +370,19 @@
         <div class="books-cards-container">
             <div class="card" th:each="book : ${books}">
                 <div class="card-top">
-                    <div class="img"></div>
+                    <img th:src="${book.image}" th:if="${book.image != null}" class="img">
+                    <div class="img-placeholder" th:if="${book.image == null}"></div>
                 </div>
                 <div class="card-bottom">
-                    <h1 th:text="${book.bookInfo.title}"></h1>
-                    <h2 th:each="author : ${book.bookInfo.authors}" th:text="${author.firstName + ' ' + author.lastName}"></h2>
-
-                    <p th:text="${book.bookInfo.description}"></p>
-                    <p th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></p>
+                    <div class="card-bottom-details">
+                        <h1 th:text="${book.bookInfo.title}"></h1>
+                        <h2 th:each="author : ${book.bookInfo.authors}" th:text="${author.firstName + ' ' + author.lastName}"></h2>
+                        <p th:text="${book.bookInfo.description}"></p>
+                    </div>
+                    <div class="card-bottom-category-and-link">
+                        <p th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></p>
+                        <a th:href="@{/books/{bookId}(bookId=${book.id})}">View details</a>
+                    </div>
                 </div>
             </div>
         </div>
