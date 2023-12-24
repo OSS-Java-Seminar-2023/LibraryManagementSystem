@@ -44,6 +44,6 @@ public class Book {
     private boolean available;
 
     @ManyToOne
-    @JoinColumn(name = "bookInfo_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "book_Info_id", referencedColumnName = "id", nullable = false)
     private BookInfo bookInfo;
 }

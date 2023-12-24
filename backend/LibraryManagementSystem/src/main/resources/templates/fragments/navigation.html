@@ -1,6 +1,7 @@
 <th:block th:fragment="navigation" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="navbar">
         <div class="navbar-left">
+            <i class="bi bi-book"></i>
             <a class="navbar-logo" th:href="@{'/'}" >Library Management System</a>
         </div>
 
@@ -9,14 +10,14 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/'}">Home</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                    <a class="nav-link" th:href="@{'/'}">Loans</a>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
+                    <a class="nav-link" th:href="@{'/loans'}">Loans</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('MEMBER')">
-                    <a class="nav-link" th:href="@{'/'}">My Loans</a>
+                    <a class="nav-link" th:href="@{'/loans/myLoans'}">My Loans</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/'}">Books</a>
+                    <a class="nav-link" th:href="@{'/books'}">Books</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                     <a class="nav-link" th:href="@{'/bookInfos'}">Books Information</a>

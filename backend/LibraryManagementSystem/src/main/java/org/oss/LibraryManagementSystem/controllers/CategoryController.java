@@ -1,11 +1,8 @@
 package org.oss.LibraryManagementSystem.controllers;
 
-import com.github.javafaker.Cat;
 import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.CategoryDto;
-import org.oss.LibraryManagementSystem.dto.UserDto;
 import org.oss.LibraryManagementSystem.models.Category;
-import org.oss.LibraryManagementSystem.models.User;
 import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
 import org.oss.LibraryManagementSystem.services.CategoryService;
@@ -15,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 

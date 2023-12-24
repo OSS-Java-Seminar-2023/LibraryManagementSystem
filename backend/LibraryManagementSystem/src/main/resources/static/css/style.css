@@ -44,6 +44,17 @@ html,body {
     box-shadow: 0 0 12px rgba(0, 0, 0, .12);
 }
 
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left i {
+    color: var(--primary500);
+    font-size: 2.4rem;
+    margin-right: 1rem;
+}
+
 .navbar-left a {
     text-decoration: none;
     color: var(--primary500);

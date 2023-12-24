@@ -49,12 +49,12 @@ CREATE TABLE book_info_category (
 
 CREATE TABLE Book (
     id UUID NOT NULL PRIMARY KEY,
-    publisherName VARCHAR(255) NOT NULL,
-    yearOfPublishing DATE NOT NULL,
+    publisher_name VARCHAR(255) NOT NULL,
+    year_of_publishing DATE NOT NULL,
     ISBN VARCHAR(255) NOT NULL,
-    status VARCHAR(255) NOT NULL,
+    book_status VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL,
-    bookInfoId UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE
+    book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Loan (
