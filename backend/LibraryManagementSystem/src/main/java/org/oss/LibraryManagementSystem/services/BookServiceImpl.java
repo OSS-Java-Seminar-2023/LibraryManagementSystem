@@ -8,6 +8,8 @@ import org.oss.LibraryManagementSystem.repositories.BookInfoRepository;
 import org.oss.LibraryManagementSystem.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +29,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book getBook(UUID id) {
+        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+    }
+
+    @Override
     public Book createBook(BookDto bookDto) {
         Book book = new Book();
 
         book.setPublisherName(bookDto.getPublisherName());
-        book.setYearOfPublishing(bookDto.getYearOfPublishing());
+        book.setDateOfPublishing(bookDto.getDateOfPublishing());
         book.setIsbn(bookDto.getIsbn());
+        book.setImage(bookDto.getImage());
 
         String bookStatusString = bookDto.getBookStatus();
         BookStatus bookStatus = BookStatus.valueOf(bookStatusString);
@@ -58,9 +66,11 @@ public class BookServiceImpl implements BookService {
     public Book editBook(BookDto bookDto) {
         Book book = bookRepository.findById(bookDto.getId()).orElseThrow(() -> new RuntimeException("Book not found"));
 
+        book.setId(bookDto.getId());
         book.setPublisherName(bookDto.getPublisherName());
-        book.setYearOfPublishing(bookDto.getYearOfPublishing());
+        book.setDateOfPublishing(bookDto.getDateOfPublishing());
         book.setIsbn(bookDto.getIsbn());
+        book.setImage(bookDto.getImage());
 
         String bookStatusString = bookDto.getBookStatus();
         BookStatus bookStatus = BookStatus.valueOf(bookStatusString);

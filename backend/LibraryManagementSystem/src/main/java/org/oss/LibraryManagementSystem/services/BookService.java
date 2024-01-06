@@ -10,6 +10,8 @@ public interface BookService {
 
     List<Book> getAllBooks();
 
+    Book getBook(UUID id);
+
     Book createBook(BookDto bookDto);
 
     String deleteBookById(UUID id);

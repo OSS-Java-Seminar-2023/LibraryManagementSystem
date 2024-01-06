@@ -3,6 +3,7 @@ package org.oss.LibraryManagementSystem.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,8 +11,9 @@ import java.util.UUID;
 public class BookDto {
     private UUID id;
     private String publisherName;
-    private Timestamp yearOfPublishing;
+    private Date dateOfPublishing;
     private String isbn;
     private String bookStatus;
     private UUID bookInfo;
+    private String image;
 }

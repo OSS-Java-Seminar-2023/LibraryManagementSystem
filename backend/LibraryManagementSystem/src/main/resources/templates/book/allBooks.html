@@ -108,8 +108,20 @@
         outline: none;
     }
 
+    .button {
+        font-size: 1.6rem;
+        background-color: var(--bg700);
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--bg1000);
+        text-decoration: none;
+        color: black;
+        margin-right: 1rem;
+    }
+
     .btn-add {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         background-color: var(--bg700);
         justify-content: center;
         padding: .8rem 1.2rem;
@@ -118,157 +130,12 @@
         text-decoration: none;
         color: black;
         margin-right: 2rem;
-        font-size: 1.6rem;
     }
 
     .action-buttons {
         display: flex;
         box-sizing: border-box;
         margin: 2rem 0;
-    }
-
-    /* ----- Table Styles ----- */
-
-    .table {
-        font-size: 1.8rem;
-        border: 1.5px solid var(--bg1000);
-        border-radius: .4rem;
-        border-collapse: collapse;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        border-spacing: 1rem;
-    }
-
-    .table-head tr>th:first-child {
-        padding-left: 1rem;
-    }
-
-    .table-head tr>th{
-        text-align: start;
-        border-bottom: 1.5px solid var(--bg1000);
-        padding: 1rem 1rem 1rem 0;
-    }
-
-    .table-head tr>th>a {
-        text-decoration: none;
-        color: black;
-    }
-
-    .id-header {
-        padding-left: 1rem;
-    }
-
-    .id {
-        padding-left: 1rem;
-        text-align: start;
-    }
-
-    .table-content tr>td,th {
-        padding: 1rem 1rem 1rem 0;
-        text-align: start;
-    }
-
-    .table-content tr>td {
-        font-size: 1.6rem;
-        text-align: start;
-    }
-
-    .table-content tr>td>a {
-        color: var(--primary500);
-        text-decoration: none;
-    }
-
-    .table-content-row {
-        border: 1.5px solid var(--bg1000);
-    }
-
-    .action-btn {
-        background-color: var(--bg800);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: black;
-        border: 1px solid black;
-        box-sizing: border-box;
-    }
-
-    .action-btn > i {
-        color: black;
-    }
-
-    .delete-btn {
-        background-color: var(--error-bg);
-        border-radius: .4rem;
-        padding: 1rem;
-        text-align: center;
-        color: var(--error-text);
-        border: 1px solid var(--error-text);
-    }
-
-    .delete-btn > i {
-        color: var(--error-text);
-    }
-
-    .actions-row {
-        display: flex;
-        margin: 1rem 0;
-    }
-
-    .actions-row>div:not(:last-child) {
-        margin-right: 1rem;
-    }
-
-    .loans-row div>a {
-        margin-right: 1rem;
-        text-decoration: none;
-    }
-
-    .modal-overlay {
-        background-color: rgba(0,0,0,0.2);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100dvh;
-    }
-
-    .delete-modal {
-        background-color: white;
-        padding: 1rem;
-        border-radius: .4rem;
-        font-size: 1.6rem;
-    }
-
-    .modal-header h1{
-        font-size: 2.8rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .modal-body {
-        margin-bottom: 1rem;
-    }
-
-    .yes-btn {
-        background-color: var(--error-bg);
-        border-radius: .4rem;
-        padding: 1rem 1.6rem;
-        color: var(--error-text);
-        border: 0.4px solid var(--error-text);
-        margin-right: 1rem;
-        text-decoration: none;
-    }
-
-    .no-btn {
-        font-size: 1.6rem;
-        text-decoration: none;
-        border-radius: .4rem;
-        padding: 1rem 1.6rem;
-        border: 0.4px solid black;
-        color: black;
     }
 
     /* ----- Card container styles ----- */
@@ -283,7 +150,7 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, .09);
         /*padding: 2rem;*/
         border-radius: 1.2rem;
-        height: 400px;
+        height: 500px;
     }
 
     .card > .card-top {
@@ -361,6 +228,34 @@
                         <option th:selected="${9 == pageSize}" th:text="9" th:value="9"></option>
                     </select>
                 </div>
+
+                <div class="filter-container">
+                    <label for="pageSize">Filter by status</label>
+                    <select class="form-select" id="status" name="status"
+                            onchange="changeStatus()" th:value="${statusName}"
+                    >
+                        <option disabled selected>All statuses</option>
+                        <option th:each="status: ${statusOptions}"
+                                th:selected="${status.name() == statusName}"
+                                th:text="${status.name()}"
+                                th:value="${status.name()}"
+                        ></option>
+                    </select>
+                </div>
+
+                <div class="filter-container">
+                    <label for="pageSize">Filter by categories</label>
+                    <select class="form-select" id="categoryName" name="categoryName"
+                            onchange="changeCategoryName()" th:value="${categoryName}"
+                    >
+                        <option disabled selected>All categories</option>
+                        <option th:each="category: ${categoryOptions}"
+                                th:selected="${category.name == categoryName}"
+                                th:text="${category.name}"
+                                th:value="${category.name}"
+                        ></option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -379,6 +274,10 @@
                         <h2 th:each="author : ${book.bookInfo.authors}" th:text="${author.firstName + ' ' + author.lastName}"></h2>
                         <p th:text="${book.bookInfo.description}"></p>
                     </div>
+                    <div>
+                        <a href="" class="button">Start Loan</a>
+                        <a href="" class="button">Show Loans</a>
+                    </div>
                     <div class="card-bottom-category-and-link">
                         <p th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></p>
                         <a th:href="@{/books/{bookId}(bookId=${book.id})}">View details</a>
@@ -386,80 +285,5 @@
                 </div>
             </div>
         </div>
-<!--        <div class="table-container">-->
-<!--            <table class="table">-->
-<!--                <thead class="table-head">-->
-<!--                    <tr>-->
-<!--                        <th class="id-header"># Id</th>-->
-<!--                        <th>-->
-<!--                            <a href="">-->
-<!--                                Name-->
-<!--                                <i class="bi bi-sort-up"></i>-->
-<!--                            </a>-->
-<!--                        </th>-->
-<!--                        <th>Actions</th>-->
-<!--                    </tr>-->
-<!--                </thead>-->
-
-<!--                <tbody class="table-content">-->
-<!--                    <tr th:each="category : ${books}" class="table-content-row">-->
-<!--                        <th th:text="${category.id.toString().substring(0,8)+'...'}" class="id"></th>-->
-<!--                        <td th:text="${category.name}"></td>-->
-<!--                        <td class="actions-row">-->
-<!--                            <div>-->
-<!--                                <a class="action-btn" th:href="@{/books/edit/{categoryId}(categoryId=${category.id})}"-->
-<!--                                   title="Edit Category">-->
-<!--                                    <i class="bi bi-pencil"></i>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--                                <a class="delete-btn"-->
-<!--                                   role="button"-->
-<!--                                   th:href="@{/books/delete/{categoryId}(categoryId=${category.id})}"-->
-<!--                                   sec:authorize="hasAnyAuthority('ADMIN')"-->
-<!--                                   th:categoryName="${category.name}"-->
-<!--                                   title="Delete Category"-->
-<!--                                >-->
-<!--                                    <i class="bi bi-trash"></i>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </div>-->
-<!--    </div>-->
-
-    <div class="modal-overlay" id="deleteModal">
-        <div class="delete-modal">
-            <div class="modal-header">
-                <h1>Confirm Delete</h1>
-            </div>
-            <div class="modal-body">
-                <p><span id="confirmText"></span></p>
-            </div>
-            <div class="modal-footer">
-                <a class="yes-btn" id="yesBtn" type="button">Delete category</a>
-                <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
-            </div>
-        </div>
-    </div>
 </body>
-
-<script type="text/javascript">
-    $(".delete-btn").on("click", function (e) {
-        e.preventDefault();
-        let href = $(this).attr("href");
-        let categoryName = $(this).attr("categoryName");
-        $("#confirmText").html("Are you sure you want to delete category: \<b\>" + categoryName + "\<\/b\>?");
-        $('#deleteModal #yesBtn').attr('href', href);
-        $("#deleteModal").css('display', 'flex');
-    });
-
-    $(".noBtn").on("click", function (e) {
-        e.preventDefault();
-        $("#deleteModal").hide();
-    });
-
-</script>
 </html>

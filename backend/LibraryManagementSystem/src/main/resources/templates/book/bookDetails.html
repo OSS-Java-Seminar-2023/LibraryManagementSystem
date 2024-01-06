@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Details</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<style>
+    .container {
+        display: flex;
+        padding: 1.4rem;
+        height: 100dvh;
+        background: #c5b0ad;
+        z-index: 100;
+    }
+
+    .bookmark {
+        background: #da4c25;
+        position: absolute;
+        width: 30px;
+        height: 180px;
+        top: 1.4rem;
+        right: 16rem;
+        z-index: 105;
+        display: flex;
+        align-items: end;
+        justify-content: start;
+        clip-path: polygon(0 0, 56% 0, 100% 0, 100% 100%, 100% 100%, 50% 92%, 0 100%);
+    }
+
+    .bookmark svg path {
+        width: 100%;
+    }
+
+    .book-details-bg {
+        width: 90%;
+        z-index: 10;
+    }
+
+    .pages {
+        display: flex;
+        width: 5%;
+    }
+
+    .page {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 15px;
+        height: 100%;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .29);
+    }
+
+    .page.num1 {
+        z-index: 4;
+    }
+
+    .page.num2 {
+        z-index: 5;
+    }
+
+    .page.num3 {
+        z-index: 6;
+    }
+
+    .page.num4 {
+        z-index: 7;
+    }
+
+    .page.num5 {
+        z-index: 8;
+    }
+
+    .page.num6 {
+        z-index: 9;
+    }
+
+    .page.num7 {
+        z-index: 9;
+    }
+
+    .page.num8 {
+        z-index: 8;
+    }
+
+    .page.num9 {
+        z-index: 7;
+    }
+
+    .page.num10 {
+        z-index: 6;
+    }
+
+    .page.num11 {
+        z-index: 5;
+    }
+
+    .page.num12 {
+        z-index: 4;
+    }
+
+    .book-details-container {
+        padding: 4rem 12rem 0 34rem;
+        /*padding: 4rem var(--padding-container);*/
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-gap: 20rem;
+        /*grid-gap: 4rem;*/
+        background-color: var(--bg500);
+        height: calc(100dvh - 2.8rem);
+        /*clip-path: polygon(0 0, 91% 0, 91% 100%, 0% 100%);*/
+    }
+
+    .book-details-container::after {
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 51%, rgba(0,0,0,0.4) 52%, rgba(0,0,0,0.2) 82%, rgba(254,254,254,0) 100%);
+        height: calc(100dvh - 2.8rem);
+        position: absolute;
+        content: "";
+        top: 1.4rem;
+        z-index: 12;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%,0);
+        width: 12rem;
+    }
+
+    .book-details-container .left-details > img {
+        object-fit: cover;
+        height: 350px;
+        width: 300px;
+        outline: 2px solid black;
+    }
+
+    .right-details {
+        font-size: 1.6rem;
+    }
+
+    .right-details h1 {
+        font-size: 3.4rem;
+        margin-top: 2rem;
+    }
+
+    .right-details h2 {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .back-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        position: relative;
+        top: 30rem;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
+    }
+
+    .book-details-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .action-btn {
+        background-color: var(--bg800);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: black;
+        border: 1px solid black;
+        text-decoration: none;
+        font-size: 1.4rem;
+    }
+
+    .action-btn > i {
+        color: black;
+    }
+
+    .delete-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--error-text);
+        border: 1px solid var(--error-text);
+        text-decoration: none;
+        font-size: 1.4rem;
+    }
+
+    .delete-btn > i {
+        color: var(--error-text);
+    }
+
+    .badges {
+        display: flex;
+    }
+
+    .badge {
+        background: var(--primary400);
+        color: var(--primary600);
+        padding: .6rem 1rem;
+        border-radius: 2rem;
+    }
+
+    .information h3 {
+        margin: 2rem 0 .6rem 0;
+    }
+
+    .information-content {
+        width: 100%;
+        display: grid;
+        place-items: start;
+        /*grid-template-columns: 1fr 4fr;*/
+        grid-template-columns: 1fr 2.4fr;
+    }
+
+    .information-left p {
+        padding-bottom: .4rem;
+    }
+
+    .information-right p {
+        padding-bottom: .4rem;
+    }
+
+    .available-book {
+        background-color: var(--sucess-bg);
+        border-radius: .4rem;
+        padding: .6rem;
+        text-align: center;
+        color: var(--sucess-text);
+    }
+
+    .unavailable-book {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: .6rem;
+        text-align: center;
+        color: var(--error-text);
+    }
+
+    .modal-overlay {
+        background-color: rgba(0,0,0,0.2);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        z-index: 10001;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+    }
+
+    .delete-modal {
+        z-index: 1000;
+        background-color: white;
+        padding: 1rem;
+        border-radius: .4rem;
+        font-size: 1.6rem;
+    }
+
+    .modal-header h1{
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .modal-body {
+        margin-bottom: 1rem;
+    }
+
+    .yes-btn {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-right: 1rem;
+        text-decoration: none;
+    }
+
+    .no-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="bookmark">
+        </div>
+        <div class="pages">
+            <div class="page num1"></div>
+            <div class="page num2"></div>
+            <div class="page num3"></div>
+            <div class="page num4"></div>
+            <div class="page num5"></div>
+            <div class="page num6"></div>
+        </div>
+        <div class="book-details-bg">
+            <div class="book-details-container">
+                <div class="left-details">
+                    <img th:src="${book.image}" alt="">
+
+                    <div class="book-details-actions">
+                        <a href="" class="action-btn">
+                            Start Loan
+                        </a>
+                        <a href="" class="action-btn">
+                            Show Loans
+                        </a>
+                        <a class="action-btn" th:href="@{/books/edit/{bookId}(bookId=${book.id})}"
+                           title="Edit User"
+                        >
+                            <i class="bi bi-pencil"></i>
+                            Edit Book
+                        </a>
+                        <a class="delete-btn"
+                           role="button"
+                           th:href="@{/books/delete/{bookId}(bookId=${book.id})}"
+                           sec:authorize="hasAnyAuthority('ADMIN')"
+                           th:bookTitle="${book.bookInfo.title}"
+                           title="Delete User"
+                        >
+                            <i class="bi bi-trash"></i>
+                            Delete Book
+                        </a>
+                    </div>
+                </div>
+                <div class="right-details">
+                    <div class="badges">
+                        <div class="badge" th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></div>
+                    </div>
+                    <h1 th:text="${book.bookInfo.title}"></h1>
+                    <h2 th:each="author : ${book.bookInfo.authors}" th:text="${'By: ' + author.firstName + ' ' + author.lastName + ' '}"></h2>
+
+                    <p th:text="${book.bookInfo.description}"></p>
+
+                    <div class="information">
+                        <h3>Information:</h3>
+                        <div class="information-content">
+                            <div class="information-left">
+                                <p>Condition:</p>
+                                <p>Publisher name:</p>
+                                <p>Date of publishing:</p>
+                                <p>ISBN:</p>
+                                <p>Available:</p>
+                            </div>
+                            <div class="information-right">
+                                <p th:text="${book.bookStatus}"></p>
+                                <p th:text="${book.publisherName}"></p>
+                                <p th:text="${book.dateOfPublishing}"></p>
+                                <p th:text="${book.isbn}"></p>
+                                <div th:class="${book.isAvailable() == true ? 'available-book' : 'unavailable-book'}">
+                                    <p th:text="${book.isAvailable() == true ? 'Available' : 'Unavailable'}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="back-btn" th:href="@{'/books'}">Back</a>
+                </div>
+            </div>
+            <div class="modal-overlay" id="deleteModal">
+                <div class="delete-modal">
+                    <div class="modal-header">
+                        <h1>Confirm Delete</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p><span id="confirmText"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="yes-btn" id="yesBtn" type="button">Delete Book</a>
+                        <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pages">
+            <div class="page num7"></div>
+            <div class="page num8"></div>
+            <div class="page num9"></div>
+            <div class="page num10"></div>
+            <div class="page num11"></div>
+            <div class="page num12"></div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $(".delete-btn").on("click", function (e) {
+        e.preventDefault();
+        let href = $(this).attr("href");
+        let bookTitle = $(this).attr("bookTitle");
+        $("#confirmText").html("Are you sure you want to delete book: \<b\>" + bookTitle + "\<\/b\>?");
+        $('#deleteModal #yesBtn').attr('href', href);
+        $("#deleteModal").css('display', 'flex');
+    });
+
+    $(".noBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#deleteModal").hide();
+    });
+
+</script>
+</html>

@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.oss.LibraryManagementSystem.models.enums.BookStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -27,9 +29,10 @@ public class Book {
     @NotNull(message = "publisher_name shouldn't be null")
     private String publisherName;
 
-    @Column(name = "year_of_publishing")
-    @NotNull(message = "year_of_publishing shouldn't be null")
-    private Timestamp yearOfPublishing;
+    @Column(name = "date_of_publishing")
+    @NotNull(message = "date_of_publishing shouldn't be null")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dateOfPublishing;
 
     @Column(name = "isbn")
     @NotNull(message = "isbn shouldn't be null")

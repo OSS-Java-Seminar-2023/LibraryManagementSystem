@@ -50,7 +50,7 @@ CREATE TABLE book_info_category (
 CREATE TABLE Book (
     id UUID NOT NULL PRIMARY KEY,
     publisher_name VARCHAR(255) NOT NULL,
-    year_of_publishing DATE NOT NULL,
+    date_of_publishing DATE NOT NULL,
     ISBN VARCHAR(255) NOT NULL,
     book_status VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL,

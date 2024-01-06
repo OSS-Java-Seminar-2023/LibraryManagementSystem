@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Edit User</title>
+    <title>Edit Book</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .edit-category-container {
+    .add-book-container {
         padding: 4rem var(--padding-container);
     }
 
-    .edit-category-container h1 {
+    .add-book-container h1 {
         font-size: 2.8rem;
         margin-bottom: 2rem;
     }
 
-    .edit-category-form {
+    .add-book-form {
         width: 100%;
         margin-bottom: 2rem;
     }
@@ -80,22 +80,59 @@
         border: 0.4px solid black;
         color: black;
     }
+
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
 
-<div class="edit-category-container">
-    <h1>Edit Category</h1>
+<div class="add-book-container">
+    <h1>Edit Book</h1>
 
-    <form class="edit-category-form" method="POST" th:action="@{/categories/updateCategory}">
-        <input name="id" th:value="${category.id}" type="hidden">
+    <form class="add-book-form" method="POST" th:action="@{/books/updateBook}">
+        <input name="id" th:value="${book.id}" type="hidden">
         <div class="input-group">
-            <label>Category Name</label>
-            <input class="form-control" name="name" required type="text" th:value="${category.name}" placeholder="Enter category name">
+            <label>Book Information</label>
+            <select class="form-select" name="bookInfo" id="bookInfo">
+                <option
+                        th:each="bookInfo: ${bookInfoOptions}"
+                        th:text="${bookInfo.title}" th:value="${bookInfo.id}"
+                ></option>
+            </select>
         </div>
-        <button class="form-submit" type="submit">Edit Category</button>
+
+        <div class="input-group">
+            <label>Book Status</label>
+            <select class="form-select" name="bookStatus" id="bookStatus">
+                <option
+                        th:each="bookStatus: ${bookStatusOptions}"
+                        th:text="${bookStatus.toString()}" th:value="${bookStatus.toString()}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Publisher Name</label>
+            <input class="form-control" name="publisherName" required type="text" placeholder="Enter Publisher Name *" th:value="${book.publisherName}">
+        </div>
+
+        <div class="input-group">
+            <label>Date Of Publishing</label>
+            <input class="form-control" name="dateOfPublishing" required type="date" th:value="${dateOfPublishing}">
+        </div>
+
+        <div class="input-group">
+            <label>ISBN</label>
+            <input class="form-control" name="isbn" required type="text" placeholder="Enter ISBN *" th:value="${book.isbn}">
+        </div>
+
+        <div class="input-group">
+            <label>Image Url</label>
+            <input class="form-control" name="image" type="text" placeholder="Enter Image Url" th:value="${book.image}">
+        </div>
+
+        <button class="form-submit" type="submit">Edit Book</button>
     </form>
-    <a class="back-btn" th:href="@{'/categories'}" >Back</a>
+    <a class="back-btn" th:href="@{'/books'}">Back</a>
 </div>
 </body>
 </html>
