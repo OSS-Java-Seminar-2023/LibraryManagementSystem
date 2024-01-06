@@ -57,7 +57,7 @@
     .glitch:before,
     .glitch:after {
         display: block;
-        content: "404";
+        content: "403";
         position: absolute;
         top: 0;
         left: 0;
@@ -66,7 +66,7 @@
 
     .glitch.h2:before,
     .glitch.h2:after {
-        content: "Oops! Looks like there was a problem...";
+        content: "Oops! Looks like you dont have access to this page...";
     }
 
     .glitch:before {
@@ -110,10 +110,10 @@
 <body>
 <div class="error-page">
     <div class="glitch-wrapper">
-        <div class="glitch">404</div>
+        <div class="glitch">403</div>
 
-        <h2 class="glitch h2">Oops! Looks like there was a problem...</h2>
-        <p th:text="Access denied"></p>
+        <h2 class="glitch h2">Oops! Looks like you dont have access to this page...</h2>
+        <p>Access denied</p>
         <button>
             <a class="btn btn-lg btn-secondary mt-3" th:href="@{/}">Go to homepage</a>
         </button>
