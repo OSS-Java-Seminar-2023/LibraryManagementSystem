@@ -3,9 +3,11 @@ package org.oss.LibraryManagementSystem.services;
 import org.oss.LibraryManagementSystem.dto.BookDto;
 import org.oss.LibraryManagementSystem.models.Book;
 import org.oss.LibraryManagementSystem.models.BookInfo;
+import org.oss.LibraryManagementSystem.models.File;
 import org.oss.LibraryManagementSystem.models.enums.BookStatus;
 import org.oss.LibraryManagementSystem.repositories.BookInfoRepository;
 import org.oss.LibraryManagementSystem.repositories.BookRepository;
+import org.oss.LibraryManagementSystem.repositories.FileRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -18,9 +20,12 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookInfoRepository bookInfoRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, BookInfoRepository bookInfoRepository) {
+    private final FileRepository fileRepository;
+
+    public BookServiceImpl(BookRepository bookRepository, BookInfoRepository bookInfoRepository, FileRepository fileRepository) {
         this.bookRepository = bookRepository;
         this.bookInfoRepository = bookInfoRepository;
+        this.fileRepository = fileRepository;
     }
 
     @Override
@@ -50,6 +55,10 @@ public class BookServiceImpl implements BookService {
 
         book.setBookInfo(bookInfo);
         book.setAvailable(true);
+
+        // Get file with id
+        File fileFromDb = fileRepository.findById(bookDto.getFileId()).orElseThrow(() -> new RuntimeException("File not found"));;
+        book.setFile(fileFromDb);
 
         return bookRepository.save(book);
     }

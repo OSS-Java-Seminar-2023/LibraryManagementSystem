@@ -52,4 +52,8 @@ public class Book {
 
     @Column(name = "image")
     private String image;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id", unique = true)
+    private File file;
 }

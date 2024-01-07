@@ -1,6 +1,7 @@
 package org.oss.LibraryManagementSystem.security;
 
 import org.oss.LibraryManagementSystem.services.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,12 +54,12 @@ public class SecurityConfig {
                         .loginPage("/users/login")
                         .loginProcessingUrl("/users/authenticateUser")
                         .permitAll()
-                )
+                );
+                http.csrf(csrf -> csrf.disable())
                 .logout(logout -> logout.permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/users/login"))
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")
                 );
-
         return http.build();
     }
 }

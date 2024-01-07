@@ -47,6 +47,13 @@ CREATE TABLE book_info_category (
     category_id UUID NOT NULL REFERENCES Category(id) ON DELETE CASCADE
 );
 
+CREATE TABLE File (
+    id UUID NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    data bytea NOT NULL
+);
+
 CREATE TABLE Book (
     id UUID NOT NULL PRIMARY KEY,
     publisher_name VARCHAR(255) NOT NULL,
@@ -55,7 +62,8 @@ CREATE TABLE Book (
     book_status VARCHAR(255) NOT NULL,
     available BOOLEAN NOT NULL,
     book_info_id UUID NOT NULL REFERENCES BookInfo(id) ON DELETE CASCADE,
-    image VARCHAR(255)
+    image VARCHAR(255),
+    file_id UUID REFERENCES File(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Loan (

@@ -88,7 +88,7 @@
     <div class="add-book-container">
         <h1>Add new Book</h1>
 
-        <form class="add-book-form" method="POST" th:action="@{/books/saveBook}">
+        <form class="add-book-form" method="POST" th:action="@{/books/saveBook}" enctype="multipart/form-data">
             <div class="input-group">
                 <label>Book Information</label>
                 <select class="form-select" name="bookInfo" id="bookInfo">
@@ -127,6 +127,11 @@
             <div class="input-group">
                 <label>Image Url</label>
                 <input class="form-control" name="image" type="text" placeholder="Enter Image Url">
+            </div>
+
+            <div class="input-group">
+                <label>Image Upload</label>
+                <input id="input-file" type="file" name="file" />
             </div>
 
             <button class="form-submit" type="submit">Add Book</button>

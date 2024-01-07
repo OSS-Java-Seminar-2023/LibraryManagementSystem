@@ -16,4 +16,5 @@ public class BookDto {
     private String bookStatus;
     private UUID bookInfo;
     private String image;
+    private UUID fileId;
 }
