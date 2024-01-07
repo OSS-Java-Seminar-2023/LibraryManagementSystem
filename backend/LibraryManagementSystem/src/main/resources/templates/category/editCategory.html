@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Edit User</title>
+    <title>Edit Category</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
@@ -91,7 +91,7 @@
         <input name="id" th:value="${category.id}" type="hidden">
         <div class="input-group">
             <label>Category Name</label>
-            <input class="form-control" name="name" required type="text" th:value="${category.name}" placeholder="Enter category name">
+            <input class="form-control" name="name" required type="text" th:value="${category.name}" placeholder="Enter category name *">
         </div>
         <button class="form-submit" type="submit">Edit Category</button>
     </form>

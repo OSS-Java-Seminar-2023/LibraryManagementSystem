@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Add new Category</title>
+    <title>Add new Book Information</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
@@ -102,12 +102,12 @@
         <form class="add-bookInfo-form" method="POST" th:action="@{/bookInfos/saveBookInfo}">
             <div class="input-group">
                 <label>Title</label>
-                <input class="form-control" name="title" required type="text" placeholder="Enter title">
+                <input class="form-control" name="title" required type="text" placeholder="Enter title *">
             </div>
 
             <div class="input-group">
                 <label>Description</label>
-                <input class="form-control" name="description" required type="text" placeholder="Enter description">
+                <input class="form-control" name="description" required type="text" placeholder="Enter description *">
             </div>
 
             <div class="input-group">

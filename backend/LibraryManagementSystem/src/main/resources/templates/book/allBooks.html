@@ -196,6 +196,10 @@
     .card-bottom-category-and-link a {
         color: var(--primary500);
     }
+
+    .none-found {
+        font-size: 1.8rem;
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -262,8 +266,10 @@
         <div class="action-buttons">
             <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/books/add}">Add new Book</a>
         </div>
-        <div class="books-cards-container">
-            <div class="card" th:each="book : ${books}">
+
+        <div class="none-found" th:if="${books.size() == 0}"><p>No books found...</p></div>
+        <div class="books-cards-container" th:if="${books.size() > 0}">
+            <div class="card" th:each="book : ${books}" th:if="${books.size() > 0}">
                 <div class="card-top">
                     <img th:src="${book.image}" th:if="${book.image != null}" class="img">
                     <div class="img-placeholder" th:if="${book.image == null}"></div>

@@ -314,6 +314,10 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    .none-found {
+        font-size: 1.8rem;
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -371,7 +375,8 @@
         </div>
 
         <div class="table-container">
-            <table class="table">
+            <div class="none-found" th:if="${users.size() == 0}"><p>No users found...</p></div>
+            <table class="table" th:if="${users.size() > 0}">
                 <thead class="table-head">
                     <tr>
                         <th># Id</th>

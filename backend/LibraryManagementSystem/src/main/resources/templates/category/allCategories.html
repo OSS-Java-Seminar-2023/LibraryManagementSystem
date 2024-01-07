@@ -274,6 +274,10 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    .none-found {
+        font-size: 1.8rem;
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -314,7 +318,8 @@
         </div>
 
         <div class="table-container">
-            <table class="table">
+            <div class="none-found" th:if="${categories.size() == 0}"><p>No categories found...</p></div>
+            <table class="table" th:if="${categories.size() > 0}">
                 <thead class="table-head">
                     <tr>
                         <th class="id-header"># Id</th>
