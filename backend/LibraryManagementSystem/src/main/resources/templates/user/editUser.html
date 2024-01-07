@@ -121,6 +121,7 @@
                 <option th:each="option: ${roleOptions}"
                         th:if="${(#authorization.expression('hasAuthority(''LIBRARIAN'')') and option.name == 'MEMBER') or #authorization.expression('hasAuthority(''ADMIN'')')}"
                         th:text="${option.name}" th:value="${option.name}"
+                        th:selected="${option.name == currentUserRole}"
                 ></option>
             </select>
         </div>

@@ -271,8 +271,8 @@
         <div class="books-cards-container" th:if="${books.size() > 0}">
             <div class="card" th:each="book : ${books}" th:if="${books.size() > 0}">
                 <div class="card-top">
-                    <img th:src="${book.file != null ? 'http://localhost:8080/file/' + book.file.id + '/download' : book.image}" th:if="${book.image != null || book.file != null}" class="img">
-                    <div class="img-placeholder" th:if="${book.image == null && book.file == null}"></div>
+                    <img th:src="${book.file != null ? 'http://localhost:8080/file/' + book.file.id + '/download' : book.image}" th:if="${(book.image != null && book.image != '') || book.file != null}" class="img">
+                    <div class="img-placeholder" th:if="${(book.image == null || book.image == '') && book.file == null}"></div>
 <!--                    <p th:text="${book.file != null ? book.file.id : ''}"></p>-->
                 </div>
                 <div class="card-bottom">

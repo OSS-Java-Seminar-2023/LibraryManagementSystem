@@ -81,6 +81,22 @@
         color: black;
     }
 
+    .limit {
+        margin-top: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .error {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        margin-top: 1rem;
+    }
+
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -131,6 +147,8 @@
 
             <div class="input-group">
                 <label>Image Upload</label>
+                <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
+                <p class="limit">Limit: 2MB</p>
                 <input id="input-file" type="file" name="file" />
             </div>
 

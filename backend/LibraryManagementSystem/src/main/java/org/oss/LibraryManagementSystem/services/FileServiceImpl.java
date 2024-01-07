@@ -28,6 +28,13 @@ public class FileServiceImpl implements FileService{
         byte[] images=ImageUtils.decompressImage(dbImageData.getData());
         return images;
     }
+
+    @Override
+    public void deleteFile(UUID id) {
+        File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("File not found"));
+        fileRepository.delete(file);
+    }
+
     @Override
     public File getFile(UUID id) {
         return fileRepository.findById(id).get();

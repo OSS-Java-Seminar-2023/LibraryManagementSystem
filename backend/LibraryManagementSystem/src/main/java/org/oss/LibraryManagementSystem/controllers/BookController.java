@@ -10,6 +10,7 @@ import org.oss.LibraryManagementSystem.models.enums.BookStatus;
 import org.oss.LibraryManagementSystem.repositories.BookInfoRepository;
 import org.oss.LibraryManagementSystem.repositories.BookRepository;
 import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
+import org.oss.LibraryManagementSystem.repositories.FileRepository;
 import org.oss.LibraryManagementSystem.services.BookService;
 import org.oss.LibraryManagementSystem.services.FileService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,7 @@ public class BookController {
     private final FileService fileService;
     private final BookInfoRepository bookInfoRepository;
     private final CategoryRepository categoryRepository;
+    private final FileRepository fileRepository;
 
     @GetMapping
     public String getAllBooksPage(Model model) {
@@ -80,11 +82,12 @@ public class BookController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/saveBook")
     public String saveBook(@ModelAttribute BookDto bookDto, @RequestParam("file") MultipartFile file) throws IOException {
-        File fileDb = fileService.store(file);
-//        System.out.println(fileDb.getId());
+        if(!file.isEmpty()) {
+            File fileDb = fileService.store(file);
 
-        // Add fileId to bookDto
-        bookDto.setFileId(fileDb.getId());
+            // Add fileId to bookDto
+            bookDto.setFileId(fileDb.getId());
+        }
         Book savedBook = bookService.createBook(bookDto);
         return "redirect:/books";
     }
@@ -115,6 +118,12 @@ public class BookController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(book.getDateOfPublishing());
 
+        // Get current file
+        if(book.getFile() != null) {
+            File curFile = fileService.getFile(book.getFile().getId());
+            model.addAttribute("curFile", curFile);
+        }
+
         model.addAttribute("bookInfoOptions", bookInfos);
         model.addAttribute("bookStatusOptions", bookStatuses);
         model.addAttribute("book", book);
@@ -124,8 +133,31 @@ public class BookController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/updateBook")
-    public String updateBook(@ModelAttribute BookDto bookDto){
-        Book book = bookService.editBook(bookDto);
+    public String updateBook(@ModelAttribute BookDto bookDto, @RequestParam("file") MultipartFile file) throws IOException{
+        if(!file.isEmpty()) {
+            File fileDb = fileService.store(file);
+
+            // Add fileId to bookDto
+            bookDto.setFileId(fileDb.getId());
+        } else {
+            // If there is file in database delete it because user is editing with no uploaded file image
+            Book book = bookService.getBook(bookDto.getId());
+
+            // If book has file attached to it then delete it
+            if(book.getFile() != null) {
+                File fileToBeDeleted = fileService.getFile(book.getFile().getId());
+
+                // Set books file id to null so you can delete file in its table
+                bookDto.setFileId(null);
+
+                bookService.editBook(bookDto);
+                fileRepository.delete(fileToBeDeleted);
+
+                return "redirect:/books";
+            }
+        }
+
+        bookService.editBook(bookDto);
 
         return "redirect:/books";
     }

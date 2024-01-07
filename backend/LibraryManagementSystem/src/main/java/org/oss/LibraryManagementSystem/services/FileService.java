@@ -10,5 +10,7 @@ public interface FileService {
     File store(MultipartFile file) throws IOException;
 
     byte[] downloadImage(UUID id);
+
+    void deleteFile(UUID id);
     File getFile(UUID id);
 }

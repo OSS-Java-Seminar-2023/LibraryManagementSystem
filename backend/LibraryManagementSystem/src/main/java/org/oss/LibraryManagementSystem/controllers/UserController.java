@@ -154,9 +154,15 @@ public class UserController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(user.getDateOfBirth());
 
+        var currentUserRoles = new ArrayList<String>();
+        for (var role : user.getRoles()) {
+            currentUserRoles.add(role.getName());
+        }
+
         model.addAttribute("dateOfBirth", formattedDate);
         model.addAttribute("userRequest", user);
         model.addAttribute("roleOptions", roles);
+        model.addAttribute("currentUserRole", currentUserRoles.get(0));
 
         System.out.println(formattedDate);
 

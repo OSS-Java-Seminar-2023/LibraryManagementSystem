@@ -49,6 +49,7 @@ public class BookServiceImpl implements BookService {
 
         String bookStatusString = bookDto.getBookStatus();
         BookStatus bookStatus = BookStatus.valueOf(bookStatusString);
+        System.out.println(bookStatus);
         book.setBookStatus(bookStatus);
 
         BookInfo bookInfo = bookInfoRepository.findById(bookDto.getBookInfo()).orElseThrow(() -> new RuntimeException("Book information not found"));
@@ -57,8 +58,10 @@ public class BookServiceImpl implements BookService {
         book.setAvailable(true);
 
         // Get file with id
-        File fileFromDb = fileRepository.findById(bookDto.getFileId()).orElseThrow(() -> new RuntimeException("File not found"));;
-        book.setFile(fileFromDb);
+        if(bookDto.getFileId() != null) {
+            File fileFromDb = fileRepository.findById(bookDto.getFileId()).orElseThrow(() -> new RuntimeException("File not found"));;
+            book.setFile(fileFromDb);
+        }
 
         return bookRepository.save(book);
     }
@@ -89,6 +92,14 @@ public class BookServiceImpl implements BookService {
 
         book.setBookInfo(bookInfo);
         book.setAvailable(true);
+
+        // Get file with id
+        if(bookDto.getFileId() != null) {
+            File fileFromDb = fileRepository.findById(bookDto.getFileId()).orElseThrow(() -> new RuntimeException("File not found"));;
+            book.setFile(fileFromDb);
+        } else {
+            book.setFile(null);
+        }
 
         return bookRepository.save(book);
     }

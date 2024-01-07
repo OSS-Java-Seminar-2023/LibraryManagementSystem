@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,5 +44,11 @@ public class FIleController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDb.getName() + "\"")
                 .body(fileDb.getData());
+    }
+
+    @GetMapping("/{id}/delete")
+    public void deleteFile(@PathVariable UUID id) {
+        System.out.println(id);
+        fileService.deleteFile(id);
     }
 }

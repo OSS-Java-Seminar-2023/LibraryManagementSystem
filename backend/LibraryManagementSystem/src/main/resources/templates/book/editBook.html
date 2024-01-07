@@ -81,6 +81,22 @@
         color: black;
     }
 
+    .limit {
+        margin-top: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .error {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        margin-top: 1rem;
+    }
+
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -88,7 +104,7 @@
 <div class="add-book-container">
     <h1>Edit Book</h1>
 
-    <form class="add-book-form" method="POST" th:action="@{/books/updateBook}">
+    <form class="add-book-form" method="POST" th:action="@{/books/updateBook}" enctype="multipart/form-data">
         <input name="id" th:value="${book.id}" type="hidden">
         <div class="input-group">
             <label>Book Information</label>
@@ -96,6 +112,7 @@
                 <option
                         th:each="bookInfo: ${bookInfoOptions}"
                         th:text="${bookInfo.title}" th:value="${bookInfo.id}"
+                        th:selected="${bookInfo.title == book.getBookInfo().getTitle()}"
                 ></option>
             </select>
         </div>
@@ -106,6 +123,7 @@
                 <option
                         th:each="bookStatus: ${bookStatusOptions}"
                         th:text="${bookStatus.toString()}" th:value="${bookStatus.toString()}"
+                        th:selected="${bookStatus.toString() == book.getBookStatus().toString()}"
                 ></option>
             </select>
         </div>
@@ -127,7 +145,14 @@
 
         <div class="input-group">
             <label>Image Url</label>
-            <input class="form-control" name="image" type="text" placeholder="Enter Image Url" th:value="${book.image}">
+            <input class="form-control" name="image" type="text" placeholder="Enter Image Url" th:value="${book.getImage()}">
+        </div>
+
+        <div class="input-group">
+            <label>Image Upload</label>
+            <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
+            <p class="limit">Limit: 2MB</p>
+            <input id="input-file" type="file" name="file"/>
         </div>
 
         <button class="form-submit" type="submit">Edit Book</button>
