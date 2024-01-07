@@ -408,12 +408,12 @@
                 </thead>
 
                 <tbody class="table-content">
-                    <tr th:each="user : ${users}" class="table-content-row">
+                    <tr th:each="user, i : ${users}" class="table-content-row">
                         <th th:text="${user.id.toString().substring(0,5)+'...'}" class="id"></th>
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td><a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a></td>
-                        <td th:text="${user.dateOfBirth}"></td>
+                        <td th:text="${formatedDates.get(i.index)}"></td>
                         <td><a th:href="'tel:' + ${user.contactNumber}" th:text="${user.contactNumber}"></a></td>
                         <td th:each="role : ${user.roles}">
                             <span th:text="${role.name}" th:class="${(role.name == 'ADMIN') ? 'admin-user' : (role.name == 'LIBRARIAN' ? 'librarian-user' : 'member-user')}"></span>

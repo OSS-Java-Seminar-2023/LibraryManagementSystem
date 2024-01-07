@@ -71,12 +71,22 @@ public class UserController {
 
         long usersCount = userService.getUserCount();
 
+        // Format dates
+        List<String> formatedDates = new ArrayList<>();
+
+        for(var user : users) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            String formattedDate = dateFormat.format(user.getDateOfBirth());
+            formatedDates.add(formattedDate);
+        }
+
         model.addAttribute("count", usersCount);
         model.addAttribute("users", users);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("currentUserRole", currentUserRoles.get(0));
 
         model.addAttribute("roleOptions", roles);
+        model.addAttribute("formatedDates", formatedDates);
         return "user/allUsers";
     }
 
@@ -84,14 +94,24 @@ public class UserController {
     @GetMapping("/{id}")
     public String userDetailsPage(Model model, @PathVariable UUID id) {
         User user = userService.getUserById(id);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String formattedDate = dateFormat.format(user.getDateOfBirth());
+
         model.addAttribute("user", user);
+        model.addAttribute("dateOfBirth", formattedDate);
         return "user/userDetails";
     }
 
     @GetMapping("/myDetails")
     public String myDetailsPage(Model model) {
         User user = userService.getCurrentUserDetails();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String formattedDate = dateFormat.format(user.getDateOfBirth());
+
         model.addAttribute("user", user);
+        model.addAttribute("dateOfBirth", formattedDate);
         return "user/userDetails";
     }
 

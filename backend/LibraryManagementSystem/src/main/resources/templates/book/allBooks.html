@@ -281,8 +281,8 @@
                         <p th:text="${book.bookInfo.description}"></p>
                     </div>
                     <div>
-                        <a href="" class="button">Start Loan</a>
-                        <a href="" class="button">Show Loans</a>
+                        <a href="" class="button" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Start Loan</a>
+                        <a href="" class="button" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Show Loans</a>
                     </div>
                     <div class="card-bottom-category-and-link">
                         <p th:each="category : ${book.bookInfo.categories}" th:text="${category.name}"></p>

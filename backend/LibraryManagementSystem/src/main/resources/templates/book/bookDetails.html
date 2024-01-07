@@ -308,14 +308,14 @@
                     <img th:src="${book.image}" alt="">
 
                     <div class="book-details-actions">
-                        <a href="" class="action-btn">
+                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                             Start Loan
                         </a>
-                        <a href="" class="action-btn">
+                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                             Show Loans
                         </a>
                         <a class="action-btn" th:href="@{/books/edit/{bookId}(bookId=${book.id})}"
-                           title="Edit User"
+                           title="Edit User" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')"
                         >
                             <i class="bi bi-pencil"></i>
                             Edit Book
@@ -354,7 +354,7 @@
                             <div class="information-right">
                                 <p th:text="${book.bookStatus}"></p>
                                 <p th:text="${book.publisherName}"></p>
-                                <p th:text="${book.dateOfPublishing}"></p>
+                                <p th:text="${dateOfPublishing}"></p>
                                 <p th:text="${book.isbn}"></p>
                                 <div th:class="${book.isAvailable() == true ? 'available-book' : 'unavailable-book'}">
                                     <p th:text="${book.isAvailable() == true ? 'Available' : 'Unavailable'}"></p>

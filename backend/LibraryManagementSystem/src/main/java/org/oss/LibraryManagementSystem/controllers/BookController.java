@@ -53,7 +53,11 @@ public class BookController {
     public String getBookDetails(@PathVariable UUID id, Model model) {
         Book book = bookService.getBook(id);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String formattedDate = dateFormat.format(book.getDateOfPublishing());
+
         model.addAttribute("book", book);
+        model.addAttribute("dateOfPublishing", formattedDate);
         return "book/bookDetails";
     }
 
