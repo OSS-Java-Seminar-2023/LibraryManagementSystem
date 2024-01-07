@@ -305,7 +305,7 @@
         <div class="book-details-bg">
             <div class="book-details-container">
                 <div class="left-details">
-                    <img th:src="${fileImage != null ? 'http://localhost:8080/file/' + fileImage + '/download' : book.getImage()}" alt="">
+                    <img th:src="${book.getFile() != null ? 'http://localhost:8080/file/' + book.getFile().getId() + '/download' : book.getImage()}" alt="">
 
                     <div class="book-details-actions">
                         <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">

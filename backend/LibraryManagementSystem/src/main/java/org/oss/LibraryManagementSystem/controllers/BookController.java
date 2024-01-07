@@ -43,8 +43,6 @@ public class BookController {
 
         List<Category> categoryOptions = categoryRepository.findAll();
 
-        // Make array of all files then get element from that array that coresponds to file of book
-
         model.addAttribute("books", books);
         model.addAttribute("count", count);
 
@@ -59,15 +57,6 @@ public class BookController {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String formattedDate = dateFormat.format(book.getDateOfPublishing());
-
-        // Get file by fileId then display it if its not null
-        if(book.getFile() != null) {
-            File fileImage = book.getFile();
-            var imageId = fileImage.getId();
-
-            // Add model atribute
-            model.addAttribute("fileImage", imageId);
-        }
 
         model.addAttribute("book", book);
         model.addAttribute("dateOfPublishing", formattedDate);
