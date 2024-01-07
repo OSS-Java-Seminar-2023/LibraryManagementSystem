@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/file")
 @AllArgsConstructor
-public class FIleController {
+public class FileController {
     private FileService fileService;
 
     @PostMapping("/upload")
