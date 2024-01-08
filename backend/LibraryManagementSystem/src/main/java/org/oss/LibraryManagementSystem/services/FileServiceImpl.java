@@ -1,5 +1,6 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.models.File;
 import org.oss.LibraryManagementSystem.repositories.FileRepository;
 import org.oss.LibraryManagementSystem.utils.ImageUtils;
@@ -12,10 +13,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class FileServiceImpl implements FileService{
     private final FileRepository fileRepository;
 
-    public FileServiceImpl(FileRepository fileRepository) { this.fileRepository = fileRepository;}
     @Override
     public File store(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

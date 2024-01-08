@@ -1,5 +1,6 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.BookDto;
 import org.oss.LibraryManagementSystem.models.Book;
 import org.oss.LibraryManagementSystem.models.BookInfo;
@@ -16,17 +17,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookInfoRepository bookInfoRepository;
-
     private final FileRepository fileRepository;
-
-    public BookServiceImpl(BookRepository bookRepository, BookInfoRepository bookInfoRepository, FileRepository fileRepository) {
-        this.bookRepository = bookRepository;
-        this.bookInfoRepository = bookInfoRepository;
-        this.fileRepository = fileRepository;
-    }
 
     @Override
     public List<Book> getAllBooks() {

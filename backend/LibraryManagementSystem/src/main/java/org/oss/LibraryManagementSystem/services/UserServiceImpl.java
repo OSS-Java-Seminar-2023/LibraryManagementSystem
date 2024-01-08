@@ -1,5 +1,6 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.UserDto;
 import org.oss.LibraryManagementSystem.mapper.UserMapper;
 import org.oss.LibraryManagementSystem.models.Role;
@@ -23,17 +24,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
     private final EmailService emailService;
-
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.emailService = emailService;
-    }
 
     @Override
     public boolean areInputsInvalid(UserDto request) {

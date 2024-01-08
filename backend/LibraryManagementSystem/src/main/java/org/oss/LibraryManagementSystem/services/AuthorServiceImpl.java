@@ -1,5 +1,6 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.AuthorDto;
 import org.oss.LibraryManagementSystem.models.Author;
 import org.oss.LibraryManagementSystem.repositories.AuthorRepository;
@@ -9,13 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-
     private final AuthorRepository authorRepository;
-
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
 
     @Override
     public List<Author> getAllAuthors() {

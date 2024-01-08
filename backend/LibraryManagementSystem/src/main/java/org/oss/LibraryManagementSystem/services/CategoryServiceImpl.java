@@ -1,5 +1,6 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.CategoryDto;
 import org.oss.LibraryManagementSystem.models.Category;
 import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
@@ -9,12 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public List<Category> getAllCategories() {

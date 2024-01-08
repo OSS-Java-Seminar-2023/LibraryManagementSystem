@@ -21,7 +21,6 @@ public class BookInfoServiceImpl implements BookInfoService {
     private final CategoryRepository categoryRepository;
     private final FileRepository fileRepository;
 
-
     @Override
     public List<BookInfo> getAllBookInfos() {
         return bookInfoRepository.findAll();
