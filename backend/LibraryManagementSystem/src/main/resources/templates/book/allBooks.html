@@ -206,7 +206,7 @@
     <div class="container-books">
         <h1>Books</h1>
 
-        <div class="books-stats-filters">
+        <div class="books-stats-filters" th:if="${books.size() > 0}">
             <div class="total-books">
                 <div class="total-icon">
                     <i class="bi bi-book"></i>
@@ -233,7 +233,7 @@
                     </select>
                 </div>
 
-                <div class="filter-container">
+                <div class="filter-container" th:if="${books.size() > 0}">
                     <label for="pageSize">Filter by status</label>
                     <select class="form-select" id="status" name="status"
                             onchange="changeStatus()" th:value="${statusName}"
@@ -267,7 +267,7 @@
             <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/books/add}">Add new Book</a>
         </div>
 
-        <div class="none-found" th:if="${books.size() == 0}"><p>No books found...</p></div>
+        <div class="none-found" th:if="${books.size() == 0}"><p>No books found.</p></div>
         <div class="books-cards-container" th:if="${books.size() > 0}">
             <div class="card" th:each="book : ${books}" th:if="${books.size() > 0}">
                 <div class="card-top">

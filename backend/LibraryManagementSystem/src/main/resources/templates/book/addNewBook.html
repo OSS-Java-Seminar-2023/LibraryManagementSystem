@@ -107,7 +107,7 @@
         <form class="add-book-form" method="POST" th:action="@{/books/saveBook}" enctype="multipart/form-data">
             <div class="input-group">
                 <label>Book Information</label>
-                <select class="form-select" name="bookInfo" id="bookInfo">
+                <select class="form-select" name="bookInfo" id="bookInfo" required>
                     <option
                             th:each="bookInfo: ${bookInfoOptions}"
                             th:text="${bookInfo.title}" th:value="${bookInfo.id}"
@@ -117,7 +117,7 @@
 
             <div class="input-group">
                 <label>Book Status</label>
-                <select class="form-select" name="bookStatus" id="bookStatus">
+                <select class="form-select" name="bookStatus" id="bookStatus" required>
                     <option
                             th:each="bookStatus: ${bookStatusOptions}"
                             th:text="${bookStatus.toString()}" th:value="${bookStatus.toString()}"
@@ -127,7 +127,7 @@
 
             <div class="input-group">
                 <label>Is it Available</label>
-                <select class="form-select" name="available" id="available">
+                <select class="form-select" name="available" id="available" required>
                     <option
                         th:text="Yes" th:value="${true}"
                     ></option>

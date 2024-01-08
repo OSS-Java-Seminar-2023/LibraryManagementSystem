@@ -114,7 +114,7 @@
             </div>
             <div class="input-group">
                 <label>Role</label>
-                <select class="form-select" name="role">
+                <select class="form-select" name="role" required>
                     <option th:each="option: ${roleOptions}"
                             th:if="${(#authorization.expression('hasAuthority(''LIBRARIAN'')') and option.name == 'MEMBER') or #authorization.expression('hasAuthority(''ADMIN'')')}"
                             th:text="${option.name}" th:value="${option.name}"
