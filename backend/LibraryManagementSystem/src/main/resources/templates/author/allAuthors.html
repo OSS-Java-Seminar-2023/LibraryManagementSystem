@@ -379,7 +379,7 @@
                 <p><span id="confirmText"></span></p>
             </div>
             <div class="modal-footer">
-                <a class="yes-btn" id="yesBtn" type="button">Delete author</a>
+                <a class="yes-btn" id="yesBtn" type="button">Delete Author</a>
                 <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </div>
@@ -387,20 +387,30 @@
 </body>
 
 <script type="text/javascript">
-    $(".delete-btn").on("click", function (e) {
-        e.preventDefault();
-        let href = $(this).attr("href");
-        let authorFirstName = $(this).attr("authorFirstName");
-        let authorLastName = $(this).attr("authorLastName");
-        $("#confirmText").html("Are you sure you want to delete author: \<b\>" + authorFirstName + " " + authorLastName + "\<\/b\>?");
-        $('#deleteModal #yesBtn').attr('href', href);
-        $("#deleteModal").css('display', 'flex');
-    });
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    const deleteModal = document.querySelector(".modal-overlay")
 
-    $(".noBtn").on("click", function (e) {
-        e.preventDefault();
-        $("#deleteModal").hide();
-    });
+    const noBtn = document.querySelector(".no-btn");
+    deleteButtons.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let href = btn.getAttribute("href");
+            let authorFirstName = btn.getAttribute("authorFirstName");
+            let authorLastName = btn.getAttribute("authorLastName");
 
+            const confirmText = document.querySelector("#confirmText");
+            confirmText.innerHTML = "Are you sure you want to delete author: \<b\>" + authorFirstName + " " + authorLastName + "\<\/b\>?";
+
+            const yesBtn = document.querySelector(".yes-btn");
+            yesBtn.href = href;
+
+            deleteModal.style.display = "flex";
+        })
+    })
+
+    noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        deleteModal.style.display = "none";
+    })
 </script>
 </html>

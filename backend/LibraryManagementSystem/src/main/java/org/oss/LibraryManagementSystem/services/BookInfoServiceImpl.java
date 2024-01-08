@@ -1,12 +1,10 @@
 package org.oss.LibraryManagementSystem.services;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.BookInfoDto;
-import org.oss.LibraryManagementSystem.models.Author;
-import org.oss.LibraryManagementSystem.models.BookInfo;
-import org.oss.LibraryManagementSystem.models.Category;
-import org.oss.LibraryManagementSystem.repositories.AuthorRepository;
-import org.oss.LibraryManagementSystem.repositories.BookInfoRepository;
-import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
+import org.oss.LibraryManagementSystem.models.*;
+import org.oss.LibraryManagementSystem.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,16 +13,14 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoRepository bookInfoRepository;
+    private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
+    private final FileRepository fileRepository;
 
-    public BookInfoServiceImpl(BookInfoRepository bookInfoRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository) {
-        this.bookInfoRepository = bookInfoRepository;
-        this.authorRepository = authorRepository;
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public List<BookInfo> getAllBookInfos() {
@@ -69,6 +65,25 @@ public class BookInfoServiceImpl implements BookInfoService {
     @Override
     public String deleteBookInfoById(UUID id) {
         BookInfo bookInfo = bookInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("Book info not found"));
+
+        // Find all books linked to book info (using book repository custom query)
+        List<Book> books = bookRepository.findBooksByBookInfoId(bookInfo.getId());
+        System.out.println(books);
+
+        // Loop thru books
+        for(Book book : books) {
+            // check if file is present
+            if(book.getFile() != null) {
+                // Get file from book
+                File fileFromBook = book.getFile();
+
+                // If it is delete reference to that file in book
+                book.setFile(null);
+
+                // Delete file from database
+                fileRepository.delete(fileFromBook);
+            }
+        }
 
         bookInfoRepository.delete(bookInfo);
         return "Book info with id " + id + " has been deleted.";
