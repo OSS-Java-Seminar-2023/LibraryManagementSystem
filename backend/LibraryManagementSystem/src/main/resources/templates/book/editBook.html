@@ -167,6 +167,10 @@
             <input id="input-file" type="file" name="file" accept="image/png, image/jpeg"/>
         </div>
 
+<!--        <input type="hidden"-->
+<!--               name="${_csrf.parameterName}"-->
+<!--               value="${_csrf.token}"/>-->
+
         <button class="form-submit" type="submit">Edit Book</button>
     </form>
     <a class="back-btn" th:href="@{'/books'}">Back</a>
