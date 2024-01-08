@@ -55,7 +55,9 @@ public class BookServiceImpl implements BookService {
         BookInfo bookInfo = bookInfoRepository.findById(bookDto.getBookInfo()).orElseThrow(() -> new RuntimeException("Book information not found"));
 
         book.setBookInfo(bookInfo);
-        book.setAvailable(true);
+
+        boolean isAvailable = bookDto.getAvailable();
+        book.setAvailable(isAvailable);
 
         // Get file with id
         if(bookDto.getFileId() != null) {
@@ -91,7 +93,9 @@ public class BookServiceImpl implements BookService {
         BookInfo bookInfo = bookInfoRepository.findById(bookDto.getBookInfo()).orElseThrow(() -> new RuntimeException("Book information not found"));
 
         book.setBookInfo(bookInfo);
-        book.setAvailable(true);
+
+        boolean isAvailable = bookDto.getAvailable();
+        book.setAvailable(isAvailable);
 
         // Get file with id
         if(bookDto.getFileId() != null) {

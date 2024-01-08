@@ -282,7 +282,7 @@
                         <p th:text="${book.bookInfo.description}"></p>
                     </div>
                     <div>
-                        <a href="" class="button" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Start Loan</a>
+                        <a href="" class="button" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:if="${book.isAvailable() == true}">Start Loan</a>
                         <a href="" class="button" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Show Loans</a>
                     </div>
                     <div class="card-bottom-category-and-link">

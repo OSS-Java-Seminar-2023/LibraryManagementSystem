@@ -126,6 +126,18 @@
             </div>
 
             <div class="input-group">
+                <label>Is it Available</label>
+                <select class="form-select" name="available" id="available">
+                    <option
+                        th:text="Yes" th:value="${true}"
+                    ></option>
+                    <option
+                            th:text="No" th:value="${false}"
+                    ></option>
+                </select>
+            </div>
+
+            <div class="input-group">
                 <label>Publisher Name</label>
                 <input class="form-control" name="publisherName" required type="text" placeholder="Enter Publisher Name *">
             </div>

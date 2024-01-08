@@ -66,39 +66,3 @@ VALUES ('31b98938-260a-4f99-a124-9cda401f3413', '4475afb0-ef04-4efd-8b84-d956f6b
 
 INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
 VALUES ('6202db28-c92e-49b6-8e2e-324c872763b2', '52106116-330a-4b47-af10-c3cffb99bc27', 'Elsevier', '1980-09-18 01:45:09.0', '978-1-88924-791-5', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('32552d84-1ac7-41a4-a031-c915b78db67d', 'cc5eefb4-2421-40e3-9e1e-184017ef2aad', 'HarperTrophy', '2001-06-28 12:07:49.0', '979-1-562-42450-2', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('316eb0e4-079e-4114-89ea-9ffbfa75725a', '466f5f0c-99ed-4c7a-9168-46bdac5376d5', 'Andrews McMeel Publishing', '2005-04-28 12:58:53.0', '978-1-515-12940-0', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('d1856710-cd49-4bad-8622-df3767078a1e', '74b67f9a-a8e5-4617-9788-54740523f4dc', 'Library of America', '1977-11-13 01:41:14.0', '978-1-243-18749-9', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('93b77dc8-aa98-40c0-a25a-ffcff3bcd692', 'cd5f548b-4f33-4585-8b3b-5d461731e759', 'Lion Hudson', '1993-05-09 04:14:25.0', '979-0-9616567-1-2', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('d9f73f75-da68-42ec-8019-b9b4c6e94964', '235fa03b-7174-42d7-b8d8-5f0a8f08c553', 'Churchill Livingstone', '2003-04-16 17:56:40.0', '979-1-943048-60-0', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('7dfeb1fb-1f5e-4c4d-b297-2ef061c37599', '7e422d93-6995-4035-83ff-eb7f49c34aed', 'New Village Press', '1992-11-12 19:10:04.0', '979-1-8037-8286-6', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('5c94ea87-6cd7-4e79-b23c-3b3637f8d71f', '0e6f0dc5-aa70-4f47-8732-56c9d5e6f46d', 'Ace Books', '2014-12-31 08:33:44.0', '978-1-8278-8355-7', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('a30bc328-059d-451d-89f3-3aefb8e080f3', '8ade89a2-1a11-459d-886e-05b4dd6cf6fe', 'Ten Speed Press', '2001-03-31 07:17:27.0', '978-1-202-25737-9', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('30c3ca6a-cafb-4084-991f-e3ec61e48f5c', '913d6268-5983-4291-a1b3-d3a315601a84', 'Eel Pie Publishing', '1966-02-08 03:35:09.0', '979-0-908695-70-5', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('185ddf1b-60c9-446d-ab49-97cccb4d47a3', '1570429a-f8a6-4da9-a07c-2e9c52de9162', 'Dalkey Archive Press', '1903-09-25 16:58:10.0', '979-0-913959-53-3', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('369ba0c8-ddfa-454c-b291-3eb5b11c6122', '24fb05d1-cac7-4e7b-b2b9-1c10aed3c4b2', 'Pen and Sword Books', '1935-03-31 13:07:28.0', '978-1-9873400-0-6', 'OK', true);
-
-INSERT INTO book ("id","book_info_id", "publisher_name","date_of_publishing", "isbn", "book_status", "available")
-VALUES ('81687c49-0d03-4f33-8266-0e3971a472b2', '19b1f72b-32b5-4145-a3e6-7c81dc8681d5', 'St. Martin''s Press', '1902-08-02 11:22:56.0', '979-1-9731681-1-8', 'OK', true);

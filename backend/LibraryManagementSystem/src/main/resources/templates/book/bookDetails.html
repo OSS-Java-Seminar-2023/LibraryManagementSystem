@@ -309,7 +309,7 @@
                     <img th:if="${(book.image == null || book.image == '') && book.file == null}">
 
                     <div class="book-details-actions">
-                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
+                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:if="${book.isAvailable() == true}">
                             Start Loan
                         </a>
                         <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">

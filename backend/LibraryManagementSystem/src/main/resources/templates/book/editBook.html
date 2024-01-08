@@ -129,6 +129,18 @@
         </div>
 
         <div class="input-group">
+            <label>Is it Available</label>
+            <select class="form-select" name="available" id="available">
+                <option
+                        th:text="Yes" th:value="${true}" th:selected="${book.available == true}"
+                ></option>
+                <option
+                        th:text="No" th:value="${false}" th:selected="${book.available == false}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="input-group">
             <label>Publisher Name</label>
             <input class="form-control" name="publisherName" required type="text" placeholder="Enter Publisher Name *" th:value="${book.publisherName}">
         </div>
@@ -152,7 +164,7 @@
             <label>Image Upload</label>
             <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
             <p class="limit">Limit: 2MB</p>
-            <input id="input-file" type="file" name="file"/>
+            <input id="input-file" type="file" name="file" accept="image/png, image/jpeg"/>
         </div>
 
         <button class="form-submit" type="submit">Edit Book</button>

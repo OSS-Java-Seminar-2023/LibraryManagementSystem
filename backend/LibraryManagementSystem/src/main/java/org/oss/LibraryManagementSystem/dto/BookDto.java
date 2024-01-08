@@ -17,4 +17,9 @@ public class BookDto {
     private UUID bookInfo;
     private String image;
     private UUID fileId;
+    private boolean available;
+
+    public boolean getAvailable() {
+        return this.available;
+    }
 }
