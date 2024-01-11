@@ -281,6 +281,7 @@
 
         <div class="none-found" th:if="${books.size() == 0}"><p>No books found.</p></div>
         <div class="error" th:text="${message}" th:if="${message != null}"></div>
+        <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
         <div class="books-cards-container" th:if="${books.size() > 0}">
             <div class="card" th:each="book : ${books}" th:if="${books.size() > 0}">
                 <div class="card-top">

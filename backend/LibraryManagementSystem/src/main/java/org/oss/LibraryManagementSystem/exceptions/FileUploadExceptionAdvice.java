@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileUploadExceptionAdvice {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public String handleMaxSizeException(RedirectAttributes redirectAttributes, MaxUploadSizeExceededException e, HttpServletRequest req) {
-//        System.out.println(req.getRequestURI());
+        System.out.println(req.getRequestURI());
         redirectAttributes.addFlashAttribute("fileUploadMessage", "File is too large!, Limit is 2MB");
 
         if(req.getRequestURI().contains("saveBook")) {
