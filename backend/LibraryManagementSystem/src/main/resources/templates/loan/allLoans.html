@@ -284,6 +284,23 @@
     .none-found {
         font-size: 1.8rem;
     }
+
+    .back-btn-container {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: start;
+        margin-top: 2rem;
+    }
+
+    .back-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
+    }
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -305,7 +322,7 @@
             </div>
             <div class="total-info">
                 Total loans:
-<!--                <span th:text="${count}">4</span>-->
+                <span th:text="${count}">4</span>
             </div>
         </div>
         <div class="filters">
@@ -349,13 +366,13 @@
             </thead>
 
             <tbody class="table-content">
-            <tr th:each="loan : ${loans}" class="table-content-row">
+            <tr th:each="loan, i: ${loans}" class="table-content-row">
                 <th th:text="${loan.id.toString().substring(0,8)+'...'}" class="id"></th>
                 <td th:text="${loan.member.firstName + ' ' + loan.member.lastName}"></td>
                 <td th:text="${loan.librarian.firstName + ' ' + loan.librarian.lastName}"></td>
-                <td th:text="${loan.dateIssued}"></td>
+                <td th:text="${issuedDates.get(i.index)}"></td>
                 <td>
-                    <span th:if="${loan.dateReturned != null}" th:text="${loan.dateReturned.toString()}"></span>
+                    <span th:if="${loan.dateReturned != null}" th:text="${returnedDates.get(i.index)}"></span>
                     <span th:unless="${loan.dateReturned != null}">Currently, in loan</span>
                 </td>
                 <td th:text="${loan.book.bookInfo.title}"></td>
@@ -389,6 +406,11 @@
             </tr>
             </tbody>
         </table>
+
+        <!--Back button if loan type is different than all-->
+        <div class="back-btn-container">
+            <a class="back-btn" th:href="@{'/loans'}" th:if="${loanType != 'all'}">Back</a>
+        </div>
     </div>
 </div>
 

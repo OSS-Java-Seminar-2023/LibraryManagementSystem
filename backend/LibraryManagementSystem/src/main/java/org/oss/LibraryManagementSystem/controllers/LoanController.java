@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,8 +37,39 @@ public class LoanController {
     public String getAllLoansPage(Model model) {
         var loans = loanService.getAllLoans();
 
+        // Format dates
+        List<String> issuedDates = new ArrayList<>();
+        List<String> returnedDates = new ArrayList<>();
+
+        // Loop thru issued dates
+        for(var loan : loans) {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        }
+
+        // Loop thru returned dates
+        for(var loan : loans) {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        }
+
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "all");
+
+        model.addAttribute("count", loans.size());
+
+        model.addAttribute("issuedDates", issuedDates);
+        model.addAttribute("returnedDates", returnedDates);
         return "loan/allLoans";
     }
 
@@ -50,22 +83,127 @@ public class LoanController {
         // Get all users loans
         List<Loan> loans = loanService.getMyLoans(userData.getId());
 
+        // Format dates
+        List<String> issuedDates = new ArrayList<>();
+        List<String> returnedDates = new ArrayList<>();
+
+        // Loop thru issued dates
+        for(var loan : loans) {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        }
+
+        // Loop thru returned dates
+        for(var loan : loans) {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        }
+
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "myLoans");
+
+        model.addAttribute("count", loans.size());
+
+        model.addAttribute("issuedDates", issuedDates);
+        model.addAttribute("returnedDates", returnedDates);
         return "loan/allLoans";
 
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
-    @GetMapping("/{userId}/current")
-    public String getCurrentLoansPage(@PathVariable UUID userId, Model model) {
+    @GetMapping("/{memberId}/current")
+    public String getCurrentLoansPage(@PathVariable UUID memberId, Model model) {
+        var userData = userRepository.findById(memberId).orElseThrow(() -> new RuntimeException("User not found"));
+        var loans = loanService.getCurrentLoans(memberId);
+
+        // Format dates
+        List<String> issuedDates = new ArrayList<>();
+        List<String> returnedDates = new ArrayList<>();
+
+        // Loop thru issued dates
+        for(var loan : loans) {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        }
+
+        // Loop thru returned dates
+        for(var loan : loans) {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        }
+
+        model.addAttribute("member", userData);
+        model.addAttribute("loans", loans);
+        model.addAttribute("loanType", "current");
+
+        model.addAttribute("count", loans.size());
+
+        model.addAttribute("issuedDates", issuedDates);
+        model.addAttribute("returnedDates", returnedDates);
         return "loan/allLoans";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
-    @GetMapping("/{userId}/previous")
-    public String getPreviousLoansPage(@PathVariable UUID userId, Model model) {
+    @GetMapping("/{memberId}/previous")
+    public String getPreviousLoansPage(@PathVariable UUID memberId, Model model) {
+        var userData = userRepository.findById(memberId).orElseThrow(() -> new RuntimeException("User not found"));
+        var loans = loanService.getPreviousLoans(memberId);
+
+        // Format dates
+        List<String> issuedDates = new ArrayList<>();
+        List<String> returnedDates = new ArrayList<>();
+
+        // Loop thru issued dates
+        for(var loan : loans) {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        }
+
+        // Loop thru returned dates
+        for(var loan : loans) {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        }
+
+        model.addAttribute("member", userData);
+        model.addAttribute("loans", loans);
+        model.addAttribute("loanType", "previous");
+
+        model.addAttribute("count", loans.size());
+
+        model.addAttribute("issuedDates", issuedDates);
+        model.addAttribute("returnedDates", returnedDates);
         return "loan/allLoans";
     }
 
@@ -75,10 +213,40 @@ public class LoanController {
         var loans = loanService.getLoansOfBook(bookId);
         var book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
+        // Format dates
+        List<String> issuedDates = new ArrayList<>();
+        List<String> returnedDates = new ArrayList<>();
+
+        // Loop thru issued dates
+        for(var loan : loans) {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        }
+
+        // Loop thru returned dates
+        for(var loan : loans) {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        }
+
         model.addAttribute("loans", loans);
         model.addAttribute("book", book);
         model.addAttribute("loanType", "bookLoans");
 
+        model.addAttribute("count", loans.size());
+
+        model.addAttribute("issuedDates", issuedDates);
+        model.addAttribute("returnedDates", returnedDates);
         return "loan/allLoans";
     }
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")

@@ -35,12 +35,12 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<Loan> getCurrentLoans(UUID userId) {
-        return null;
+        return loanRepository.findByMemberIdAndDateReturnedIsNull(userId);
     }
 
     @Override
     public List<Loan> getPreviousLoans(UUID userId) {
-        return null;
+        return loanRepository.findByMemberIdAndDateReturnedIsNotNull(userId);
     }
 
     @Override
