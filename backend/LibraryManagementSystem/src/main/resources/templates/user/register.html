@@ -12,7 +12,7 @@
 
     .register-left {
         width: 60%;
-        height: 120dvh;
+        height: 140dvh;
         background: linear-gradient(141deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
     }
 
@@ -50,6 +50,48 @@
         display: flex;
         flex-direction: column;
         margin-bottom: 2.4rem;
+    }
+
+    .input-group div {
+        padding: 1rem 0;
+        font-size: 1.6rem;
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+
+    .input-group div>input {
+        font-size: 1.6rem;
+        border: none;
+        outline: none;
+    }
+
+    .input-group .password {
+        display: flex;
+        padding: 1rem 0;
+        font-size: 1.6rem;
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+
+    .input-group .password input {
+        width: 90%;
+    }
+
+    .input-group .password div {
+        width: 10%;
+        background: none;
+        border: none;
+        outline: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input-group .password div i {
+        font-size: 2rem;
     }
 
     .input-group label {
@@ -108,35 +150,53 @@
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">First name</label>
-                <input type="text" class="form-control" name="firstName" required placeholder="Enter your first name">
+                <div>
+                    <input type="text" class="form-control" name="firstName" required placeholder="Enter your first name">
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Last name</label>
-                <input type="text" class="form-control" name="lastName" required placeholder="Enter your last name">
+                <div>
+                    <input type="text" class="form-control" name="lastName" required placeholder="Enter your last name">
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Username</label>
-                <input type="text" class="form-control" name="username" required placeholder="Enter your desired username">
+                <div>
+                    <input type="text" class="form-control" name="username" required placeholder="Enter your desired username">
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Email</label>
-                <input type="text" class="form-control" name="email" required placeholder="Enter your E-mail">
+                <div>
+                    <input type="text" class="form-control" name="email" required placeholder="Enter your E-mail">
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Password</label>
-                <input id="password-field" type="password" name="password" class="form-control" required placeholder="Enter your password">
+                <div class="password">
+                    <input id="password-field" type="password" name="password" class="form-control" required placeholder="Enter your password">
+                    <div class="password-visible-btn" onclick="togglePasswordVisibility()"><i class="bi bi-eye-fill"></i></div>
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Confirm password</label>
-                <input id="password-field-confirm" type="password" name="confirmPassword" class="form-control" required placeholder="Confirm your password">
+                <div class="password">
+                    <input id="password-field-confirm" type="password" name="confirmPassword" class="form-control" required placeholder="Confirm your password">
+                    <div class="confirm-password-visible-btn" onclick="toggleConfirmPasswordVisible()"><i class="bi bi-eye-fill"></i></div>
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Contact number</label>
-                <input type="number" class="form-control" name="contactNumber" required placeholder="Enter your phone mumber">
+                <div>
+                    <input type="number" class="form-control" name="contactNumber" required placeholder="Enter your phone mumber">
+                </div>
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Date of birth</label>
-                <input type="date" class="form-control" name="dateOfBirth" required>
+                <div>
+                    <input type="date" class="form-control" name="dateOfBirth" required>
+                </div>
             </div>
             <div class="register-button-container">
                 <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign up</button>
@@ -144,5 +204,33 @@
             </div>
         </form>
     </div>
+</div>
 </body>
+<script>
+    const togglePasswordVisibility = () => {
+        var passwordField = document.getElementById('password-field');
+        var passwordVisibleBtn = document.querySelector('.password-visible-btn');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+        } else {
+            passwordField.type = 'password';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+        }
+    }
+
+    const toggleConfirmPasswordVisible = () => {
+        var passwordField = document.getElementById('password-field-confirm');
+        var passwordVisibleBtn = document.querySelector('.confirm-password-visible-btn');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+        } else {
+            passwordField.type = 'password';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+        }
+    }
+</script>
 </html>

@@ -66,12 +66,48 @@
         font-size: 2rem;
         color: var(--primary500);
     }
-    .input-group input {
+
+    .input-group div {
         padding: 1rem 0;
         font-size: 1.6rem;
         border: none;
         border-bottom: 2px solid black;
         outline: none;
+    }
+
+    .input-group div>input {
+        font-size: 1.6rem;
+        border: none;
+        outline: none;
+    }
+
+    .input-group .password {
+        display: flex;
+        width: 100%;
+        padding: 1rem 0;
+        font-size: 1.6rem;
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+
+    .input-group .password input {
+        width: 90%;
+    }
+
+    .input-group .password div {
+        width: 10%;
+        background: none;
+        border: none;
+        outline: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input-group .password div i {
+        font-size: 2rem;
     }
 
     .input-group input::placeholder {
@@ -121,11 +157,16 @@
             </div>
             <div class="input-group">
                 <label class="form-control-placeholder">Username</label>
-                <input type="text" class="form-control" name="username" required placeholder="Enter your username">
+                <div>
+                    <input type="text" class="form-control" name="username" required placeholder="Enter your username">
+                </div>
             </div>
-            <div class="input-group">
+            <div class="input-group password">
                 <label class="form-control-placeholder">Password</label>
-                <input id="password-field" type="password" name="password" class="form-control" require placeholder="*******"d>
+                <div class="password">
+                    <input id="password-field" type="password" name="password" class="form-control" required placeholder="*******">
+                    <div class="password-visible-btn" onclick="togglePasswordVisibility()"><i class="bi bi-eye-fill"></i></div>
+                </div>
             </div>
             <div class="login-button-container">
                 <button type="submit" class="form-control btn btn-primary rounded submit px-3">Log In</button>
@@ -136,4 +177,18 @@
     </div>
 </div>
 </body>
+<script>
+    const togglePasswordVisibility = () => {
+        const passwordField = document.getElementById('password-field');
+        const passwordVisibleBtn = document.querySelector('.password-visible-btn');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+        } else {
+            passwordField.type = 'password';
+            passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+        }
+    }
+</script>
 </html>
