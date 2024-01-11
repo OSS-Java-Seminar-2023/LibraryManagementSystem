@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="login-button-container">
-                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Log In</button>
+                <button type="submit" class="login-btn submit" onclick="initLoadingSpinner()">Log In</button>
 
                 <p class="text-center">Not a member? <a th:href="@{/users/register}">Sign Up</a></p>
             </div>
@@ -189,6 +189,11 @@
             passwordField.type = 'password';
             passwordVisibleBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
         }
+    }
+
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
     }
 </script>
 </html>
