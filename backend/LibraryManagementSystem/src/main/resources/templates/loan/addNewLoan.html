@@ -97,9 +97,15 @@
             </select>
         </div>
 
-        <button class="form-submit" type="submit">Create Loan</button>
+        <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Create Loan</button>
     </form>
     <a class="back-btn" th:href="@{'/loans'}">Back to all Loans</a>
 </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>
