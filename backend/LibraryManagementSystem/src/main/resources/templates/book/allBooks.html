@@ -200,6 +200,18 @@
     .none-found {
         font-size: 1.8rem;
     }
+
+    .error {
+        background-color: var(--error-bg);
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        color: var(--error-text);
+        border: 0.4px solid var(--error-text);
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        margin-top: 1rem;
+    }
+
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -268,6 +280,7 @@
         </div>
 
         <div class="none-found" th:if="${books.size() == 0}"><p>No books found.</p></div>
+        <div class="error" th:text="${message}" th:if="${message != null}"></div>
         <div class="books-cards-container" th:if="${books.size() > 0}">
             <div class="card" th:each="book : ${books}" th:if="${books.size() > 0}">
                 <div class="card-top">

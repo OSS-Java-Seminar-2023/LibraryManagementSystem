@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class LoanController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final EmailService emailService;
+
+    private final int MAX_LOANS = 3;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
@@ -275,14 +278,22 @@ public class LoanController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/{bookId}/saveLoan")
-    public String startLoan (@PathVariable UUID bookId, @ModelAttribute("loanPayload") LoanDto loanDto) {
-        // Save loan to database
-        var loan = loanService.createLoan(bookId, loanDto);
+    public String startLoan (@PathVariable UUID bookId, @ModelAttribute("loanPayload") LoanDto loanDto, RedirectAttributes redirectAttributes) {
+        // Check if member has more than max laons
+        var numberOfMembersCurrentActiveLoans = loanRepository.countByMemberIdAndDateReturnedIsNull(loanDto.getMemberId());
 
-        // Send email to user
-        emailService.sendEmail(loan.getMember().getEmail(), "Library Management System - Loan started", "<h1>Loan started</h1><p>Loan for book " + "<b>" + loan.getBook().getBookInfo().getTitle() + "</b>" +  " has been started on your name on date <b>" + loan.getDateIssued() + "</b>. " + "</p>");
+        if(numberOfMembersCurrentActiveLoans >= MAX_LOANS) {
+            redirectAttributes.addFlashAttribute("message", "Max loans reached for Member. Max active loans at one time is " + MAX_LOANS + " loans.");
+            return "redirect:/books";
+        } else {
+            // Save loan to database
+            var loan = loanService.createLoan(bookId, loanDto);
 
-        return "redirect:/loans";
+            // Send email to user
+            emailService.sendEmail(loan.getMember().getEmail(), "Library Management System - Loan started", "<h1>Loan started</h1><p>Loan for book " + "<b>" + loan.getBook().getBookInfo().getTitle() + "</b>" +  " has been started on your name on date <b>" + loan.getDateIssued() + "</b>. " + "</p>");
+
+            return "redirect:/loans";
+        }
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")

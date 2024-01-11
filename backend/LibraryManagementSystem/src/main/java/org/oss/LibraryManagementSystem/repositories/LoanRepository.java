@@ -17,5 +17,5 @@ public interface LoanRepository extends JpaRepository<Loan, UUID> {
 
     List<Loan> findByMemberIdAndDateReturnedIsNotNull(UUID memberId);
 
-    int countByMemberIdAndDateReturnedIsNotNull(UUID memberId);
+    int countByMemberIdAndDateReturnedIsNull(UUID memberId);
 }

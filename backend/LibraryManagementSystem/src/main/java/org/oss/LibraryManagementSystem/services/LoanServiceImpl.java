@@ -53,8 +53,9 @@ public class LoanServiceImpl implements LoanService {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
         // Check if books is available
         // Get count of current loans of user
+        var numberOfMembersCurrentActiveLoans = loanRepository.countByMemberIdAndDateReturnedIsNull(loanDto.getMemberId());
 
-        if(book != null && book.isAvailable() && book.getBookStatus().name().equals("OK")) {
+        if(book != null && book.isAvailable() && book.getBookStatus().name().equals("OK") && numberOfMembersCurrentActiveLoans < MAX_LOANS) {
             Loan loan = new Loan();
             loan.setBook(book);
             // Get current user id as librarian
