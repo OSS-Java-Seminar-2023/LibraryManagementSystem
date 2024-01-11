@@ -8,7 +8,14 @@ import java.util.UUID;
 
 public interface LoanRepository extends JpaRepository<Loan, UUID> {
 
+    List<Loan> findAll();
     List<Loan> findByBookId(UUID bookId);
 
     List<Loan> findByMemberId(UUID memberId);
+
+    List<Loan> findByMemberIdAndDateReturnedIsNull(UUID memberId);
+
+    List<Loan> findByMemberIdAndDateReturnedIsNotNull(UUID memberId);
+
+    int countByMemberIdAndDateReturnedIsNotNull(UUID memberId);
 }

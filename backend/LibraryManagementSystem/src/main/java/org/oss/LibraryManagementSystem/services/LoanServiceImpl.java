@@ -50,7 +50,6 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan createLoan(UUID bookId, LoanDto loanDto) {
-        System.out.println(loanDto);
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
         // Check if books is available
         // Get count of current loans of user
