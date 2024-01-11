@@ -11,7 +11,12 @@
     }
 
     .container-loans h1 {
-        font-size: 2.8rem;
+        font-size: 4.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .container-loans h2 {
+        font-size: 2.4rem;
         margin-bottom: 1.2rem;
     }
 
@@ -287,6 +292,7 @@
     <h1 th:if="${loanType == 'myLoans'}">My Loans</h1>
     <h1 th:if="${loanType == 'previous'}">Previous Loans</h1>
     <h1 th:if="${loanType == 'current'}">Current Loans</h1>
+    <h1 th:if="${loanType == 'bookLoans'}">Book Loans</h1>
 
     <h2 th:if="${member != null && loanType != 'myLoans'}" th:text="${'For member: ' + member.firstName + ' ' + member.lastName + ' (' + member.email + ') '}"></h2>
 
@@ -348,7 +354,10 @@
                 <td th:text="${loan.member.firstName + ' ' + loan.member.lastName}"></td>
                 <td th:text="${loan.librarian.firstName + ' ' + loan.librarian.lastName}"></td>
                 <td th:text="${loan.dateIssued}"></td>
-                <td th:text="${loan.dateReturned}"></td>
+                <td>
+                    <span th:if="${loan.dateReturned != null}" th:text="${loan.dateReturned.toString()}"></span>
+                    <span th:unless="${loan.dateReturned != null}">Currently, in loan</span>
+                </td>
                 <td th:text="${loan.book.bookInfo.title}"></td>
                 <td class="actions-row" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                     <div>
@@ -367,7 +376,7 @@
                     <div>
                         <a class="delete-btn"
                            role="button"
-                           th:href="@{/loans/{bookId}/end(bookId=${loan.book.id})}"
+                           th:href="@{/loans/{loanId}/end(loanId=${loan.id})}"
                            th:if="${loan.dateReturned == null}"
                            th:bookTitle="${loan.book.bookInfo.title}"
                            th:member="${loan.member.firstName + ' ' + loan.member.lastName}"

@@ -8,6 +8,7 @@ import org.oss.LibraryManagementSystem.repositories.BookRepository;
 import org.oss.LibraryManagementSystem.repositories.LoanRepository;
 import org.oss.LibraryManagementSystem.repositories.RoleRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
+import org.oss.LibraryManagementSystem.services.EmailService;
 import org.oss.LibraryManagementSystem.services.LoanService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,7 @@ public class LoanController {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final EmailService emailService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
@@ -70,6 +72,13 @@ public class LoanController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/book/{bookId}")
     public String getLoansOfBookPage(@PathVariable UUID bookId, Model model) {
+        var loans = loanService.getLoansOfBook(bookId);
+        var book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        model.addAttribute("loans", loans);
+        model.addAttribute("book", book);
+        model.addAttribute("loanType", "bookLoans");
+
         return "loan/allLoans";
     }
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
@@ -98,18 +107,25 @@ public class LoanController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/{bookId}/saveLoan")
-    public String saveLoan(@PathVariable UUID bookId, @ModelAttribute("loanPayload") LoanDto loanDto) {
+    public String startLoan (@PathVariable UUID bookId, @ModelAttribute("loanPayload") LoanDto loanDto) {
         // Save loan to database
         var loan = loanService.createLoan(bookId, loanDto);
 
         // Send email to user
+        emailService.sendEmail(loan.getMember().getEmail(), "Library Management System - Loan started", "<h1>Loan started</h1><p>Loan for book " + "<b>" + loan.getBook().getBookInfo().getTitle() + "</b>" +  " has been started on your name on date <b>" + loan.getDateIssued() + "</b>. " + "</p>");
 
         return "redirect:/loans";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
-    @GetMapping("/{bookId}/end")
-    public String endLoan(@PathVariable UUID bookId, Model model) {
+    @GetMapping("/{loanId}/end")
+    public String endLoan(@PathVariable UUID loanId, Model model) {
+        // End loan
+        var loan = loanService.endLoan(loanId);
+
+        // Send email to user
+        emailService.sendEmail(loan.getMember().getEmail(), "Library Management System - Loan ended", "<h1>Loan ended</h1><p>Loan for book " + "<b>" + loan.getBook().getBookInfo().getTitle() + "</b>" + " has been ended on your name on date <b>" + loan.getDateReturned() + "</b>. " + "</p>");
+
         return "redirect:/loans";
     }
 

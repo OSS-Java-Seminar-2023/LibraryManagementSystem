@@ -19,5 +19,5 @@ public interface LoanService {
 
     Loan createLoan(UUID bookId, LoanDto loanDto);
 
-    Loan endLoan(UUID id);
+    Loan endLoan(UUID loanId);
 }

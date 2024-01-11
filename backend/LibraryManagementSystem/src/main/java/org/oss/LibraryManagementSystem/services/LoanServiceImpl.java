@@ -80,7 +80,21 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan endLoan(UUID id) {
+    public Loan endLoan(UUID loanId) {
+        var loan = loanRepository.findById(loanId).orElseThrow(() -> new RuntimeException("Loan not found"));
+        var book = bookRepository.findById(loan.getBook().getId()).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        if(loan != null && book != null && loan.getDateReturned() == null) {
+            var dateReturned = new Timestamp(System.currentTimeMillis());
+
+            loan.setDateReturned(dateReturned);
+
+            book.setAvailable(true);
+            bookRepository.save(book);
+
+            return loanRepository.save(loan);
+        }
+
         return null;
     }
 }
