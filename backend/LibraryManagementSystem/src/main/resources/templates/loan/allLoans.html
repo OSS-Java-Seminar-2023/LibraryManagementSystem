@@ -409,7 +409,7 @@
 
         <!--Back button if loan type is different than all-->
         <div class="back-btn-container">
-            <a class="back-btn" th:href="@{'/loans'}" th:if="${loanType != 'all'}">Back</a>
+            <a class="back-btn" th:href="@{'/loans'}" th:if="${loanType != 'all' && loanType != 'myLoans'}">Back</a>
         </div>
     </div>
 </div>
