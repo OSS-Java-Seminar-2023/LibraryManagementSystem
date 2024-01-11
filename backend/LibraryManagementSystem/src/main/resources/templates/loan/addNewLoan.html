@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Loan</title>
+    <th:block th:insert="~{fragments/head :: head}"></th:block>
+</head>
+<style>
+    .add-loan-container {
+        padding: 4rem var(--padding-container);
+    }
+
+    .add-loan-container h1 {
+        font-size: 2.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .add-loan-form {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 2.4rem;
+    }
+
+    .input-group label {
+        font-size: 1.8rem;
+        color: var(--primary500);
+    }
+    .input-group input {
+        padding: 1rem 0;
+        font-size: 1.6rem;
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+    }
+
+    .input-group input::placeholder {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-select {
+        margin-top: 1rem;
+        width: 30%;
+        background-color: var(--primary400);
+        border-radius: .4rem;
+        padding: 1rem;
+        text-align: center;
+        color: var(--primary600);
+        border: none;
+        text-align: start;
+    }
+
+    .form-select:focus {
+        border: none;
+        outline: none;
+    }
+
+    .form-submit {
+        border: none;
+        outline: none;
+        background: var(--primary500);
+        color: white;
+        padding: 1rem 1.4rem;
+        font-size: 1.6rem;
+        border-radius: .4rem;
+        margin-bottom: 2rem;
+    }
+
+    .back-btn {
+        font-size: 1.6rem;
+        text-decoration: none;
+        margin-top: 4rem;
+        border-radius: .4rem;
+        padding: 1rem 1.6rem;
+        border: 0.4px solid black;
+        color: black;
+    }
+</style>
+<body>
+<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+
+<div class="add-loan-container">
+    <h1>Add new Loan</h1>
+
+    <form class="add-loan-form" method="POST" th:action="@{/loans/{bookId}/saveLoan(bookId=${book.id})}">
+        <div class="input-group">
+            <label>Member </label>
+            <select class="form-select" name="memberId" required>
+                <option th:each="member: ${memberOptions}"
+                        th:text="${member.firstName + ' ' + member.lastName}" th:value="${member.id}"
+                ></option>
+            </select>
+        </div>
+
+        <button class="form-submit" type="submit">Create Loan</button>
+    </form>
+    <a class="back-btn" th:href="@{'/loans'}">Back to all Loans</a>
+</div>
+</body>
+</html>

@@ -8,8 +8,8 @@ import java.util.UUID;
 @Data
 public class LoanDto {
     private UUID id;
-    private UUID member;
-    private UUID librarian;
+    private UUID memberId;
+    private UUID librarianId;
     private Date dateIssued;
     private Date dateReturned;
     private UUID book;

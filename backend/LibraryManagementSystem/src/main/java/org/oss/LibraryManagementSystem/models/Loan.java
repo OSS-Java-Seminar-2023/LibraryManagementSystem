@@ -33,10 +33,8 @@ public class Loan {
     private Book book;
 
     @Column(name = "date_issued")
-    @NotNull(message = "date_issued shouldn't be null")
     private Timestamp dateIssued;
 
     @Column(name = "date_returned")
-    @NotNull(message = "date_returned shouldn't be null")
     private Timestamp dateReturned;
 }

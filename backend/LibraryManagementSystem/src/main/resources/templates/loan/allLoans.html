@@ -2,24 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>All Categories</title>
+    <title>All Loans</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
 </head>
 <style>
-    .container-categories {
+    .container-loans {
         padding: 4rem 12rem;
     }
 
-    .container-categories h1 {
+    .container-loans h1 {
         font-size: 2.8rem;
         margin-bottom: 1.2rem;
     }
 
-    .categories-stats-filters {
+    .loans-stats-filters {
         display: flex;
+        margin-bottom: 2rem;
     }
 
-    .total-categories {
+    .total-loans {
         background-color: var(--bg700);
         display: flex;
         align-items: center;
@@ -280,102 +281,122 @@
     }
 </style>
 <body>
-    <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
-    <div class="container-categories">
-        <h1>Categories</h1>
+<th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
+<div class="container-loans">
+    <h1 th:if="${loanType == 'all' || loanType == null}">Loans</h1>
+    <h1 th:if="${loanType == 'myLoans'}">My Loans</h1>
+    <h1 th:if="${loanType == 'previous'}">Previous Loans</h1>
+    <h1 th:if="${loanType == 'current'}">Current Loans</h1>
 
-        <div class="categories-stats-filters" th:if="${categories.size() > 0}">
-            <div class="total-categories">
-                <div class="total-icon">
-                    <i class="bi bi-file-earmark"></i>
-                </div>
-                <div class="total-info">
-                    Total categories:
-                    <span th:text="${count}">4</span>
-                </div>
+    <h2 th:if="${member != null && loanType != 'myLoans'}" th:text="${'For member: ' + member.firstName + ' ' + member.lastName + ' (' + member.email + ') '}"></h2>
+
+    <h2 th:if="${book != null}" th:text="${'For book: ' + book.bookInfo.title + ' (' + book.isbn + ') '}"></h2>
+
+    <div class="loans-stats-filters" th:if="${loans.size() > 0}">
+        <div class="total-loans">
+            <div class="total-icon">
+                <i class="bi bi-file-earmark"></i>
             </div>
-            <div class="filters">
-                <div class="search-input">
-                    <input type="text" name="search" id="search" placeholder="Search categories">
-                    <button><i class="bi bi-search"></i></button>
-                </div>
-
-                <div class="filter-container">
-                    <label for="pageSize">Items per page</label>
-                    <select class="form-select" id="pageSize" name="size"
-                            onchange="changePageSize()" th:value="${pageSize}"
-                    >
-                        <option th:selected="${5 == pageSize}" th:text="5" th:value="5"></option>
-                        <option th:selected="${7 == pageSize}" th:text="7" th:value="7"></option>
-                        <option th:selected="${10 == pageSize}" th:text="10" th:value="10"></option>
-                    </select>
-                </div>
+            <div class="total-info">
+                Total loans:
+<!--                <span th:text="${count}">4</span>-->
             </div>
         </div>
-
-        <div class="action-buttons">
-            <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/categories/add}">Add new Category</a>
-        </div>
-
-        <div class="table-container">
-            <div class="none-found" th:if="${categories.size() == 0}"><p>No categories found.</p></div>
-            <table class="table" th:if="${categories.size() > 0}">
-                <thead class="table-head">
-                    <tr>
-                        <th class="id-header"># Id</th>
-                        <th>
-                            <a href="">
-                                Name
-                                <i class="bi bi-sort-up"></i>
-                            </a>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody class="table-content">
-                    <tr th:each="category : ${categories}" class="table-content-row">
-                        <th th:text="${category.id.toString().substring(0,8)+'...'}" class="id"></th>
-                        <td th:text="${category.name}"></td>
-                        <td class="actions-row">
-                            <div>
-                                <a class="action-btn" th:href="@{/categories/edit/{categoryId}(categoryId=${category.id})}"
-                                   title="Edit Category">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                            </div>
-                            <div>
-                                <a class="delete-btn"
-                                   role="button"
-                                   th:href="@{/categories/delete/{categoryId}(categoryId=${category.id})}"
-                                   sec:authorize="hasAnyAuthority('ADMIN')"
-                                   th:categoryName="${category.name}"
-                                   title="Delete Category"
-                                >
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="filters">
+            <div class="filter-container">
+                <label for="pageSize">Items per page</label>
+                <select class="form-select" id="pageSize" name="size"
+                        onchange="changePageSize()" th:value="${pageSize}"
+                >
+                    <option th:selected="${5 == pageSize}" th:text="5" th:value="5"></option>
+                    <option th:selected="${7 == pageSize}" th:text="7" th:value="7"></option>
+                    <option th:selected="${10 == pageSize}" th:text="10" th:value="10"></option>
+                </select>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="deleteModal">
-        <div class="delete-modal">
-            <div class="modal-header">
-                <h1>Confirm Delete</h1>
-            </div>
-            <div class="modal-body">
-                <p><span id="confirmText"></span></p>
-            </div>
-            <div class="modal-footer">
-                <a class="yes-btn" id="yesBtn" type="button">Delete Category</a>
-                <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
-            </div>
+    <div class="table-container">
+        <div class="none-found" th:if="${loans.size() == 0}"><p>No loans found.</p></div>
+        <table class="table" th:if="${loans.size() > 0}">
+            <thead class="table-head">
+            <tr>
+                <th class="id-header"># Id</th>
+                <th>Member</th>
+                <th>Librarian</th>
+                <th>
+                    <a href="">
+                        Date Issued
+                        <i class="bi bi-sort-up"></i>
+                    </a>
+                </th>
+                <th>
+                    <a href="">
+                        Date Returned
+                        <i class="bi bi-sort-up"></i>
+                    </a>
+                </th>
+
+                <th>Book</th>
+                <th sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody class="table-content">
+            <tr th:each="loan : ${loans}" class="table-content-row">
+                <th th:text="${loan.id.toString().substring(0,8)+'...'}" class="id"></th>
+                <td th:text="${loan.member.firstName + ' ' + loan.member.lastName}"></td>
+                <td th:text="${loan.librarian.firstName + ' ' + loan.librarian.lastName}"></td>
+                <td th:text="${loan.dateIssued}"></td>
+                <td th:text="${loan.dateReturned}"></td>
+                <td th:text="${loan.book.bookInfo.title}"></td>
+                <td class="actions-row" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
+                    <div>
+                        <a class="action-btn" th:href="@{/loans/{memberId}/current(memberId=${loan.member.id})}"
+                           title="Current Loans">
+                            Current Loans
+                        </a>
+                    </div>
+                    <div>
+                        <a class="action-btn" th:href="@{/loans/{memberId}/previous(memberId=${loan.member.id})}"
+                           title="Previous Loans">
+                            Previous Loans
+                        </a>
+                    </div>
+
+                    <div>
+                        <a class="delete-btn"
+                           role="button"
+                           th:href="@{/loans/{bookId}/end(bookId=${loan.book.id})}"
+                           th:if="${loan.dateReturned == null}"
+                           th:bookTitle="${loan.book.bookInfo.title}"
+                           th:member="${loan.member.firstName + ' ' + loan.member.lastName}"
+                           title="End loan"
+                        >
+                            End Loan
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-overlay" id="deleteModal">
+    <div class="delete-modal">
+        <div class="modal-header">
+            <h1>Confirm End Loan</h1>
+        </div>
+        <div class="modal-body">
+            <p><span id="confirmText"></span></p>
+        </div>
+        <div class="modal-footer">
+            <a class="yes-btn" id="yesBtn" type="button">End Loan</a>
+            <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
         </div>
     </div>
+</div>
 </body>
 
 <script type="text/javascript">
@@ -387,10 +408,11 @@
         btn.addEventListener("click", (e) => {
             e.preventDefault();
             let href = btn.getAttribute("href");
-            let categoryName = btn.getAttribute("categoryName");
+            let bookTitle = btn.getAttribute("bookTitle");
+            let member = btn.getAttribute("member");
 
             const confirmText = document.querySelector("#confirmText");
-            confirmText.innerHTML = "Are you sure you want to delete category: \<b\>" + categoryName + "\<\/b\>?";
+            confirmText.innerHTML = "Are you sure you want to end loan for book: \<b\>" + bookTitle + "\<\/b\>" + "\<br>" + " made by member: \<b\>" + member + "\<\/b\>?";
 
             const yesBtn = document.querySelector(".yes-btn");
             yesBtn.href = href;

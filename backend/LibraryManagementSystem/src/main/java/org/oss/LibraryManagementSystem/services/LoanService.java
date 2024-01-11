@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface LoanService {
     List<Loan> getAllLoans();
 
+    List<Loan> getMyLoans(UUID userId);
+
     List<Loan> getCurrentLoans(UUID userId);
 
     List<Loan> getPreviousLoans(UUID userId);

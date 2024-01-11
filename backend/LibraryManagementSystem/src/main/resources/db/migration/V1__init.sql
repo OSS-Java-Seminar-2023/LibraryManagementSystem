@@ -68,9 +68,9 @@ CREATE TABLE Book (
 
 CREATE TABLE Loan (
     id UUID NOT NULL PRIMARY KEY,
-    memberId UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
-    librarianId UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
-    bookId UUID NOT NULL REFERENCES Book(id) ON DELETE CASCADE,
-    dateIssued DATE,
-    dateReturned DATE
+    member_Id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    librarian_Id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    book_Id UUID NOT NULL REFERENCES Book(id) ON DELETE CASCADE,
+    date_issued DATE,
+    date_returned DATE
 );
