@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +25,36 @@ public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+
+    @Override
+    public List<String> formatIssudedDated(List<Loan> loans) {
+        List<String> issuedDates = new ArrayList<>();
+        loans.stream().forEach(loan -> {
+            if(loan.getDateIssued() == null) {
+                issuedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateIssued());
+                issuedDates.add(formattedDate);
+            }
+        });
+        return issuedDates;
+    }
+
+    @Override
+    public List<String> formatReturnDates(List<Loan> loans) {
+        List<String> returnedDates = new ArrayList<>();
+        loans.stream().forEach(loan -> {
+            if(loan.getDateReturned() == null) {
+                returnedDates.add("null");
+            } else {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                String formattedDate = dateFormat.format(loan.getDateReturned());
+                returnedDates.add(formattedDate);
+            }
+        });
+        return returnedDates;
+    }
 
     @Override
     public List<Loan> getAllLoans() {

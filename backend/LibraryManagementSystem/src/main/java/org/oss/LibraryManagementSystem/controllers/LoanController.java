@@ -41,30 +41,8 @@ public class LoanController {
         var loans = loanService.getAllLoans();
 
         // Format dates
-        List<String> issuedDates = new ArrayList<>();
-        List<String> returnedDates = new ArrayList<>();
-
-        // Loop thru issued dates
-        for(var loan : loans) {
-            if(loan.getDateIssued() == null) {
-                issuedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateIssued());
-                issuedDates.add(formattedDate);
-            }
-        }
-
-        // Loop thru returned dates
-        for(var loan : loans) {
-            if(loan.getDateReturned() == null) {
-                returnedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateReturned());
-                returnedDates.add(formattedDate);
-            }
-        }
+        List<String> issuedDates = loanService.formatIssudedDated(loans);
+        List<String> returnedDates = loanService.formatReturnDates(loans);
 
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "all");
@@ -87,30 +65,8 @@ public class LoanController {
         List<Loan> loans = loanService.getMyLoans(userData.getId());
 
         // Format dates
-        List<String> issuedDates = new ArrayList<>();
-        List<String> returnedDates = new ArrayList<>();
-
-        // Loop thru issued dates
-        for(var loan : loans) {
-            if(loan.getDateIssued() == null) {
-                issuedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateIssued());
-                issuedDates.add(formattedDate);
-            }
-        }
-
-        // Loop thru returned dates
-        for(var loan : loans) {
-            if(loan.getDateReturned() == null) {
-                returnedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateReturned());
-                returnedDates.add(formattedDate);
-            }
-        }
+        List<String> issuedDates = loanService.formatIssudedDated(loans);
+        List<String> returnedDates = loanService.formatReturnDates(loans);
 
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
@@ -131,30 +87,8 @@ public class LoanController {
         var loans = loanService.getCurrentLoans(memberId);
 
         // Format dates
-        List<String> issuedDates = new ArrayList<>();
-        List<String> returnedDates = new ArrayList<>();
-
-        // Loop thru issued dates
-        for(var loan : loans) {
-            if(loan.getDateIssued() == null) {
-                issuedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateIssued());
-                issuedDates.add(formattedDate);
-            }
-        }
-
-        // Loop thru returned dates
-        for(var loan : loans) {
-            if(loan.getDateReturned() == null) {
-                returnedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateReturned());
-                returnedDates.add(formattedDate);
-            }
-        }
+        List<String> issuedDates = loanService.formatIssudedDated(loans);
+        List<String> returnedDates = loanService.formatReturnDates(loans);
 
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
@@ -174,30 +108,8 @@ public class LoanController {
         var loans = loanService.getPreviousLoans(memberId);
 
         // Format dates
-        List<String> issuedDates = new ArrayList<>();
-        List<String> returnedDates = new ArrayList<>();
-
-        // Loop thru issued dates
-        for(var loan : loans) {
-            if(loan.getDateIssued() == null) {
-                issuedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateIssued());
-                issuedDates.add(formattedDate);
-            }
-        }
-
-        // Loop thru returned dates
-        for(var loan : loans) {
-            if(loan.getDateReturned() == null) {
-                returnedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateReturned());
-                returnedDates.add(formattedDate);
-            }
-        }
+        List<String> issuedDates = loanService.formatIssudedDated(loans);
+        List<String> returnedDates = loanService.formatReturnDates(loans);
 
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
@@ -217,30 +129,8 @@ public class LoanController {
         var book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
         // Format dates
-        List<String> issuedDates = new ArrayList<>();
-        List<String> returnedDates = new ArrayList<>();
-
-        // Loop thru issued dates
-        for(var loan : loans) {
-            if(loan.getDateIssued() == null) {
-                issuedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateIssued());
-                issuedDates.add(formattedDate);
-            }
-        }
-
-        // Loop thru returned dates
-        for(var loan : loans) {
-            if(loan.getDateReturned() == null) {
-                returnedDates.add("null");
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(loan.getDateReturned());
-                returnedDates.add(formattedDate);
-            }
-        }
+        List<String> issuedDates = loanService.formatIssudedDated(loans);
+        List<String> returnedDates = loanService.formatReturnDates(loans);
 
         model.addAttribute("loans", loans);
         model.addAttribute("book", book);

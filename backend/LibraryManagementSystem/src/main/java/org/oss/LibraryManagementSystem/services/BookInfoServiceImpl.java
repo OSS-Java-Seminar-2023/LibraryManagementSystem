@@ -45,8 +45,7 @@ public class BookInfoServiceImpl implements BookInfoService {
         System.out.println(books);
 
         // Loop thru books
-        for(Book book : books) {
-            // check if file is present
+        books.stream().forEach(book -> {
             if(book.getFile() != null) {
                 // Get file from book
                 File fileFromBook = book.getFile();
@@ -57,7 +56,7 @@ public class BookInfoServiceImpl implements BookInfoService {
                 // Delete file from database
                 fileRepository.delete(fileFromBook);
             }
-        }
+        });
 
         bookInfoRepository.delete(bookInfo);
         return "Book info with id " + id + " has been deleted.";

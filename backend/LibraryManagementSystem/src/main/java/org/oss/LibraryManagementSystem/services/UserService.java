@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
+
+    List<String> getUserRoles(User user);
+
+    List<String> formatUserDates(List<User> users);
     boolean areInputsInvalid(UserDto request);
     User registerUser(UserDto request);
 

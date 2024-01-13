@@ -31,6 +31,30 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     @Override
+    public List<String> getUserRoles(User user) {
+        List<String> currentUserRoles = new ArrayList<>();
+
+        user.getRoles().stream().forEach(role -> {
+            currentUserRoles.add(role.getName());
+        });
+
+        return currentUserRoles;
+    }
+
+    @Override
+    public List<String> formatUserDates(List<User> users) {
+        List<String> formatedDates = new ArrayList<>();
+
+        users.stream().forEach(user -> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            String formattedDate = dateFormat.format(user.getDateOfBirth());
+            formatedDates.add(formattedDate);
+        });
+
+        return formatedDates;
+    }
+
+    @Override
     public boolean areInputsInvalid(UserDto request) {
         return Validator.isStringNullOrEmpty(request.getFirstName()) ||
                 Validator.isStringNullOrEmpty(request.getLastName()) ||

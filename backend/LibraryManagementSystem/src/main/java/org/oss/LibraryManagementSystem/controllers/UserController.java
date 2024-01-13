@@ -62,23 +62,14 @@ public class UserController {
         List<User> users = userService.getAllUsers();
 
         var currentUser = userRepository.findByEmail(authentication.getName());
-        var currentUserRoles = new ArrayList<String>();
-        for (var role : currentUser.get().getRoles()) {
-            currentUserRoles.add(role.getName());
-        }
+        List<String> currentUserRoles = userService.getUserRoles(currentUser.get());
 
         var roles = roleRepository.findAll();
 
         long usersCount = userService.getUserCount();
 
         // Format dates
-        List<String> formatedDates = new ArrayList<>();
-
-        for(var user : users) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            String formattedDate = dateFormat.format(user.getDateOfBirth());
-            formatedDates.add(formattedDate);
-        }
+        List<String> formatedDates = userService.formatUserDates(users);
 
         model.addAttribute("count", usersCount);
         model.addAttribute("users", users);
@@ -154,17 +145,12 @@ public class UserController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(user.getDateOfBirth());
 
-        var currentUserRoles = new ArrayList<String>();
-        for (var role : user.getRoles()) {
-            currentUserRoles.add(role.getName());
-        }
+        List<String> currentUserRoles = userService.getUserRoles(user);
 
         model.addAttribute("dateOfBirth", formattedDate);
         model.addAttribute("userRequest", user);
         model.addAttribute("roleOptions", roles);
         model.addAttribute("currentUserRole", currentUserRoles.get(0));
-
-        System.out.println(formattedDate);
 
         return "user/editUser";
     }
@@ -172,7 +158,6 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/updateUser")
     public String updateUser(@ModelAttribute UserDto userRequest) throws ParseException {
-        System.out.println(userRequest);
         User editedUser = userService.editUser(userRequest);
 
         return "redirect:/users";

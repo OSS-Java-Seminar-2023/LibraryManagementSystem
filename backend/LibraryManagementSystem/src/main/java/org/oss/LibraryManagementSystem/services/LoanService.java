@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LoanService {
+
+    List<String> formatIssudedDated(List<Loan> loans);
+
+    List<String> formatReturnDates(List<Loan> loans);
     List<Loan> getAllLoans();
 
     List<Loan> getMyLoans(UUID userId);
