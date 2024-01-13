@@ -69,6 +69,8 @@ public class BookInfoServiceImpl implements BookInfoService {
 
         BookInfo editedBookInfo = bookInfoMapper.bookInfoDtoToBookInfo(bookInfoDto);
 
+        editedBookInfo.setId(bookInfo.getId()); // Preserve current entity id
+
         return bookInfoRepository.save(editedBookInfo);
     }
 

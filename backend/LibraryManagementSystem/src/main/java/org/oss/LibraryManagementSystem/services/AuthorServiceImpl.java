@@ -41,6 +41,8 @@ public class AuthorServiceImpl implements AuthorService {
 
         Author editedAuthor = authorMapper.authorDtoToAuthor(authorDto);
 
+        editedAuthor.setId(author.getId()); // preserve the id of original author
+
         return authorRepository.save(editedAuthor);
     }
 

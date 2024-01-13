@@ -25,7 +25,6 @@ public class EmailService {
             // Sending the mail
             javaMailSender.send(mimeMessage);
         }
-
         // Catch block to handle the exceptions
         catch (Exception e) {
             throw new RuntimeException("error while sending email");

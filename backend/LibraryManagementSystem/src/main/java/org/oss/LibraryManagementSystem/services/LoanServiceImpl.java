@@ -2,6 +2,7 @@ package org.oss.LibraryManagementSystem.services;
 
 import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.LoanDto;
+import org.oss.LibraryManagementSystem.mapper.LoanMapper;
 import org.oss.LibraryManagementSystem.models.Book;
 import org.oss.LibraryManagementSystem.models.Loan;
 import org.oss.LibraryManagementSystem.models.User;
@@ -61,8 +62,9 @@ public class LoanServiceImpl implements LoanService {
             // Get current user id as librarian
             var authentication = SecurityContextHolder.getContext().getAuthentication();
             var librarian = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+            var member = userRepository.findById(loanDto.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
 
-            loan.setMember(userRepository.findById(loanDto.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found")));
+            loan.setMember(member);
             loan.setLibrarian(librarian);
 
             var dateIssued = new Timestamp(System.currentTimeMillis());

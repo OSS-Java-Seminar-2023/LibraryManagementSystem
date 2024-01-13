@@ -20,7 +20,6 @@ public class FileController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println(file);
         try {
             fileService.store(file);
             return ResponseEntity.status(HttpStatus.OK).body("Uploaded the file successfully: \" + file.getOriginalFilename()");
@@ -48,7 +47,6 @@ public class FileController {
 
     @GetMapping("/{id}/delete")
     public void deleteFile(@PathVariable UUID id) {
-        System.out.println(id);
         fileService.deleteFile(id);
     }
 }

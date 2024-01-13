@@ -2,6 +2,7 @@ package org.oss.LibraryManagementSystem.services;
 
 import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.BookDto;
+import org.oss.LibraryManagementSystem.mapper.BookMapper;
 import org.oss.LibraryManagementSystem.models.Book;
 import org.oss.LibraryManagementSystem.models.BookInfo;
 import org.oss.LibraryManagementSystem.models.File;
@@ -23,6 +24,8 @@ public class BookServiceImpl implements BookService {
     private final BookInfoRepository bookInfoRepository;
     private final FileRepository fileRepository;
 
+    private final BookMapper bookMapper;
+
     @Override
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
@@ -35,16 +38,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book createBook(BookDto bookDto) {
-        Book book = new Book();
-
-        book.setPublisherName(bookDto.getPublisherName());
-        book.setDateOfPublishing(bookDto.getDateOfPublishing());
-        book.setIsbn(bookDto.getIsbn());
-        book.setImage(bookDto.getImage());
+        Book book = bookMapper.bookDtoToBook(bookDto);
 
         String bookStatusString = bookDto.getBookStatus();
         BookStatus bookStatus = BookStatus.valueOf(bookStatusString);
-        System.out.println(bookStatus);
         book.setBookStatus(bookStatus);
 
         BookInfo bookInfo = bookInfoRepository.findById(bookDto.getBookInfo()).orElseThrow(() -> new RuntimeException("Book information not found"));
@@ -58,6 +55,8 @@ public class BookServiceImpl implements BookService {
         if(bookDto.getFileId() != null) {
             File fileFromDb = fileRepository.findById(bookDto.getFileId()).orElseThrow(() -> new RuntimeException("File not found"));;
             book.setFile(fileFromDb);
+        } else {
+            book.setFile(null);
         }
 
         return bookRepository.save(book);
@@ -73,13 +72,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book editBook(BookDto bookDto) {
-        Book book = bookRepository.findById(bookDto.getId()).orElseThrow(() -> new RuntimeException("Book not found"));
+        Book foundBook = bookRepository.findById(bookDto.getId()).orElseThrow(() -> new RuntimeException("Book not found"));
 
-        book.setId(bookDto.getId());
-        book.setPublisherName(bookDto.getPublisherName());
-        book.setDateOfPublishing(bookDto.getDateOfPublishing());
-        book.setIsbn(bookDto.getIsbn());
-        book.setImage(bookDto.getImage());
+        Book book = bookMapper.bookDtoToBook(bookDto);
+
+        book.setId(foundBook.getId()); // Preserve current entity id
 
         String bookStatusString = bookDto.getBookStatus();
         BookStatus bookStatus = BookStatus.valueOf(bookStatusString);

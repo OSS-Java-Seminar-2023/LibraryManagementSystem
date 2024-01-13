@@ -108,23 +108,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(UserDto userDto) throws ParseException {
         User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println(user);
-        user.setId(userDto.getId());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setContactNumber(userDto.getContactNumber());
-        user.setDateOfBirth(userDto.getDateOfBirth());
+
+        User editedUser = UserMapper.mapDtoToEntity(userDto);
 
         var roleUser = roleRepository.findRoleByName(userDto.getRole());
         Set<Role> roles = new HashSet<>();
         roles.add(roleUser);
-        user.setRoles(roles);
+        editedUser.setRoles(roles);
 
-        user.setPassword(userDto.getPassword());
+        editedUser.setId(user.getId()); // Preserve current entity id
+        editedUser.setEnabled(user.isEnabled()); // Preserve current entity enabled status
 
-        return userRepository.save(user);
+        return userRepository.save(editedUser);
     }
 
     @Override

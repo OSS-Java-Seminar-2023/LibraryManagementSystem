@@ -2,6 +2,7 @@ package org.oss.LibraryManagementSystem.services;
 
 import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.CategoryDto;
+import org.oss.LibraryManagementSystem.mapper.CategoryMapper;
 import org.oss.LibraryManagementSystem.models.Category;
 import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
+    private final CategoryMapper categoryMapper;
+
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
@@ -21,9 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(CategoryDto categoryDto) {
-        Category category = new Category();
-
-        category.setName(categoryDto.getName());
+        Category category = categoryMapper.categoryDtoToCategory(categoryDto);
         return categoryRepository.save(category);
     }
 
@@ -39,9 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Category editCategory(CategoryDto categoryDto) {
         Category category = categoryRepository.findById(categoryDto.getId()).orElseThrow(() -> new RuntimeException("Category not found"));
 
-        category.setId(categoryDto.getId());
-        category.setName(categoryDto.getName());
-        return categoryRepository.save(category);
+        Category editedCategory = categoryMapper.categoryDtoToCategory(categoryDto);
+        editedCategory.setId(category.getId()); // Preserve current entity with its id
+        return categoryRepository.save(editedCategory);
     }
 
     @Override
