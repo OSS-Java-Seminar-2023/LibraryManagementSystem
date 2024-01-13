@@ -80,12 +80,16 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    .back-btn:hover {
+        cursor: pointer;
+    }
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
 
 <div class="add-loan-container">
-    <h1>Start a new Loan</h1>
+    <h1 th:text="${'Start a new Loan ' + ' for Book: ' + book.bookInfo.title }"></h1>
 
     <form class="add-loan-form" method="POST" th:action="@{/loans/{bookId}/saveLoan(bookId=${book.id})}">
         <div class="input-group">
@@ -99,7 +103,7 @@
 
         <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Create Loan</button>
     </form>
-    <a class="back-btn" th:href="@{'/loans'}">Back to all Loans</a>
+    <a class="back-btn" onclick="history.back()">Back</a>
 </div>
 </body>
 <script>

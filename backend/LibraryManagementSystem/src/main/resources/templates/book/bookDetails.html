@@ -309,10 +309,10 @@
                     <img th:if="${(book.image == null || book.image == '') && book.file == null}">
 
                     <div class="book-details-actions">
-                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:if="${book.isAvailable() == true}">
+                        <a th:href="@{/loans/{bookId}/start(bookId=${book.id})}" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:if="${book.isAvailable() == true}">
                             Start Loan
                         </a>
-                        <a href="" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
+                        <a th:href="@{/loans/book/{bookId}(bookId=${book.id})}" class="action-btn" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')">
                             Show Loans
                         </a>
                         <a class="action-btn" th:href="@{/books/edit/{bookId}(bookId=${book.id})}"
