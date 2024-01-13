@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -33,8 +34,8 @@ public class Loan {
     private Book book;
 
     @Column(name = "date_issued")
-    private Timestamp dateIssued;
+    private Date dateIssued;
 
     @Column(name = "date_returned")
-    private Timestamp dateReturned;
+    private Date dateReturned;
 }

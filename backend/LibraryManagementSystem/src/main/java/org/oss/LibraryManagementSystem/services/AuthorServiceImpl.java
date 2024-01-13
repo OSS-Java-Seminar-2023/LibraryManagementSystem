@@ -2,6 +2,7 @@ package org.oss.LibraryManagementSystem.services;
 
 import lombok.AllArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.AuthorDto;
+import org.oss.LibraryManagementSystem.mapper.AuthorMapper;
 import org.oss.LibraryManagementSystem.models.Author;
 import org.oss.LibraryManagementSystem.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
 
     @Override
     public List<Author> getAllAuthors() {
@@ -21,10 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author createAuthor(AuthorDto authorDto) {
-        Author author = new Author();
-
-        author.setFirstName(authorDto.getFirstName());
-        author.setLastName(authorDto.getLastName());
+        Author author = authorMapper.authorDtoToAuthor(authorDto);
         return authorRepository.save(author);
     }
 
@@ -40,11 +39,9 @@ public class AuthorServiceImpl implements AuthorService {
     public Author editAuthor(AuthorDto authorDto) {
         Author author = authorRepository.findById(authorDto.getId()).orElseThrow(() -> new RuntimeException("Author not found"));
 
-        author.setId(authorDto.getId());
-        author.setFirstName(authorDto.getFirstName());
-        author.setLastName(authorDto.getLastName());
+        Author editedAuthor = authorMapper.authorDtoToAuthor(authorDto);
 
-        return authorRepository.save(author);
+        return authorRepository.save(editedAuthor);
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.oss.LibraryManagementSystem.services;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.oss.LibraryManagementSystem.dto.BookInfoDto;
+import org.oss.LibraryManagementSystem.mapper.BookInfoMapper;
 import org.oss.LibraryManagementSystem.models.*;
 import org.oss.LibraryManagementSystem.repositories.*;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class BookInfoServiceImpl implements BookInfoService {
     private final CategoryRepository categoryRepository;
     private final FileRepository fileRepository;
 
+    private final BookInfoMapper bookInfoMapper;
+
     @Override
     public List<BookInfo> getAllBookInfos() {
         return bookInfoRepository.findAll();
@@ -28,35 +31,7 @@ public class BookInfoServiceImpl implements BookInfoService {
 
     @Override
     public BookInfo createBookInfo(BookInfoDto bookInfoDto) {
-        BookInfo bookInfo = new BookInfo();
-
-        bookInfo.setTitle(bookInfoDto.getTitle());
-        bookInfo.setDescription(bookInfoDto.getDescription());
-
-        Set<Author> bookInfoAuthors = new HashSet<>();
-        Set<Category> bookInfoCategories = new HashSet<>();
-
-        Set<UUID> authorsSet = bookInfoDto.getAuthors();
-        Set<UUID> categoriesSet = bookInfoDto.getCategories();
-
-        // Add authors from authorSet to bookInfoAuthors
-        if(authorsSet != null) {
-            for (UUID authorId : authorsSet) {
-                Author author = authorRepository.findById(authorId).orElse(null);
-                bookInfoAuthors.add(author);
-            }
-        }
-
-        // Add categories from categoriesSet to bookInfoCategoriews
-        if(categoriesSet != null) {
-            for (UUID categoryId : categoriesSet) {
-                Category category = categoryRepository.findById(categoryId).orElse(null);
-                bookInfoCategories.add(category);
-            }
-        }
-
-        bookInfo.setAuthors(bookInfoAuthors);
-        bookInfo.setCategories(bookInfoCategories);
+        BookInfo bookInfo = bookInfoMapper.bookInfoDtoToBookInfo(bookInfoDto);
 
         return bookInfo;
     }
@@ -92,36 +67,9 @@ public class BookInfoServiceImpl implements BookInfoService {
     public BookInfo editBookInfo(BookInfoDto bookInfoDto) {
         BookInfo bookInfo = bookInfoRepository.findById(bookInfoDto.getId()).orElseThrow(() -> new RuntimeException("Book info not found"));
 
-        bookInfo.setId(bookInfoDto.getId());
-        bookInfo.setTitle(bookInfoDto.getTitle());
-        bookInfo.setDescription(bookInfoDto.getDescription());
+        BookInfo editedBookInfo = bookInfoMapper.bookInfoDtoToBookInfo(bookInfoDto);
 
-        Set<Author> bookInfoAuthors = new HashSet<>();
-        Set<Category> bookInfoCategories = new HashSet<>();
-
-        Set<UUID> authorsSet = bookInfoDto.getAuthors();
-        Set<UUID> categoriesSet = bookInfoDto.getCategories();
-
-        // Add authors from authorSet to bookInfoAuthors
-        if(authorsSet != null) {
-            for (UUID authorId : authorsSet) {
-                Author author = authorRepository.findById(authorId).orElse(null);
-                bookInfoAuthors.add(author);
-            }
-        }
-
-        // Add categories from categoriesSet to bookInfoCategoriews
-        if(categoriesSet != null) {
-            for (UUID categoryId : categoriesSet) {
-                Category category = categoryRepository.findById(categoryId).orElse(null);
-                bookInfoCategories.add(category);
-            }
-        }
-
-        bookInfo.setAuthors(bookInfoAuthors);
-        bookInfo.setCategories(bookInfoCategories);
-
-        return bookInfoRepository.save(bookInfo);
+        return bookInfoRepository.save(editedBookInfo);
     }
 
     @Override
