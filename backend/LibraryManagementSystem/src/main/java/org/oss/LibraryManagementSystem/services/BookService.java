@@ -10,6 +10,8 @@ public interface BookService {
 
     List<Book> getAllBooks();
 
+    List<Book> getBooksByBookInformation(UUID id);
+
     Book getBook(UUID id);
 
     Book createBook(BookDto bookDto);

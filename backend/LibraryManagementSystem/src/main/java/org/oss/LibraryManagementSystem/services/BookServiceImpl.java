@@ -32,6 +32,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBooksByBookInformation(UUID id) {
+        return bookRepository.findBooksByBookInfoId(id);
+    }
+
+    @Override
     public Book getBook(UUID id) {
         return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
     }

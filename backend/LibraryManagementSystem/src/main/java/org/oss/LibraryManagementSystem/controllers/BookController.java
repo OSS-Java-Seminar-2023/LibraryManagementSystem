@@ -53,6 +53,23 @@ public class BookController {
         return "book/allBooks";
     }
 
+    @GetMapping("/{id}/bookInfo")
+    public String getBooksByBookInformation(@PathVariable UUID id, Model model) {
+        List<Book> books = bookService.getBooksByBookInformation(id);
+        Long count = bookService.getBookCount();
+
+        var statusOptions = BookStatus.values();
+
+        List<Category> categoryOptions = categoryRepository.findAll();
+
+        model.addAttribute("books", books);
+        model.addAttribute("count", count);
+
+        model.addAttribute("statusOptions", statusOptions);
+        model.addAttribute("categoryOptions", categoryOptions);
+        return "book/allBooks";
+    }
+
     @GetMapping("/{id}")
     public String getBookDetails(@PathVariable UUID id, Model model) {
         Book book = bookService.getBook(id);
