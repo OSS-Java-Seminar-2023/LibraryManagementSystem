@@ -168,9 +168,15 @@
 <!--                   name="${_csrf.parameterName}"-->
 <!--                   value="${_csrf.token}"/>-->
 
-            <button class="form-submit" type="submit">Add Book</button>
+            <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add Book</button>
         </form>
         <a class="back-btn" th:href="@{'/books'}">Back</a>
     </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>

@@ -131,9 +131,15 @@
                 <input class="form-input" name="confirmPassword" required type="password" placeholder="Confirm password *">
             </div>
 
-            <button class="form-submit" type="submit">Add user</button>
+            <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add user</button>
         </form>
         <a class="back-btn" th:href="@{'/users'}" >Back</a>
     </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>

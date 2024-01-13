@@ -212,6 +212,12 @@
         margin-top: 1rem;
     }
 
+    .pagination-container {
+        display: flex;
+        margin-top: 2rem;
+        padding: 0 var(--padding-container);
+    }
+
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -306,5 +312,11 @@
                 </div>
             </div>
         </div>
+        <div class="pagination-container">
+            <a href="" class="previous-btn">Previous</a>
+            <p class="current-page" th:text="12"></p>
+            <a href="" class="next-btn">Next</a>
+        </div>
+    </div>
 </body>
 </html>

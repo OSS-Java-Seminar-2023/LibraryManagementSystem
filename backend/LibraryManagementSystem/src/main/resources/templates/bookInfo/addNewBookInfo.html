@@ -131,7 +131,7 @@
                     ></option>
                 </select>
             </div>
-            <button class="form-submit" type="submit">Add Book Information</button>
+            <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add Book Information</button>
         </form>
         <a class="back-btn" th:href="@{'/bookInfos'}">Back</a>
     </div>
@@ -160,5 +160,10 @@
             fontSize: 2
         }
     })
+
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
 </script>
 </html>

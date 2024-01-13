@@ -278,6 +278,11 @@
     .none-found {
         font-size: 1.8rem;
     }
+
+    .pagination-container {
+        display: flex;
+        margin-top: 2rem;
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -368,6 +373,11 @@
                 </tbody>
             </table>
         </div>
+        <div class="pagination-container">
+            <a href="" class="previous-btn">Previous</a>
+            <p class="current-page" th:text="12"></p>
+            <a href="" class="next-btn">Next</a>
+        </div>
     </div>
 
     <div class="modal-overlay" id="deleteModal">
@@ -379,7 +389,7 @@
                 <p><span id="confirmText"></span></p>
             </div>
             <div class="modal-footer">
-                <a class="yes-btn" id="yesBtn" type="button">Delete Author</a>
+                <a class="yes-btn submit" id="yesBtn" type="button" onclick="initLoadingSpinner()">Delete Author</a>
                 <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
             </div>
         </div>
@@ -412,5 +422,10 @@
         e.preventDefault();
         deleteModal.style.display = "none";
     })
+
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
 </script>
 </html>

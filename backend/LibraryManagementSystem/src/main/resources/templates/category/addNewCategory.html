@@ -93,9 +93,15 @@
                 <input class="form-control" name="name" required type="text" placeholder="Enter category name *">
             </div>
 
-            <button class="form-submit" type="submit">Add Category</button>
+            <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add Category</button>
         </form>
         <a class="back-btn" th:href="@{'/categories'}">Back</a>
     </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>

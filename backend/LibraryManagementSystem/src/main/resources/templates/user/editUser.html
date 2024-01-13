@@ -125,9 +125,15 @@
                 ></option>
             </select>
         </div>
-        <button class="form-submit" type="submit">Edit user</button>
+        <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Edit user</button>
     </form>
     <a class="back-btn" th:href="@{'/users'}" >Back</a>
 </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>

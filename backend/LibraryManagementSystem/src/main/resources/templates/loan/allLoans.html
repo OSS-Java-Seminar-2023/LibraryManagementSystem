@@ -303,6 +303,11 @@
         border: 0.4px solid black;
         color: black;
     }
+
+    .pagination-container {
+        display: flex;
+        margin-top: 2rem;
+    }
 </style>
 <body>
 <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -408,6 +413,12 @@
             </tr>
             </tbody>
         </table>
+
+        <div class="pagination-container">
+            <a href="" class="previous-btn">Previous</a>
+            <p class="current-page" th:text="12"></p>
+            <a href="" class="next-btn">Next</a>
+        </div>
 
         <!--Back button if loan type is different than all-->
         <div class="back-btn-container">

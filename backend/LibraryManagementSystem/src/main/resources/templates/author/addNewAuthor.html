@@ -98,9 +98,15 @@
                 <input class="form-control" name="lastName" required type="text" placeholder="Enter last name *">
             </div>
 
-            <button class="form-submit" type="submit">Add Author</button>
+            <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add Author</button>
         </form>
         <a class="back-btn" th:href="@{'/authors'}">Back</a>
     </div>
 </body>
+<script>
+    const initLoadingSpinner = () => {
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.innerHTML = '<div class="loader"></div>';
+    }
+</script>
 </html>
