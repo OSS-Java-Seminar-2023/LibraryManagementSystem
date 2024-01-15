@@ -37,54 +37,94 @@ public class LoanController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
-    public String getAllLoansPage(Model model) {
-        var loans = loanService.getAllLoans();
+    public String getAllLoansPage(Model model,
+                                  @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "5") int size,
+                                  @RequestParam(defaultValue = "id") String sortField,
+                                  @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageLoans = loanService.getAllLoans(page, size, sortField, sortDirection);
+        var loans = pageLoans.getContent();
 
         // Format dates
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
+        var count = loanService.getLoanCount();
+
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "all");
 
-        model.addAttribute("count", loans.size());
+        model.addAttribute("count", count);
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
+
+        model.addAttribute("currentPage", pageLoans.getNumber() + 1);
+        model.addAttribute("totalItems", pageLoans.getTotalElements());
+        model.addAttribute("totalPages", pageLoans.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "loan/allLoans";
     }
 
     @PreAuthorize("hasAnyAuthority('MEMBER')")
     @GetMapping("/myLoans")
-    public String myLoansPage(Model model) {
+    public String myLoansPage(Model model,
+                              @RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "5") int size,
+                              @RequestParam(defaultValue = "id") String sortField,
+                              @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
         // Get current user id
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         User userData = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new RuntimeException("User not found"));
 
         // Get all users loans
-        List<Loan> loans = loanService.getMyLoans(userData.getId());
+        var pageLoans = loanService.getMyLoans(userData.getId(), page, size, sortField, sortDirection);
+        var loans = pageLoans.getContent();
 
         // Format dates
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
+        var count = loanService.getLoanCount();
+
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "myLoans");
 
-        model.addAttribute("count", loans.size());
+        model.addAttribute("count", count);
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
+
+        model.addAttribute("currentPage", pageLoans.getNumber() + 1);
+        model.addAttribute("totalItems", pageLoans.getTotalElements());
+        model.addAttribute("totalPages", pageLoans.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "loan/allLoans";
 
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/{memberId}/current")
-    public String getCurrentLoansPage(@PathVariable UUID memberId, Model model) {
+    public String getCurrentLoansPage(@PathVariable UUID memberId, Model model,
+                                      @RequestParam(defaultValue = "1") int page,
+                                      @RequestParam(defaultValue = "5") int size,
+                                      @RequestParam(defaultValue = "id") String sortField,
+                                      @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
         var userData = userRepository.findById(memberId).orElseThrow(() -> new RuntimeException("User not found"));
-        var loans = loanService.getCurrentLoans(memberId);
+        var pageLoans = loanService.getCurrentLoans(memberId, page, size, sortField, sortDirection);
+        var loans = pageLoans.getContent();
 
         // Format dates
         List<String> issuedDates = loanService.formatIssudedDated(loans);
@@ -94,18 +134,33 @@ public class LoanController {
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "current");
 
-        model.addAttribute("count", loans.size());
+        model.addAttribute("count", pageLoans.stream().count());
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
+
+        model.addAttribute("currentPage", pageLoans.getNumber() + 1);
+        model.addAttribute("totalItems", pageLoans.getTotalElements());
+        model.addAttribute("totalPages", pageLoans.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "loan/allLoans";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/{memberId}/previous")
-    public String getPreviousLoansPage(@PathVariable UUID memberId, Model model) {
+    public String getPreviousLoansPage(@PathVariable UUID memberId, Model model,
+                                       @RequestParam(defaultValue = "1") int page,
+                                       @RequestParam(defaultValue = "5") int size,
+                                       @RequestParam(defaultValue = "id") String sortField,
+                                       @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
         var userData = userRepository.findById(memberId).orElseThrow(() -> new RuntimeException("User not found"));
-        var loans = loanService.getPreviousLoans(memberId);
+        var pageLoans = loanService.getPreviousLoans(memberId, page, size, sortField, sortDirection);
+        var loans = pageLoans.getContent();
 
         // Format dates
         List<String> issuedDates = loanService.formatIssudedDated(loans);
@@ -115,17 +170,32 @@ public class LoanController {
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "previous");
 
-        model.addAttribute("count", loans.size());
+        model.addAttribute("count", pageLoans.stream().count());
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
+
+        model.addAttribute("currentPage", pageLoans.getNumber() + 1);
+        model.addAttribute("totalItems", pageLoans.getTotalElements());
+        model.addAttribute("totalPages", pageLoans.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "loan/allLoans";
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/book/{bookId}")
-    public String getLoansOfBookPage(@PathVariable UUID bookId, Model model) {
-        var loans = loanService.getLoansOfBook(bookId);
+    public String getLoansOfBookPage(@PathVariable UUID bookId, Model model,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "5") int size,
+                                     @RequestParam(defaultValue = "id") String sortField,
+                                     @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageLoans = loanService.getLoansOfBook(bookId, page, size, sortField, sortDirection);
+        var loans = pageLoans.getContent();
         var book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
 
         // Format dates
@@ -136,10 +206,19 @@ public class LoanController {
         model.addAttribute("book", book);
         model.addAttribute("loanType", "bookLoans");
 
-        model.addAttribute("count", loans.size());
+        model.addAttribute("count", pageLoans.stream().count());
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
+
+        model.addAttribute("currentPage", pageLoans.getNumber() + 1);
+        model.addAttribute("totalItems", pageLoans.getTotalElements());
+        model.addAttribute("totalPages", pageLoans.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "loan/allLoans";
     }
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")

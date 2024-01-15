@@ -5,6 +5,10 @@ import org.oss.LibraryManagementSystem.dto.AuthorDto;
 import org.oss.LibraryManagementSystem.mapper.AuthorMapper;
 import org.oss.LibraryManagementSystem.models.Author;
 import org.oss.LibraryManagementSystem.repositories.AuthorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +21,13 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     @Override
-    public List<Author> getAllAuthors() {
-        return authorRepository.findAll();
+    public Page<Author> getAllAuthors(int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return authorRepository.findAll(paging);
     }
 
     @Override

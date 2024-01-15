@@ -25,12 +25,29 @@ public class AuthorController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
-    public String getAllAuthorsPage(Model model) {
-        List<Author> authors = authorService.getAllAuthors();
+    public String getAllAuthorsPage(Model model,
+                                    @RequestParam(defaultValue = "1") int page,
+                                    @RequestParam(defaultValue = "5") int size,
+                                    @RequestParam(defaultValue = "id") String sortField,
+                                    @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageAuthors = authorService.getAllAuthors(page, size, sortField, sortDirection);
+        var authors = pageAuthors.getContent();
+
         Long count = authorService.getAuthorCount();
 
         model.addAttribute("authors", authors);
         model.addAttribute("count", count);
+
+        model.addAttribute("currentPage", pageAuthors.getNumber() + 1);
+        model.addAttribute("totalItems", pageAuthors.getTotalElements());
+        model.addAttribute("totalPages", pageAuthors.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
         return "author/allAuthors";
     }
 

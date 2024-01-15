@@ -9,6 +9,10 @@ import org.oss.LibraryManagementSystem.models.User;
 import org.oss.LibraryManagementSystem.repositories.BookRepository;
 import org.oss.LibraryManagementSystem.repositories.LoanRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -57,28 +61,53 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Loan> getAllLoans() {
-        return loanRepository.findAll();
+    public Page<Loan> getAllLoans(int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return loanRepository.findAll(paging);
     }
 
     @Override
-    public List<Loan> getMyLoans(UUID userId) {
-        return loanRepository.findByMemberId(userId);
+    public Page<Loan> getMyLoans(UUID userId, int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return loanRepository.findByMemberId(userId, paging);
     }
 
     @Override
-    public List<Loan> getCurrentLoans(UUID userId) {
-        return loanRepository.findByMemberIdAndDateReturnedIsNull(userId);
+    public Page<Loan> getCurrentLoans(UUID userId, int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return loanRepository.findByMemberIdAndDateReturnedIsNull(userId, paging);
     }
 
     @Override
-    public List<Loan> getPreviousLoans(UUID userId) {
-        return loanRepository.findByMemberIdAndDateReturnedIsNotNull(userId);
+    public Page<Loan> getPreviousLoans(UUID userId, int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return loanRepository.findByMemberIdAndDateReturnedIsNotNull(userId, paging);
     }
 
     @Override
-    public List<Loan> getLoansOfBook(UUID bookId) {
-        return loanRepository.findByBookId(bookId);
+    public Page<Loan> getLoansOfBook(UUID bookId, int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return loanRepository.findByBookId(bookId, paging);
     }
 
     @Override
@@ -130,5 +159,10 @@ public class LoanServiceImpl implements LoanService {
         }
 
         return null;
+    }
+
+    @Override
+    public Long getLoanCount() {
+        return loanRepository.count();
     }
 }
