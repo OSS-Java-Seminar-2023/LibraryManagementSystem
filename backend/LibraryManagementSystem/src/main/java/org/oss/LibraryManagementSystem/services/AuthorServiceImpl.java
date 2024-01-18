@@ -21,13 +21,17 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     @Override
-    public Page<Author> getAllAuthors(int page, int size, String sortField, String sortDirection) {
+    public Page<Author> getAllAuthors(String searchQuery, int page, int size, String sortField, String sortDirection) {
         var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         var order = new Sort.Order(direction, sortField);
 
         Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
 
-        return authorRepository.findAll(paging);
+        if(searchQuery == null) {
+            return authorRepository.findAll(paging);
+        } else {
+            return authorRepository.findByFirstNameContainingOrLastNameContainingAllIgnoreCase(searchQuery, searchQuery, paging);
+        }
     }
 
     @Override

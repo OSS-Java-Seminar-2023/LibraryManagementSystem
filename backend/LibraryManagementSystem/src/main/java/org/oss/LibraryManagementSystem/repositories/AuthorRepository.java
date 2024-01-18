@@ -9,4 +9,7 @@ import java.util.UUID;
 
 public interface AuthorRepository extends JpaRepository<Author, UUID> {
     Page<Author> findAll(Pageable pageable);
+
+    // Search by first name or last name
+    Page<Author> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String firstName, String lastName, Pageable pageable);
 }

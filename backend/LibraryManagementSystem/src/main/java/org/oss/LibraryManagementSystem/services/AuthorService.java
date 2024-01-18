@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AuthorService {
-    Page<Author> getAllAuthors(int page, int size, String sortField, String sortDirection);
+    Page<Author> getAllAuthors(String searchQuery, int page, int size, String sortField, String sortDirection);
 
     Author createAuthor(AuthorDto authorDto);
 

@@ -109,6 +109,21 @@
         outline: none;
     }
 
+    .btn-clear {
+        background-color: var(--bg700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        margin-right: 2rem;
+    }
+
+    .btn-clear:hover {
+        cursor: pointer;
+    }
+
     .btn-add {
         font-size: 1.4rem;
         background-color: var(--bg700);
@@ -371,6 +386,9 @@
                     </select>
                 </div>
 
+                <button class="btn-clear">
+                    Clear filters
+                </button>
             </form>
         </div>
 
@@ -552,5 +570,11 @@
         const form = document.querySelector(".filters");
         form.submit();
     }
+
+    const bntClear = document.querySelector(".btn-clear");
+    bntClear.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location = "[[@{/users}]]";
+    })
 </script>
 </html>

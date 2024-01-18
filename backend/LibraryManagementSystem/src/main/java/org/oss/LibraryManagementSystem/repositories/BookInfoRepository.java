@@ -9,4 +9,13 @@ import java.util.UUID;
 
 public interface BookInfoRepository extends JpaRepository<BookInfo, UUID> {
     Page<BookInfo> findAll(Pageable pageable);
+
+    // Find by title
+    Page<BookInfo> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
+    // Find by categories
+    Page<BookInfo> findByCategoriesContainingIgnoreCase(String category, Pageable pageable);
+
+    // Find by title and categories
+    Page<BookInfo> findByTitleContainingIgnoreCaseAndCategoriesContainingIgnoreCase(String title, String category, Pageable pageable);
 }

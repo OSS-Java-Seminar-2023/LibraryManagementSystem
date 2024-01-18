@@ -26,12 +26,13 @@ public class AuthorController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
     public String getAllAuthorsPage(Model model,
+                                    @RequestParam(required = false) String searchQuery,
                                     @RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "5") int size,
                                     @RequestParam(defaultValue = "id") String sortField,
                                     @RequestParam(defaultValue = "asc") String sortDirection
     ) {
-        var pageAuthors = authorService.getAllAuthors(page, size, sortField, sortDirection);
+        var pageAuthors = authorService.getAllAuthors(searchQuery, page, size, sortField, sortDirection);
         var authors = pageAuthors.getContent();
 
         Long count = authorService.getAuthorCount();

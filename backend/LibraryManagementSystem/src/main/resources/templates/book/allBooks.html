@@ -125,6 +125,21 @@
         margin-right: 1rem;
     }
 
+    .btn-clear {
+        background-color: var(--bg700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .8rem 1.2rem;
+        border-radius: .4rem;
+        border: 1px solid var(--primary500);
+        margin-right: 2rem;
+    }
+
+    .btn-clear:hover {
+        cursor: pointer;
+    }
+
     .btn-add {
         font-size: 1.6rem;
         background-color: var(--bg700);
@@ -230,7 +245,7 @@
         <h1>Books</h1>
         <h2 th:if="${bookInformation != null}" th:text="${bookInformation.title}"></h2>
 
-        <div class="books-stats-filters" th:if="${books.size() > 0}">
+        <div class="books-stats-filters">
             <div class="total-books">
                 <div class="total-icon">
                     <i class="bi bi-book"></i>
@@ -284,6 +299,10 @@
                         ></option>
                     </select>
                 </div>
+
+                <button class="btn-clear">
+                    Clear filters
+                </button>
             </form>
         </div>
 
@@ -332,5 +351,11 @@
         const form = document.querySelector(".filters");
         form.submit();
     }
+
+    const bntClear = document.querySelector(".btn-clear");
+    bntClear.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location = "[[@{/books}]]";
+    })
 </script>
 </html>

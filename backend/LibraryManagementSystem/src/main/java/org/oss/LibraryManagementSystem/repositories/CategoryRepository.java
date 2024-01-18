@@ -9,4 +9,7 @@ import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
     Page<Category> findAll(Pageable pageable);
+
+    // Find by name
+    Page<Category> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
