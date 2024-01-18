@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    Page<Category> getAllCategories(int page, int size, String sortField, String sortDirection);
+    Page<Category> getAllCategories(String searchQuery, int page, int size, String sortField, String sortDirection);
 
     Category createCategory(CategoryDto categoryDto);
 

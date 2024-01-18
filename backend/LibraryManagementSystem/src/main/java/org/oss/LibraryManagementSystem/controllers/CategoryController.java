@@ -28,12 +28,13 @@ public class CategoryController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
     public String getAllCategoriesPage(Model model,
+                                       @RequestParam(required = false) String searchQuery,
                                        @RequestParam(defaultValue = "1") int page,
                                        @RequestParam(defaultValue = "5") int size,
                                        @RequestParam(defaultValue = "id") String sortField,
                                        @RequestParam(defaultValue = "asc") String sortDirection
     ) {
-        var pageCategories = categoryService.getAllCategories(page, size, sortField, sortDirection);
+        var pageCategories = categoryService.getAllCategories(searchQuery, page, size, sortField, sortDirection);
         var categories = pageCategories.getContent();
 
         Long count = categoryRepository.count();
@@ -49,6 +50,8 @@ public class CategoryController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
         return "category/allCategories";
     }
 

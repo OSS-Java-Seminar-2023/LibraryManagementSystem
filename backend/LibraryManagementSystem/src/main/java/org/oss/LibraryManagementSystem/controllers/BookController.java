@@ -13,6 +13,8 @@ import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
 import org.oss.LibraryManagementSystem.repositories.FileRepository;
 import org.oss.LibraryManagementSystem.services.BookService;
 import org.oss.LibraryManagementSystem.services.FileService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +76,10 @@ public class BookController {
     ) {
         var pageBooks = bookService.getBooksByBookInformation(id, page, size, sortField, sortDirection);
         var books = pageBooks.getContent();
-        Long count = books.stream().count();
+
+        // Get count using max page
+        Pageable paging = PageRequest.of(0, Integer.MAX_VALUE);
+        var count = bookRepository.findBooksByBookInfoId(id, paging).stream().count();
 
         var bookInformation = bookInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("Book info not found"));
 

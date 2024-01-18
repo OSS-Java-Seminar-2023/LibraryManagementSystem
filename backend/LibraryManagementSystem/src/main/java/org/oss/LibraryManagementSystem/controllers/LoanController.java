@@ -10,6 +10,8 @@ import org.oss.LibraryManagementSystem.repositories.RoleRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
 import org.oss.LibraryManagementSystem.services.EmailService;
 import org.oss.LibraryManagementSystem.services.LoanService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -91,7 +93,9 @@ public class LoanController {
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
-        var count = loanService.getLoanCount();
+        // Get count using max page
+        Pageable paging = PageRequest.of(0, Integer.MAX_VALUE);
+        var count = loanRepository.findByMemberId(userData.getId(), paging).stream().count();
 
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
@@ -130,11 +134,15 @@ public class LoanController {
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
+        // Get count using max page
+        Pageable paging = PageRequest.of(0, Integer.MAX_VALUE);
+        var count = loanRepository.findByMemberIdAndDateReturnedIsNull(memberId, paging).stream().count();
+
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "current");
 
-        model.addAttribute("count", pageLoans.stream().count());
+        model.addAttribute("count", count);
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
@@ -166,11 +174,15 @@ public class LoanController {
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
+        // Get count using max page
+        Pageable paging = PageRequest.of(0, Integer.MAX_VALUE);
+        var count = loanRepository.findByMemberIdAndDateReturnedIsNotNull(memberId, paging).stream().count();
+
         model.addAttribute("member", userData);
         model.addAttribute("loans", loans);
         model.addAttribute("loanType", "previous");
 
-        model.addAttribute("count", pageLoans.stream().count());
+        model.addAttribute("count", count);
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);
@@ -202,11 +214,15 @@ public class LoanController {
         List<String> issuedDates = loanService.formatIssudedDated(loans);
         List<String> returnedDates = loanService.formatReturnDates(loans);
 
+        // Get count using max page
+        Pageable paging = PageRequest.of(0, Integer.MAX_VALUE);
+        var count = loanRepository.findByBookId(bookId, paging).stream().count();
+
         model.addAttribute("loans", loans);
         model.addAttribute("book", book);
         model.addAttribute("loanType", "bookLoans");
 
-        model.addAttribute("count", pageLoans.stream().count());
+        model.addAttribute("count", count);
 
         model.addAttribute("issuedDates", issuedDates);
         model.addAttribute("returnedDates", returnedDates);

@@ -22,13 +22,17 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public Page<Category> getAllCategories(int page, int size, String sortField, String sortDirection) {
+    public Page<Category> getAllCategories(String searchQuery, int page, int size, String sortField, String sortDirection) {
         var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         var order = new Sort.Order(direction, sortField);
 
         Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
 
-        return categoryRepository.findAll(paging);
+        if (searchQuery != null) {
+            return categoryRepository.findByNameContainingIgnoreCase(searchQuery, paging);
+        } else {
+            return categoryRepository.findAll(paging);
+        }
     }
 
     @Override
