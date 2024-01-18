@@ -10,6 +10,10 @@ import org.oss.LibraryManagementSystem.models.enums.BookStatus;
 import org.oss.LibraryManagementSystem.repositories.BookInfoRepository;
 import org.oss.LibraryManagementSystem.repositories.BookRepository;
 import org.oss.LibraryManagementSystem.repositories.FileRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -27,13 +31,17 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(int page, int size, String sortField, String sortDirection) {
+        Pageable paging = PageRequest.of(page - 1, size);
+
+        return bookRepository.findAll(paging);
     }
 
     @Override
-    public List<Book> getBooksByBookInformation(UUID id) {
-        return bookRepository.findBooksByBookInfoId(id);
+    public Page<Book> getBooksByBookInformation(UUID id, int page, int size, String sortField, String sortDirection) {
+        Pageable paging = PageRequest.of(page - 1, size);
+
+        return bookRepository.findBooksByBookInfoId(id, paging);
     }
 
     @Override

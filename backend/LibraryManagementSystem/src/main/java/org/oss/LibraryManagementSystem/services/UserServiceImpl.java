@@ -8,6 +8,10 @@ import org.oss.LibraryManagementSystem.models.User;
 import org.oss.LibraryManagementSystem.repositories.RoleRepository;
 import org.oss.LibraryManagementSystem.repositories.UserRepository;
 import org.oss.LibraryManagementSystem.utils.Validator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -111,8 +115,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return userRepository.findAll(paging);
     }
 
     @Override

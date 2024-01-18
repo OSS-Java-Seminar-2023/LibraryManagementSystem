@@ -27,12 +27,28 @@ public class CategoryController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
-    public String getAllCategoriesPage(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
+    public String getAllCategoriesPage(Model model,
+                                       @RequestParam(defaultValue = "1") int page,
+                                       @RequestParam(defaultValue = "5") int size,
+                                       @RequestParam(defaultValue = "id") String sortField,
+                                       @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageCategories = categoryService.getAllCategories(page, size, sortField, sortDirection);
+        var categories = pageCategories.getContent();
+
         Long count = categoryRepository.count();
 
         model.addAttribute("categories", categories);
         model.addAttribute("count", count);
+
+        model.addAttribute("currentPage", pageCategories.getNumber() + 1);
+        model.addAttribute("totalItems", pageCategories.getTotalElements());
+        model.addAttribute("totalPages", pageCategories.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "category/allCategories";
     }
 

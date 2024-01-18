@@ -2,15 +2,16 @@ package org.oss.LibraryManagementSystem.services;
 
 import org.oss.LibraryManagementSystem.dto.BookDto;
 import org.oss.LibraryManagementSystem.models.Book;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface BookService {
 
-    List<Book> getAllBooks();
+    Page<Book> getAllBooks(int page, int size, String sortField, String sortDirection);
 
-    List<Book> getBooksByBookInformation(UUID id);
+    Page<Book> getBooksByBookInformation(UUID id, int page, int size, String sortField, String sortDirection);
 
     Book getBook(UUID id);
 

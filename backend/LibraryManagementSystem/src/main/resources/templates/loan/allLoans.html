@@ -651,7 +651,7 @@
 
             <p class="current-page" th:text="${currentPage}"></p>
 
-            <div th:if="${currentPage != totalPages}" class="next-btns-container">
+            <div th:if="${currentPage < totalPages}" class="next-btns-container">
                 <a class="next-btn"
                    th:href="@{'/loans?' + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
                  + ${sortField != null ? '&sortField=' + sortField : ''} +

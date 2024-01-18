@@ -37,8 +37,14 @@ public class BookController {
     private final FileRepository fileRepository;
 
     @GetMapping
-    public String getAllBooksPage(Model model) {
-        List<Book> books = bookService.getAllBooks();
+    public String getAllBooksPage(Model model,
+                                  @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "3") int size,
+                                  @RequestParam(defaultValue = "id") String sortField,
+                                  @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageBooks = bookService.getAllBooks(page, size, sortField, sortDirection);
+        var books = pageBooks.getContent();
         Long count = bookService.getBookCount();
 
         var statusOptions = BookStatus.values();
@@ -50,13 +56,27 @@ public class BookController {
 
         model.addAttribute("statusOptions", statusOptions);
         model.addAttribute("categoryOptions", categoryOptions);
+
+        model.addAttribute("currentPage", pageBooks.getNumber() + 1);
+        model.addAttribute("totalItems", pageBooks.getTotalElements());
+        model.addAttribute("totalPages", pageBooks.getTotalPages());
+        model.addAttribute("pageSize", size);
         return "book/allBooks";
     }
 
     @GetMapping("/{id}/bookInfo")
-    public String getBooksByBookInformation(@PathVariable UUID id, Model model) {
-        List<Book> books = bookService.getBooksByBookInformation(id);
-        Long count = bookService.getBookCount();
+    public String getBooksByBookInformation(@PathVariable UUID id,
+                                            Model model,
+                                            @RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(defaultValue = "3") int size,
+                                            @RequestParam(defaultValue = "id") String sortField,
+                                            @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageBooks = bookService.getBooksByBookInformation(id, page, size, sortField, sortDirection);
+        var books = pageBooks.getContent();
+        Long count = books.stream().count();
+
+        var bookInformation = bookInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("Book info not found"));
 
         var statusOptions = BookStatus.values();
 
@@ -65,8 +85,15 @@ public class BookController {
         model.addAttribute("books", books);
         model.addAttribute("count", count);
 
+        if (bookInformation != null) model.addAttribute("bookInformation", bookInformation);
+
         model.addAttribute("statusOptions", statusOptions);
         model.addAttribute("categoryOptions", categoryOptions);
+
+        model.addAttribute("currentPage", pageBooks.getNumber() + 1);
+        model.addAttribute("totalItems", pageBooks.getTotalElements());
+        model.addAttribute("totalPages", pageBooks.getTotalPages());
+        model.addAttribute("pageSize", size);
         return "book/allBooks";
     }
 

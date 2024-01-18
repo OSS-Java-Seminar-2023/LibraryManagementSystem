@@ -385,7 +385,7 @@
             <a th:if="${currentPage > 1}" th:href="@{'/authors?' + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize}
                  + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="previous-btn">Previous</a>
             <p class="current-page" th:text="${currentPage}"></p>
-            <a th:if="${currentPage != totalPages}" th:href="@{'/authors?' + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
+            <a th:if="${currentPage < totalPages}" th:href="@{'/authors?' + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
                  + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="next-btn">Next</a>
         </div>
     </div>

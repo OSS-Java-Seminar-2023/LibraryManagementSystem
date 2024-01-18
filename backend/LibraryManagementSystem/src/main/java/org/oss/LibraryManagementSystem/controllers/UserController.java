@@ -58,8 +58,15 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
-    public String allUsersPage(Authentication authentication, Model model) {
-        List<User> users = userService.getAllUsers();
+    public String allUsersPage(Authentication authentication,
+                               Model model,
+                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "5") int size,
+                               @RequestParam(defaultValue = "id") String sortField,
+                               @RequestParam(defaultValue = "asc") String sortDirection
+    ) {
+        var pageUsers = userService.getAllUsers(page, size, sortField, sortDirection);
+        var users = pageUsers.getContent();
 
         var currentUser = userRepository.findByEmail(authentication.getName());
         List<String> currentUserRoles = userService.getUserRoles(currentUser.get());
@@ -78,6 +85,15 @@ public class UserController {
 
         model.addAttribute("roleOptions", roles);
         model.addAttribute("formatedDates", formatedDates);
+
+        model.addAttribute("currentPage", pageUsers.getNumber() + 1);
+        model.addAttribute("totalItems", pageUsers.getTotalElements());
+        model.addAttribute("totalPages", pageUsers.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "user/allUsers";
     }
 

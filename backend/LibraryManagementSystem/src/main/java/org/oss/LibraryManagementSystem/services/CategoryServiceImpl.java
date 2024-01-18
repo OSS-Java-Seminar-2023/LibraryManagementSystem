@@ -5,6 +5,10 @@ import org.oss.LibraryManagementSystem.dto.CategoryDto;
 import org.oss.LibraryManagementSystem.mapper.CategoryMapper;
 import org.oss.LibraryManagementSystem.models.Category;
 import org.oss.LibraryManagementSystem.repositories.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +22,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public Page<Category> getAllCategories(int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return categoryRepository.findAll(paging);
     }
 
     @Override

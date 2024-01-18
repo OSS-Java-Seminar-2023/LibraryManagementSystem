@@ -299,7 +299,7 @@
                     <span th:text="${count}">4</span>
                 </div>
             </div>
-            <div class="filters">
+            <form class="filters">
                 <div class="search-input">
                     <input type="text" name="search" id="search" placeholder="Search categories">
                     <button><i class="bi bi-search"></i></button>
@@ -308,14 +308,14 @@
                 <div class="filter-container">
                     <label for="pageSize">Items per page</label>
                     <select class="form-select" id="pageSize" name="size"
-                            onchange="changePageSize()" th:value="${pageSize}"
+                            onchange="changeFilters()" th:value="${pageSize}"
                     >
                         <option th:selected="${5 == pageSize}" th:text="5" th:value="5"></option>
                         <option th:selected="${7 == pageSize}" th:text="7" th:value="7"></option>
                         <option th:selected="${10 == pageSize}" th:text="10" th:value="10"></option>
                     </select>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div class="action-buttons">
@@ -329,9 +329,13 @@
                     <tr>
                         <th class="id-header"># Id</th>
                         <th>
-                            <a href="">
+                            <a th:href="@{'/categories?' + 'page=' + ${currentPage}
+                                        + '&size=' + ${pageSize}
+                                        + ${sortField != null ? '&sortField=' + 'name' : ''} +
+                                        ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + (sortField == 'name' ? reverseSortDirection : sortDirection) : ''}}">
                                 Name
-                                <i class="bi bi-sort-up"></i>
+                                <i class="bi bi-sort-up" th:if="${(sortField == 'name' && sortDirection == 'asc') || sortField != 'name'}"></i>
+                                <i class="bi bi-sort-down" th:if="${sortField == 'name' && sortDirection == 'desc'}"></i>
                             </a>
                         </th>
                         <th>Actions</th>
@@ -366,9 +370,11 @@
             </table>
         </div>
         <div class="pagination-container">
-            <a href="" class="previous-btn">Previous</a>
-            <p class="current-page" th:text="12"></p>
-            <a href="" class="next-btn">Next</a>
+            <a th:if="${currentPage > 1}" th:href="@{'/categories?' + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize}
+                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="previous-btn">Previous</a>
+            <p class="current-page" th:text="${currentPage}"></p>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/categories?' + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
+                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="next-btn">Next</a>
         </div>
     </div>
 
@@ -419,5 +425,9 @@
         submitBtn.innerHTML = '<div class="loader"></div>';
     }
 
+    const changeFilters = () => {
+        const form = document.querySelector(".filters");
+        form.submit();
+    }
 </script>
 </html>

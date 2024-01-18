@@ -2,12 +2,13 @@ package org.oss.LibraryManagementSystem.services;
 
 import org.oss.LibraryManagementSystem.dto.BookInfoDto;
 import org.oss.LibraryManagementSystem.models.BookInfo;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface BookInfoService {
-    List<BookInfo> getAllBookInfos();
+    Page<BookInfo> getAllBookInfos(int page, int size, String sortField, String sortDirection);
 
     BookInfo createBookInfo(BookInfoDto bookInfoDto);
 

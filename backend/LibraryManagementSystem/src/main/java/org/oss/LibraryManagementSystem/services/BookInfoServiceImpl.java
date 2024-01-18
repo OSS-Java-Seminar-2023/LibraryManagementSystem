@@ -6,6 +6,10 @@ import org.oss.LibraryManagementSystem.dto.BookInfoDto;
 import org.oss.LibraryManagementSystem.mapper.BookInfoMapper;
 import org.oss.LibraryManagementSystem.models.*;
 import org.oss.LibraryManagementSystem.repositories.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -25,8 +29,13 @@ public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoMapper bookInfoMapper;
 
     @Override
-    public List<BookInfo> getAllBookInfos() {
-        return bookInfoRepository.findAll();
+    public Page<BookInfo> getAllBookInfos(int page, int size, String sortField, String sortDirection) {
+        var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var order = new Sort.Order(direction, sortField);
+
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
+
+        return bookInfoRepository.findAll(paging);
     }
 
     @Override

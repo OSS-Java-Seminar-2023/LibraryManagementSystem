@@ -2,6 +2,7 @@ package org.oss.LibraryManagementSystem.services;
 
 import org.oss.LibraryManagementSystem.dto.UserDto;
 import org.oss.LibraryManagementSystem.models.User;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -19,7 +20,7 @@ public interface UserService {
 
     User getCurrentUserDetails();
 
-    List<User> getAllUsers();
+    Page<User> getAllUsers(int page, int size, String sortField, String sortDirection);
     User getUserById(UUID id);
 
     String deleteUserById(UUID id);

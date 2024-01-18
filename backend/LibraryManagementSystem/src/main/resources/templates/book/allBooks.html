@@ -15,6 +15,11 @@
         margin-bottom: 1.2rem;
     }
 
+    .container-books h2 {
+        font-size: 2rem;
+        margin-bottom: 1.2rem;
+    }
+
     .books-stats-filters {
         display: flex;
     }
@@ -223,6 +228,7 @@
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
     <div class="container-books">
         <h1>Books</h1>
+        <h2 th:if="${bookInformation != null}" th:text="${bookInformation.title}"></h2>
 
         <div class="books-stats-filters" th:if="${books.size() > 0}">
             <div class="total-books">
@@ -234,7 +240,7 @@
                     <span th:text="${count}">4</span>
                 </div>
             </div>
-            <div class="filters">
+            <form class="filters">
                 <div class="search-input">
                     <input type="text" name="search" id="search" placeholder="Search books">
                     <button><i class="bi bi-search"></i></button>
@@ -243,7 +249,7 @@
                 <div class="filter-container">
                     <label for="pageSize">Items per page</label>
                     <select class="form-select" id="pageSize" name="size"
-                            onchange="changePageSize()" th:value="${pageSize}"
+                            onchange="changeFilters()" th:value="${pageSize}"
                     >
                         <option th:selected="${3 == pageSize}" th:text="3" th:value="3"></option>
                         <option th:selected="${6 == pageSize}" th:text="6" th:value="6"></option>
@@ -254,11 +260,11 @@
                 <div class="filter-container" th:if="${books.size() > 0}">
                     <label for="pageSize">Filter by status</label>
                     <select class="form-select" id="status" name="status"
-                            onchange="changeStatus()" th:value="${statusName}"
+                            onchange="changeFilters()" th:value="${status}"
                     >
                         <option disabled selected>All statuses</option>
                         <option th:each="status: ${statusOptions}"
-                                th:selected="${status.name() == statusName}"
+                                th:selected="${status.name() == status}"
                                 th:text="${status.name()}"
                                 th:value="${status.name()}"
                         ></option>
@@ -268,7 +274,7 @@
                 <div class="filter-container">
                     <label for="pageSize">Filter by categories</label>
                     <select class="form-select" id="categoryName" name="categoryName"
-                            onchange="changeCategoryName()" th:value="${categoryName}"
+                            onchange="changeFilters()" th:value="${categoryName}"
                     >
                         <option disabled selected>All categories</option>
                         <option th:each="category: ${categoryOptions}"
@@ -278,7 +284,7 @@
                         ></option>
                     </select>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div class="action-buttons">
@@ -313,10 +319,18 @@
             </div>
         </div>
         <div class="pagination-container">
-            <a href="" class="previous-btn">Previous</a>
-            <p class="current-page" th:text="12"></p>
-            <a href="" class="next-btn">Next</a>
+            <a th:if="${currentPage > 1}" th:href="@{${bookInformation == null ? '/books?' : '/books' + bookInformation.id + 'bookInfo?'} + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize}
+                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="previous-btn">Previous</a>
+            <p class="current-page" th:text="${currentPage}"></p>
+            <a th:if="${currentPage < totalPages}" th:href="@{${bookInformation == null ? '/books?' : '/books' + bookInformation.id + 'bookInfo?'} + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
+                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="next-btn">Next</a>
         </div>
     </div>
 </body>
+<script>
+    const changeFilters = () => {
+        const form = document.querySelector(".filters");
+        form.submit();
+    }
+</script>
 </html>
