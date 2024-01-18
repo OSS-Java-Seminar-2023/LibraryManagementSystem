@@ -314,9 +314,9 @@
                     <span th:text="${count}"></span>
                 </div>
             </div>
-            <form class="filters">
+            <form class="filters" th:action="@{/bookInfos}">
                 <div class="search-input">
-                    <input type="text" name="search" id="search" placeholder="Search books information">
+                    <input class="search-input" name="searchQuery" id="searchQuery" placeholder="Search books information" th:value="${searchQuery}" type="search">
                     <button><i class="bi bi-search"></i></button>
                 </div>
 
@@ -501,6 +501,14 @@
     bntClear.addEventListener("click", (e) => {
         e.preventDefault();
         window.location = "[[@{/bookInfos}]]";
+    })
+
+    const searchInput = document.querySelector(".search-input");
+    searchInput.addEventListener("search", () => {
+        // Clear all filters when search is cleared
+        const searchQuery = document.querySelector("#searchQuery");
+        searchQuery.value = "";
+        changeFilters();
     })
 </script>
 </html>

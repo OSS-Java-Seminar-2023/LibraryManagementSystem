@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BookInfoService {
-    Page<BookInfo> getAllBookInfos(int page, int size, String sortField, String sortDirection);
+    Page<BookInfo> getAllBookInfos(String searchQuery, String categoryName, int page, int size, String sortField, String sortDirection);
 
     BookInfo createBookInfo(BookInfoDto bookInfoDto);
 

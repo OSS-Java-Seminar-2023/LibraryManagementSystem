@@ -49,6 +49,8 @@ public class AuthorController {
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
 
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
+
         return "author/allAuthors";
     }
 

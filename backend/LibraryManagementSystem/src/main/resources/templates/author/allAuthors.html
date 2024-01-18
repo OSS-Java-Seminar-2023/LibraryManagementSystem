@@ -316,7 +316,7 @@
             </div>
             <form class="filters" th:action="@{/authors}">
                 <div class="search-input">
-                    <input type="text" name="searchQuery" id="searchQuery" placeholder="Search authors" th:value="${searchQuery}">
+                    <input class="search-input" id="searchQuery" name="searchQuery" placeholder="Search authors" th:value="${searchQuery}" type="search">
                     <button class="search-btn" type="submit"><i class="bi bi-search"></i></button>
                 </div>
 
@@ -466,6 +466,14 @@
     bntClear.addEventListener("click", (e) => {
         e.preventDefault();
         window.location = "[[@{/authors}]]";
+    })
+
+    const searchInput = document.querySelector(".search-input");
+    searchInput.addEventListener("search", () => {
+        // Clear all filters when search is cleared
+        const searchQuery = document.querySelector("#searchQuery");
+        searchQuery.value = "";
+        changeFilters();
     })
 </script>
 </html>

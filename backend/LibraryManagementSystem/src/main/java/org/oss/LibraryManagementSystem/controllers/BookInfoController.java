@@ -34,12 +34,14 @@ public class BookInfoController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping
     public String getAllBookInfosPage(Model model,
+                                      @RequestParam(required = false) String searchQuery,
+                                      @RequestParam(required = false) String categoryName,
                                       @RequestParam(defaultValue = "1") int page,
                                       @RequestParam(defaultValue = "5") int size,
                                       @RequestParam(defaultValue = "id") String sortField,
                                       @RequestParam(defaultValue = "asc") String sortDirection
     ) {
-        var pageBookInfos = bookInfoService.getAllBookInfos(page, size, sortField, sortDirection);
+        var pageBookInfos = bookInfoService.getAllBookInfos(searchQuery, categoryName, page, size, sortField, sortDirection);
         var bookInfos = pageBookInfos.getContent();
 
         Long count = bookInfoService.getBookInfoCount();
@@ -59,6 +61,9 @@ public class BookInfoController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
+
         return "bookInfo/allBookInfos";
     }
 

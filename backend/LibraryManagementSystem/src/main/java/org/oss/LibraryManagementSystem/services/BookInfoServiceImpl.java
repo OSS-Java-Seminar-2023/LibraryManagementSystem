@@ -29,13 +29,28 @@ public class BookInfoServiceImpl implements BookInfoService {
     private final BookInfoMapper bookInfoMapper;
 
     @Override
-    public Page<BookInfo> getAllBookInfos(int page, int size, String sortField, String sortDirection) {
+    public Page<BookInfo> getAllBookInfos(String searchQuery, String categoryName, int page, int size, String sortField, String sortDirection) {
         var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         var order = new Sort.Order(direction, sortField);
 
         Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
 
-        return bookInfoRepository.findAll(paging);
+        Category category;
+
+        if (searchQuery != null && categoryName != null && !categoryName.equals("All categories")) {
+            category = categoryRepository.findByNameContainingIgnoreCase(categoryName);
+            return bookInfoRepository.findByTitleContainingIgnoreCaseAndCategoriesContainingIgnoreCase(searchQuery, category, paging);
+
+        } else if (categoryName != null && !categoryName.equals("All categories")) {
+            category = categoryRepository.findByNameContainingIgnoreCase(categoryName);
+            return bookInfoRepository.findByCategoriesContainingIgnoreCase(category, paging);
+
+        } else if (searchQuery != null) {
+            System.out.println("Search query: " + searchQuery);
+            return bookInfoRepository.findByTitleContainingIgnoreCase(searchQuery, paging);
+        } else {
+            return bookInfoRepository.findAll(paging);
+        }
     }
 
     @Override
