@@ -24,5 +24,14 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findAllByRoles(Role role);
 
+    // Find by email, first name, last name
+    Page<User> findByEmailContainingOrFirstNameContainingOrLastNameContainingAllIgnoreCase(String email, String firstName, String lastName, Pageable pageable);
+
+    // Find by roles
+    Page<User> findAllByRoles(Role role, Pageable pageable);
+
+    // Find by roles and email, first name, last name
+    Page<User> findByRolesEqualsAndEmailContainingIgnoreCase(Role role, String email, Pageable pageable);
+
 
 }

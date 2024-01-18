@@ -60,16 +60,18 @@ public class UserController {
     @GetMapping
     public String allUsersPage(Authentication authentication,
                                Model model,
+                               @RequestParam(required = false) String searchQuery,
+                               @RequestParam(required = false) String roleName,
                                @RequestParam(defaultValue = "1") int page,
                                @RequestParam(defaultValue = "5") int size,
                                @RequestParam(defaultValue = "id") String sortField,
                                @RequestParam(defaultValue = "asc") String sortDirection
     ) {
-        var pageUsers = userService.getAllUsers(page, size, sortField, sortDirection);
-        var users = pageUsers.getContent();
-
         var currentUser = userRepository.findByEmail(authentication.getName());
         List<String> currentUserRoles = userService.getUserRoles(currentUser.get());
+
+        var pageUsers = userService.getAllUsers(currentUserRoles, searchQuery, roleName, page, size, sortField, sortDirection);
+        var users = pageUsers.getContent();
 
         var roles = roleRepository.findAll();
 
@@ -94,6 +96,9 @@ public class UserController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
+        
         return "user/allUsers";
     }
 

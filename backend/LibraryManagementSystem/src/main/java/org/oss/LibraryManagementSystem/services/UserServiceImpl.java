@@ -115,13 +115,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getAllUsers(int page, int size, String sortField, String sortDirection) {
+    public Page<User> getAllUsers(List<String> currentUserRoles, String searchQuery, String roleName, int page, int size, String sortField, String sortDirection) {
         var direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         var order = new Sort.Order(direction, sortField);
 
         Pageable paging = PageRequest.of(page - 1, size, Sort.by(order));
 
-        return userRepository.findAll(paging);
+        Role role;
+
+        if (searchQuery != null && roleName != null && !roleName.equals("All roles")) {
+            if(currentUserRoles.get(0).equals("ADMIN")) {
+                role = roleRepository.findRoleByName(roleName);
+            } else {
+                role = roleRepository.findRoleByName("MEMBER");
+            }
+
+            return userRepository.findByRolesEqualsAndEmailContainingIgnoreCase(role, searchQuery, paging);
+
+        } else if (roleName != null && !roleName.equals("All roles")) {
+            if(currentUserRoles.get(0).equals("ADMIN")) {
+                role = roleRepository.findRoleByName(roleName);
+            } else {
+                role = roleRepository.findRoleByName("MEMBER");
+            }
+
+            return userRepository.findAllByRoles(role, paging);
+
+        } else if (searchQuery != null) {
+            return userRepository.findByEmailContainingOrFirstNameContainingOrLastNameContainingAllIgnoreCase(searchQuery, searchQuery, searchQuery, paging);
+        } else {
+            return userRepository.findAll(paging);
+        }
     }
 
     @Override

@@ -20,7 +20,7 @@ public interface UserService {
 
     User getCurrentUserDetails();
 
-    Page<User> getAllUsers(int page, int size, String sortField, String sortDirection);
+    Page<User> getAllUsers(List<String> currentUserRoles, String searchQuery, String roleName, int page, int size, String sortField, String sortDirection);
     User getUserById(UUID id);
 
     String deleteUserById(UUID id);
