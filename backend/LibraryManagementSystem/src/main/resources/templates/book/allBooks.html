@@ -300,7 +300,7 @@
                     </select>
                 </div>
 
-                <button class="btn-clear">
+                <button class="btn-clear" th:id="${bookInformation != null ? bookInformation.id : null}">
                     Clear filters
                 </button>
             </form>
@@ -338,11 +338,9 @@
             </div>
         </div>
         <div class="pagination-container">
-            <a th:if="${currentPage > 1}" th:href="@{${bookInformation == null ? '/books?' : '/books' + bookInformation.id + 'bookInfo?'} + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize}
-                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="previous-btn">Previous</a>
+            <a th:if="${currentPage > 1}" th:href="@{${bookInformation == null ? '/books?' : '/books/' + bookInformation.id + '/bookInfo?'} + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize} + '&' + ${searchQuery != null && searchQuery != '' ? 'searchQuery=' + searchQuery + '&' : ''} + ${statusName != null && statusName != '' ? 'statusName=' + statusName + '&' : ''} + ${categoryName != null && categoryName != '' ? 'categoryName=' + categoryName : ''}}" class="previous-btn">Previous</a>
             <p class="current-page" th:text="${currentPage}"></p>
-            <a th:if="${currentPage < totalPages}" th:href="@{${bookInformation == null ? '/books?' : '/books' + bookInformation.id + 'bookInfo?'} + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}
-                 + ${sortField != null ? '&sortField=' + sortField : ''} + ${sortDirection != null && sortDirection != '' ? '&sortDirection=' + sortDirection : ''}}" class="next-btn">Next</a>
+            <a th:if="${currentPage < totalPages}" th:href="@{${bookInformation == null ? '/books?' : '/books/' + bookInformation.id + '/bookInfo?'} + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize} + '&' + ${searchQuery != null && searchQuery != '' ? 'searchQuery=' + searchQuery + '&' : ''} + ${statusName != null && statusName != '' ? 'statusName=' + statusName + '&' : ''} + ${categoryName != null && categoryName != '' ? 'categoryName=' + categoryName : ''}}" class="next-btn">Next</a>
         </div>
     </div>
 </body>
@@ -354,8 +352,18 @@
 
     const bntClear = document.querySelector(".btn-clear");
     bntClear.addEventListener("click", (e) => {
+        let id;
         e.preventDefault();
-        window.location = "[[@{/books}]]";
+        const btnClear = e.target;
+        if(btnClear.hasAttribute("id"))
+            id = btnClear.getAttribute("id");
+        else
+            id = null;
+        
+        if(id != null)
+            window.location = `[[@{/books/${id}/bookInfo}]]`;
+        else
+            window.location = "[[@{/books}]]";
     })
 
     const searchInput = document.querySelector(".search-input");
