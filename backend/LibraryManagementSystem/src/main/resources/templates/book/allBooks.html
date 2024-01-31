@@ -272,21 +272,21 @@
                     </select>
                 </div>
 
-                <div class="filter-container" th:if="${books.size() > 0}">
+                <div class="filter-container">
                     <label for="pageSize">Filter by status</label>
-                    <select class="form-select" id="status" name="status"
-                            onchange="changeFilters()" th:value="${status}"
+                    <select class="form-select" id="statusName" name="statusName"
+                            onchange="changeFilters()" th:value="${statusName}"
                     >
                         <option disabled selected>All statuses</option>
                         <option th:each="status: ${statusOptions}"
-                                th:selected="${status.name() == status}"
+                                th:selected="${status.name() == statusName}"
                                 th:text="${status.name()}"
                                 th:value="${status.name()}"
                         ></option>
                     </select>
                 </div>
 
-                <div class="filter-container">
+                <div class="filter-container" th:if="${bookInformation == null}">
                     <label for="pageSize">Filter by categories</label>
                     <select class="form-select" id="categoryName" name="categoryName"
                             onchange="changeFilters()" th:value="${categoryName}"

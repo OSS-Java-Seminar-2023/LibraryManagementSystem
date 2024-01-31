@@ -31,17 +31,37 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public Page<Book> getAllBooks(int page, int size, String sortField, String sortDirection) {
+    public Page<Book> getAllBooks(String searchQuery, String statusName, String categoryName, int page, int size) {
         Pageable paging = PageRequest.of(page - 1, size);
 
-        return bookRepository.findAll(paging);
+        if(searchQuery != null && statusName != null && !statusName.equals("All statuses") && categoryName != null && !categoryName.equals("All categories")) {
+            return bookRepository.findByBookInfoTitleAndStatusAndCategory(searchQuery, statusName, categoryName, paging);
+        } else if(statusName != null && !statusName.equals("All statuses") && categoryName != null && !categoryName.equals("All categories")) {
+            return bookRepository.findByStatusAndCategory(statusName, categoryName, paging);
+        } else if(statusName != null && !statusName.equals("All statuses")) {
+            return bookRepository.findByStatus(statusName, paging);
+        } else if(categoryName != null && !categoryName.equals("All categories")) {
+            return bookRepository.findByBookInfoCategoryContainingIgnoreCase(categoryName, paging);
+        } else if(searchQuery != null) {
+            return bookRepository.findByBookInfoTitleContainingIgnoreCase(searchQuery, paging);
+        } else {
+            return bookRepository.findAll(paging);
+        }
     }
 
     @Override
-    public Page<Book> getBooksByBookInformation(UUID id, int page, int size, String sortField, String sortDirection) {
+    public Page<Book> getBooksByBookInformation(UUID id, String searchQuery, String statusName, int page, int size) {
         Pageable paging = PageRequest.of(page - 1, size);
 
-        return bookRepository.findBooksByBookInfoId(id, paging);
+        if(searchQuery != null && statusName != null && !statusName.equals("All statuses")) {
+            return bookRepository.findBooksByBookInfoIdAndTitleContainingIgnoreCaseAndStatusAndCategoriesContainingIgnoreCase(id, searchQuery, statusName, paging);
+        } else if(statusName != null && !statusName.equals("All statuses")) {
+            return bookRepository.findBooksByBookInfoIdAndStatus(id, statusName, paging);
+        } else if(searchQuery != null) {
+            return bookRepository.findBooksByBookInfoIdAndTitleContainingIgnoreCase(id, searchQuery, paging);
+        } else {
+            return bookRepository.findBooksByBookInfoId(id, paging);
+        }
     }
 
     @Override

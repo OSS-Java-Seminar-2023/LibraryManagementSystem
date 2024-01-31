@@ -40,12 +40,13 @@ public class BookController {
 
     @GetMapping
     public String getAllBooksPage(Model model,
+                                  @RequestParam(required = false) String searchQuery,
+                                  @RequestParam(required = false) String statusName,
+                                  @RequestParam(required = false) String categoryName,
                                   @RequestParam(defaultValue = "1") int page,
-                                  @RequestParam(defaultValue = "3") int size,
-                                  @RequestParam(defaultValue = "id") String sortField,
-                                  @RequestParam(defaultValue = "asc") String sortDirection
+                                  @RequestParam(defaultValue = "3") int size
     ) {
-        var pageBooks = bookService.getAllBooks(page, size, sortField, sortDirection);
+        var pageBooks = bookService.getAllBooks(searchQuery, statusName, categoryName, page, size);
         var books = pageBooks.getContent();
         Long count = bookService.getBookCount();
 
@@ -63,18 +64,22 @@ public class BookController {
         model.addAttribute("totalItems", pageBooks.getTotalElements());
         model.addAttribute("totalPages", pageBooks.getTotalPages());
         model.addAttribute("pageSize", size);
+
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
+        if (statusName != null) model.addAttribute("statusName", statusName);
+        if (categoryName != null) model.addAttribute("categoryName", categoryName);
         return "book/allBooks";
     }
 
     @GetMapping("/{id}/bookInfo")
     public String getBooksByBookInformation(@PathVariable UUID id,
                                             Model model,
+                                            @RequestParam(required = false) String searchQuery,
+                                            @RequestParam(required = false) String statusName,
                                             @RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "3") int size,
-                                            @RequestParam(defaultValue = "id") String sortField,
-                                            @RequestParam(defaultValue = "asc") String sortDirection
+                                            @RequestParam(defaultValue = "3") int size
     ) {
-        var pageBooks = bookService.getBooksByBookInformation(id, page, size, sortField, sortDirection);
+        var pageBooks = bookService.getBooksByBookInformation(id, searchQuery, statusName, page, size);
         var books = pageBooks.getContent();
 
         // Get count using max page
@@ -99,6 +104,9 @@ public class BookController {
         model.addAttribute("totalItems", pageBooks.getTotalElements());
         model.addAttribute("totalPages", pageBooks.getTotalPages());
         model.addAttribute("pageSize", size);
+
+        if (searchQuery != null) model.addAttribute("searchQuery", searchQuery);
+        if (statusName != null) model.addAttribute("statusName", statusName);
         return "book/allBooks";
     }
 

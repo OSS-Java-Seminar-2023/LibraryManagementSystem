@@ -138,9 +138,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 role = roleRepository.findRoleByName("MEMBER");
             }
-
             return userRepository.findAllByRoles(role, paging);
-
         } else if (searchQuery != null) {
             return userRepository.findByEmailContainingOrFirstNameContainingOrLastNameContainingAllIgnoreCase(searchQuery, searchQuery, searchQuery, paging);
         } else {

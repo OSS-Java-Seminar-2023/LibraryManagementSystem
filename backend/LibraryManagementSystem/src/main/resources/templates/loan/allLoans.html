@@ -338,7 +338,7 @@
 
     <h2 th:if="${book != null}" th:text="${'For book: ' + book.bookInfo.title + ' (' + book.isbn + ') '}"></h2>
 
-    <div class="loans-stats-filters" th:if="${loans.size() > 0}">
+    <div class="loans-stats-filters">
         <div class="total-loans">
             <div class="total-icon">
                 <i class="bi bi-file-earmark"></i>

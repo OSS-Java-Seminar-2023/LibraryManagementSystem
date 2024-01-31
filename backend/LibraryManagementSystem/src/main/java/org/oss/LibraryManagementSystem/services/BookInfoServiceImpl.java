@@ -64,9 +64,8 @@ public class BookInfoServiceImpl implements BookInfoService {
     public String deleteBookInfoById(UUID id) {
         BookInfo bookInfo = bookInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("Book info not found"));
 
-        // Find all books linked to book info (using book repository custom query)
+        // Find all books linked to book info
         List<Book> books = bookRepository.findBooksByBookInfoId(bookInfo.getId());
-        System.out.println(books);
 
         // Loop thru books
         books.stream().forEach(book -> {

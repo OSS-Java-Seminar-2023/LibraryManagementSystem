@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface BookService {
 
-    Page<Book> getAllBooks(int page, int size, String sortField, String sortDirection);
+    Page<Book> getAllBooks(String searchQuery, String statusName, String categoryName, int page, int size);
 
-    Page<Book> getBooksByBookInformation(UUID id, int page, int size, String sortField, String sortDirection);
+    Page<Book> getBooksByBookInformation(UUID id, String searchQuery, String statusName, int page, int size);
 
     Book getBook(UUID id);
 
