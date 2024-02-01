@@ -27,7 +27,7 @@
 <div class="add-book-container">
     <h1>Edit Book</h1>
 
-    <form class="add-book-form" method="POST" th:action="@{/books/updateBook}" enctype="multipart/form-data">
+    <form class="add-book-form" method="POST" th:action="@{/books/updateBook(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
         <input name="id" th:value="${book.id}" type="hidden">
         <div class="input-group">
             <label>Book Information</label>
@@ -90,9 +90,9 @@
             <input id="input-file" type="file" name="file" accept="image/png, image/jpeg"/>
         </div>
 
-<!--        <input type="hidden"-->
-<!--               name="${_csrf.parameterName}"-->
-<!--               value="${_csrf.token}"/>-->
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
 
         <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Edit Book</button>
     </form>

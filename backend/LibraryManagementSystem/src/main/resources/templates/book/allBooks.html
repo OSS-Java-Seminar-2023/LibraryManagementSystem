@@ -237,6 +237,10 @@
             <p class="current-page" th:text="${currentPage}"></p>
             <a th:if="${currentPage < totalPages}" th:href="@{${bookInformation == null ? '/books?' : '/books/' + bookInformation.id + '/bookInfo?'} + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize} + '&' + ${searchQuery != null && searchQuery != '' ? 'searchQuery=' + searchQuery + '&' : ''} + ${statusName != null && statusName != '' ? 'statusName=' + statusName + '&' : ''} + ${categoryName != null && categoryName != '' ? 'categoryName=' + categoryName : ''}}" class="next-btn">Next</a>
         </div>
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
     </div>
 </body>
 <script>

@@ -27,7 +27,7 @@
     <div class="add-book-container">
         <h1>Add new Book</h1>
 
-        <form class="add-book-form" method="POST" th:action="@{/books/saveBook}" enctype="multipart/form-data">
+        <form class="add-book-form" method="POST" th:action="@{/books/saveBook(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
             <div class="input-group">
                 <label>Book Information</label>
                 <select class="form-select" name="bookInfo" id="bookInfo" required>
@@ -87,9 +87,9 @@
                 <input id="input-file" type="file" name="file" />
             </div>
 
-<!--            <input type="hidden"-->
-<!--                   name="${_csrf.parameterName}"-->
-<!--                   value="${_csrf.token}"/>-->
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
 
             <button class="form-submit submit" type="submit" onclick="initLoadingSpinner()">Add Book</button>
         </form>
