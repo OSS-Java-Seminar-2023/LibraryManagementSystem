@@ -98,8 +98,20 @@
 </body>
 <script>
     const initLoadingSpinner = () => {
+        const bookInfo = document.querySelector('input[name="bookInfo"]').value;
+        const bookStatus = document.querySelector('input[name="bookStatus"]').value;
+        const available = document.querySelector('input[name="available"]').value;
+        const publisherName = document.querySelector('input[name="publisherName"]').value;
+        const dateOfPublishing = document.querySelector('input[name="dateOfPublishing"]').value;
+        const isbn = document.querySelector('input[name="isbn"]').value;
+
         const submitBtn = document.querySelector('.submit');
-        submitBtn.innerHTML = '<div class="loader"></div>';
+
+        if(bookInfo === '' || bookStatus === '' || available === '' || publisherName === '' || dateOfPublishing === '' || isbn === '') {
+            alert('Please fill in all the fields');
+        } else {
+            submitBtn.innerHTML = '<div class="loader"></div>';
+        }
     }
 </script>
 </html>

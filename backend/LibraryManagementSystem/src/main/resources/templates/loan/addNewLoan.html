@@ -44,8 +44,15 @@
 </body>
 <script>
     const initLoadingSpinner = () => {
+        const memberId = document.querySelector('select[name="memberId"]').value;
+
         const submitBtn = document.querySelector('.submit');
-        submitBtn.innerHTML = '<div class="loader"></div>';
+
+        if(memberId === '') {
+            alert('Please fill in all the fields');
+        } else {
+            submitBtn.innerHTML = '<div class="loader"></div>';
+        }
     }
 </script>
 </html>

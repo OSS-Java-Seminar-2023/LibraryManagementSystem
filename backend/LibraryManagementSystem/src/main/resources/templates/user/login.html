@@ -62,8 +62,16 @@
     }
 
     const initLoadingSpinner = () => {
+        const username = document.querySelector('input[name="username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+
         const submitBtn = document.querySelector('.submit');
-        submitBtn.innerHTML = '<div class="loader"></div>';
+
+        if(username === '' || password === '') {
+            alert('Please fill in all the fields');
+        } else {
+            submitBtn.innerHTML = '<div class="loader"></div>';
+        }
     }
 </script>
 </html>
