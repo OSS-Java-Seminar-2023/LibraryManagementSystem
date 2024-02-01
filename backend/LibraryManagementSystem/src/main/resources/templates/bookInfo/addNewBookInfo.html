@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Add new Book Information</title>
     <th:block th:insert="~{fragments/head :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
 </head>
 <style>
     .add-bookInfo-container {
@@ -18,79 +19,6 @@
     .add-bookInfo-form {
         width: 100%;
         margin-bottom: 2rem;
-    }
-
-    .input-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 2.4rem;
-    }
-
-    .input-group label {
-        font-size: 1.8rem;
-        color: var(--primary500);
-    }
-    .input-group input {
-        padding: 1rem 0;
-        font-size: 1.6rem;
-        border: none;
-        border-bottom: 2px solid black;
-        outline: none;
-    }
-
-    .input-group input::placeholder {
-        display: flex;
-        align-items: center;
-    }
-
-    .input-group p {
-        margin: .4rem 0;
-        font-size: 1.4rem;
-    }
-
-    .form-select {
-        margin-top: 1rem;
-        width: 30%;
-        background-color: var(--primary400);
-        border-radius: .4rem;
-        padding: 1rem;
-        color: var(--primary600);
-        border: none;
-        text-align: start;
-    }
-
-    .form-select:focus {
-        border: none;
-        outline: none;
-    }
-
-    .form-submit {
-        border: none;
-        outline: none;
-        background: var(--primary500);
-        color: white;
-        padding: 1rem 1.4rem;
-        font-size: 1.6rem;
-        border-radius: .4rem;
-        margin-bottom: 2rem;
-    }
-
-    .back-btn {
-        font-size: 1.6rem;
-        text-decoration: none;
-        margin-top: 4rem;
-        border-radius: .4rem;
-        padding: 1rem 1.6rem;
-        border: 0.4px solid black;
-        color: black;
-    }
-
-    .mult-select-tag {
-        font-size: 1.8rem;
-    }
-
-    .item-label {
-        font-size: 1.6rem;
     }
 </style>
 <body>

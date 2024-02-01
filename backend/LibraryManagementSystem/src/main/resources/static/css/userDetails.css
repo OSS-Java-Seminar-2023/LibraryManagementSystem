@@ -1,0 +1,49 @@
+.details-container {
+    padding: 4rem var(--padding-container);
+}
+
+.details-container h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1.2rem;
+}
+
+.details-card {
+    width: 100%;
+    border: 1.5px solid var(--bg1000);
+    border-radius: .4rem;
+    font-size: 1.6rem;
+}
+
+.details-card-header {
+    background-color: var(--primary400);
+    padding: 1rem;
+    color: var(--primary600)
+}
+
+.details-card-content {
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.details-card-content > div:not(:last-child) {
+    padding-bottom: 1rem;
+}
+
+.links-container {
+    box-sizing: border-box;
+    margin-top: 2rem;
+}
+
+.back-btn {
+    font-size: 1.6rem;
+    text-decoration: none;
+    margin-top: 4rem;
+    border-radius: .4rem;
+    padding: 1rem 1.6rem;
+    border: 0.4px solid black;
+    color: black;
+}
+
+.back-btn:hover {
+    background-color: var(--bg700);
+}

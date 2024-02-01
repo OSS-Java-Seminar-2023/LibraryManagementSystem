@@ -1,0 +1,69 @@
+.container-home {
+    display: flex;
+    height: 90dvh;
+    overflow-y: hidden;
+}
+
+.home-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10rem;
+    justify-content: center;
+}
+
+.home-left h1 {
+    font-size: 3.4rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.home-left p {
+    font-size: 1.6rem;
+}
+
+.home-right {
+    width: 50%;
+    position: relative;
+    display: inline-block;
+}
+
+.home-right img {
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.home-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 5px;
+    width: 350px;
+    background-color: var(--bg700);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.home-right::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -15px;
+    width: 350px;
+    z-index: -1;
+    background-color: var(--bg600);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.home-right img::before {
+    content: "test";
+    position: relative;
+    top: 20rem;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    z-index: 5;
+}

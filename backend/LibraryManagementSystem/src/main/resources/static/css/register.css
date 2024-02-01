@@ -1,0 +1,126 @@
+.container-register {
+    display: flex;
+}
+
+.register-left {
+    width: 60%;
+    height: 150dvh;
+    background: linear-gradient(141deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
+}
+
+.register-right {
+    padding: 5rem;
+    font-size: 1.6rem;
+    width: 40%;
+}
+
+.register-header h3 {
+    margin-bottom: 2rem;
+    font-size: 3.4rem;
+    color: var(--primary500);
+}
+
+.register-header p {
+    margin-bottom: 3rem;
+}
+
+.error {
+    background-color: var(--error-bg);
+    border-radius: .4rem;
+    padding: 1rem 1.6rem;
+    color: var(--error-text);
+    border: 0.4px solid var(--error-text);
+    margin-bottom: 1.4rem;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.4rem;
+}
+
+.input-group div {
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.input-group div>input {
+    font-size: 1.6rem;
+    border: none;
+    outline: none;
+}
+
+.input-group .password {
+    display: flex;
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.input-group .password input {
+    width: 90%;
+}
+
+.input-group .password div {
+    width: 10%;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group .password div i {
+    font-size: 2rem;
+}
+
+.input-group label {
+    font-size: 2rem;
+    color: var(--primary500);
+}
+.input-group input {
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    display: flex;
+    align-items: center;
+}
+
+.register-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register-button-container button {
+    border: none;
+    outline: none;
+    background: var(--primary500);
+    color: white;
+    padding: 1rem 1.4rem;
+    font-size: 1.6rem;
+    border-radius: .4rem;
+}
+
+.register-button-container p>a {
+    color: var(--primary500);
+    font-size: 1.8rem;
+    font-weight: bold;
+}
