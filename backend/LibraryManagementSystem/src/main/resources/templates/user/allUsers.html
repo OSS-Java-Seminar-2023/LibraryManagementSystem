@@ -30,6 +30,20 @@
         border: 1px solid var(--primary500);
         margin-right: 2rem;
     }
+
+    @media (max-width: 1400px) {
+        .roles-row {
+            width: 150px;
+        }
+
+        .actions-row {
+            width: 150px;
+        }
+
+        .loans-row {
+            width: 300px;
+        }
+    }
 </style>
 <body>
     <th:block th:insert="~{fragments/navigation :: navigation}"></th:block>
@@ -151,7 +165,7 @@
                         <td><a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a></td>
                         <td th:text="${formatedDates.get(i.index)}"></td>
                         <td><a th:href="'tel:' + ${user.contactNumber}" th:text="${user.contactNumber}"></a></td>
-                        <td th:each="role : ${user.roles}">
+                        <td th:each="role : ${user.roles}" class="roles-row">
                             <span th:text="${role.name}" th:class="${(role.name == 'ADMIN') ? 'admin-user' : (role.name == 'LIBRARIAN' ? 'librarian-user' : 'member-user')}"></span>
                         </td>
                         <td class="actions-row">

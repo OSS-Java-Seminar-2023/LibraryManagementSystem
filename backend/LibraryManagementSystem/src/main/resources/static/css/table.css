@@ -124,7 +124,7 @@
 }
 
 .actions-row {
-    display: flex;
+    display: inline-flex;
     margin: 1rem 0;
     flex-wrap: wrap;
 }
