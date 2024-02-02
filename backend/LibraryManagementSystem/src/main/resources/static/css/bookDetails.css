@@ -281,3 +281,13 @@
     border: 0.4px solid black;
     color: black;
 }
+
+@media (max-width: 1400px) {
+    .book-details-container {
+        padding: 4rem 12rem 0 12rem;
+    }
+
+    .back-btn {
+        top: 20rem;
+    }
+}

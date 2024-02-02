@@ -84,7 +84,8 @@
     padding: .8rem 1.2rem;
     border-radius: .4rem;
     border: 1px solid var(--primary500);
-    margin-right: 2rem;
+    font-size: 1.6rem;
+    font-family: 'Roboto', sans-serif;
 }
 
 .btn-clear:hover {
@@ -125,6 +126,7 @@
 .actions-row {
     display: flex;
     margin: 1rem 0;
+    flex-wrap: wrap;
 }
 
 .actions-row>div:not(:last-child) {
@@ -181,6 +183,8 @@
 .table-content tr>td {
     font-size: 1.6rem;
     text-align: start;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .table-content tr>td>a {
@@ -262,6 +266,10 @@
     padding: 1rem;
     text-align: center;
     color: var(--error-text);
+}
+
+.loans-row {
+    flex-wrap: wrap;
 }
 
 .loans-row div>a {
