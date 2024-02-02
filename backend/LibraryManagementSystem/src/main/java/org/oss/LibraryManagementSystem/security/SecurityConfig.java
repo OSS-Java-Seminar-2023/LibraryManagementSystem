@@ -48,15 +48,14 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorization -> authorization
                         .requestMatchers("/").authenticated()
                         .requestMatchers("/users/register").permitAll()
-                //Fix for cant load custom css files
+                        .requestMatchers("/users/login").permitAll()
+                // Fix for cant load custom css files
                 .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/users/login")
                         .loginProcessingUrl("/users/authenticateUser")
                         .permitAll()
                 )
-                // Remove in prod
-//                http.csrf(csrf -> csrf.disable())
                 .logout(logout -> logout.permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/users/login"))
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")

@@ -342,7 +342,7 @@
             <tbody class="table-content">
             <tr th:each="loan, i: ${loans}" class="table-content-row">
                 <th th:text="${loan.id.toString().substring(0,8)+'...'}" class="id"></th>
-                <td th:text="${loan.member.firstName + ' ' + loan.member.lastName}"></td>
+                <td th:text="${loan.member.firstName + ' ' + loan.member.lastName}" th:if="${loanType != 'myLoans'}"></td>
                 <td th:text="${loan.librarian.firstName + ' ' + loan.librarian.lastName}"></td>
                 <td th:text="${issuedDates.get(i.index)}"></td>
                 <td>
