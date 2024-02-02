@@ -23,12 +23,16 @@ public class File {
 
     private String type;
 
-    @Column(name = "data", columnDefinition="bytea")
-    private byte[] data;
+    private String path;
 
-    public File(String name, String type, byte[]data) {
+//    private String type;
+//
+//    @Column(name = "data", columnDefinition="bytea")
+//    private byte[] data;
+//
+    public File(String name, String type, String path) {
         this.name = name;
         this.type = type;
-        this.data = data;
+        this.path = path;
     }
 }

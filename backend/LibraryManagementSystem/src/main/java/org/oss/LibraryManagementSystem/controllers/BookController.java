@@ -162,6 +162,23 @@ public class BookController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
+    @GetMapping("/file/delete/{bookId}")
+    public String deleteFile(@PathVariable UUID bookId, RedirectAttributes redirectAttributes) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+
+        if(book.getFile() != null) {
+            fileService.deleteFile(book.getFile().getId());
+
+            book.setFile(null);
+            bookRepository.save(book);
+
+            redirectAttributes.addFlashAttribute("message", "The file has been deleted successfully!");
+            return "redirect:/books/edit/" + bookId;
+        }
+        return "redirect:/books/edit/" + bookId;
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/edit/{id}")
     public String editBookPage(@PathVariable UUID id, Model model) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
@@ -196,26 +213,18 @@ public class BookController {
 
             // Add fileId to bookDto
             bookDto.setFileId(fileDb.getId());
+
+            bookService.editBook(bookDto);
+
+            return "redirect:/books";
         } else {
             // If there is file in database delete it because user is editing with no uploaded file image
             Book book = bookService.getBook(bookDto.getId());
 
-            // If book has file attached to it then delete it
-            if(book.getFile() != null) {
-                File fileToBeDeleted = fileService.getFile(book.getFile().getId());
+            bookDto.setFileId(book.getFile().getId());
+            bookService.editBook(bookDto);
 
-                // Set books file id to null so you can delete file in its table
-                bookDto.setFileId(null);
-
-                bookService.editBook(bookDto);
-                fileRepository.delete(fileToBeDeleted);
-
-                return "redirect:/books";
-            }
+            return "redirect:/books";
         }
-
-        bookService.editBook(bookDto);
-
-        return "redirect:/books";
     }
 }

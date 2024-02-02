@@ -83,11 +83,26 @@
             <input class="form-control" name="image" type="text" placeholder="Enter Image Url" th:value="${book.getImage()}">
         </div>
 
-        <div class="input-group">
-            <label>Image Upload</label>
-            <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
-            <p class="limit">Limit: 50MB</p>
-            <input id="input-file" type="file" name="file" accept="image/png, image/jpeg"/>
+        <div class="input-group-upload-container">
+            <div class="input-group upload">
+                <label>Image Upload</label>
+                <div class="error" th:text="${fileUploadMessage}" th:if="${fileUploadMessage != null}"></div>
+                <p class="limit">Limit: 50MB</p>
+                <input id="input-file" type="file" name="file" accept="image/png, image/jpeg"/>
+            </div>
+
+            <div class="upload-delete" th:if="${curFile}">
+                <a class="delete-btn"
+                   role="button"
+                   th:href="@{/books/file/delete/{bookId}(bookId=${book.id})}"
+                   th:title="${book.getBookInfo().getTitle()}"
+                   sec:authorize="hasAnyAuthority('ADMIN')"
+                   title="Delete Book Image"
+                >
+                    Delete Image File
+                    <i class="bi bi-trash"></i>
+                </a>
+            </div>
         </div>
 
         <input type="hidden"
@@ -98,8 +113,48 @@
     </form>
     <a class="back-btn" th:href="@{'/books'}">Back</a>
 </div>
+<div class="modal-overlay" id="deleteModal">
+    <div class="delete-modal">
+        <div class="modal-header">
+            <h1>Confirm Delete</h1>
+        </div>
+        <div class="modal-body">
+            <p><span id="confirmText"></span></p>
+        </div>
+        <div class="modal-footer">
+            <a class="yes-btn submit" id="yesBtn" type="button" onclick="initLoadingSpinner()">Delete Image File</a>
+            <button class="no-btn noBtn" data-bs-dismiss="modal" type="button">Close</button>
+        </div>
+    </div>
+</div>
 </body>
 <script>
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    const deleteModal = document.querySelector(".modal-overlay")
+
+    const noBtn = document.querySelector(".no-btn");
+
+    deleteButtons.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let href = btn.getAttribute("href");
+            let title = btn.getAttribute("title");
+
+            const confirmText = document.querySelector("#confirmText");
+            confirmText.innerHTML = "Are you sure you want to delete image file for book: \<b\>" + title + "\<\/b\>?";
+
+            const yesBtn = document.querySelector(".yes-btn");
+            yesBtn.href = href;
+
+            deleteModal.style.display = "flex";
+        })
+    })
+
+    noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        deleteModal.style.display = "none";
+    })
+
     const initLoadingSpinner = () => {
         const bookInfo = document.querySelector('input[name="bookInfo"]').value;
         const bookStatus = document.querySelector('input[name="bookStatus"]').value;

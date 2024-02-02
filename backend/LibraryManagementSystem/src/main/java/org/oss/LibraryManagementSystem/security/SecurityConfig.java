@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/users/authenticateUser")
                         .permitAll()
                 )
+//                http.csrf(csrf -> csrf.disable())
                 .logout(logout -> logout.permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/users/login"))
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")

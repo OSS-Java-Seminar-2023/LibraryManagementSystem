@@ -51,7 +51,8 @@ CREATE TABLE File (
     id UUID NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
-    data bytea NOT NULL
+    path VARCHAR(255) NOT NULL
+--     data bytea NOT NULL
 );
 
 CREATE TABLE Book (

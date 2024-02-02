@@ -4,6 +4,31 @@
     margin-bottom: 2.4rem;
 }
 
+.input-group-upload-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-group.upload {
+    width: 50%;
+    margin-right: 2rem;
+}
+
+.upload-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.upload-delete a {
+    text-decoration: none;
+}
+
+.upload-delete a>i {
+    margin-left: .4rem;
+}
+
 .input-group label {
     font-size: 1.8rem;
     color: var(--primary500);
