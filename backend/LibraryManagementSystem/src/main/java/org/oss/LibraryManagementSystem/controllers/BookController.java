@@ -221,7 +221,9 @@ public class BookController {
             // If there is file in database delete it because user is editing with no uploaded file image
             Book book = bookService.getBook(bookDto.getId());
 
-            bookDto.setFileId(book.getFile().getId());
+            if(book.getFile() != null) {
+                bookDto.setFileId(book.getFile().getId());
+            }
             bookService.editBook(bookDto);
 
             return "redirect:/books";
