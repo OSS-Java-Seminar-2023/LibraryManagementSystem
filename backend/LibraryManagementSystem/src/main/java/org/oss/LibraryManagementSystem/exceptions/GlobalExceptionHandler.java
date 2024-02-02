@@ -11,7 +11,6 @@ import java.io.IOException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(MultipartException.class)
     public String handleMultipartException(MultipartException e, Model model) {
         model.addAttribute("error", e.getMessage());
