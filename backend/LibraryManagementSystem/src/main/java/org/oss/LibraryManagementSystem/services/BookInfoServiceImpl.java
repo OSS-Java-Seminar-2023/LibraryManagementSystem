@@ -46,7 +46,6 @@ public class BookInfoServiceImpl implements BookInfoService {
             return bookInfoRepository.findByCategoriesContainingIgnoreCase(category, paging);
 
         } else if (searchQuery != null) {
-            System.out.println("Search query: " + searchQuery);
             return bookInfoRepository.findByTitleContainingIgnoreCase(searchQuery, paging);
         } else {
             return bookInfoRepository.findAll(paging);

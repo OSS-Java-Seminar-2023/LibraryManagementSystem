@@ -25,11 +25,6 @@ public class File {
 
     private String path;
 
-//    private String type;
-//
-//    @Column(name = "data", columnDefinition="bytea")
-//    private byte[] data;
-//
     public File(String name, String type, String path) {
         this.name = name;
         this.type = type;

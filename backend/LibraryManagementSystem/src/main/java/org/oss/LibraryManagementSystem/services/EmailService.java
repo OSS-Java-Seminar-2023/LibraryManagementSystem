@@ -24,7 +24,7 @@ public class EmailService {
             mimeMessageHelper.setText(emailBody, true);
             mimeMessageHelper.setSubject(emailSubject);
 
-            // Sending the mail
+            // Send mail
             javaMailSender.send(mimeMessage);
         }
         // Catch block to handle the exceptions

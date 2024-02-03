@@ -26,7 +26,6 @@ public class FileController {
             fileService.store(file);
             return ResponseEntity.status(HttpStatus.OK).body("Uploaded the file successfully: \" + file.getOriginalFilename()");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("\"Could not upload the file: \" + file.getOriginalFilename() + \"!\";");
         }
     }
@@ -50,36 +49,4 @@ public class FileController {
     public void deleteFile(@PathVariable UUID id) {
         fileService.deleteFile(id);
     }
-
-//    @PostMapping("/upload")
-//    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-//        try {
-//            fileService.store(file);
-//            return ResponseEntity.status(HttpStatus.OK).body("Uploaded the file successfully: \" + file.getOriginalFilename()");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("\"Could not upload the file: \" + file.getOriginalFilename() + \"!\";");
-//        }
-//    }
-//
-//    @GetMapping("/{id}/download")
-//    public ResponseEntity<?> downloadImage(@PathVariable UUID id){
-//        File imageFile = fileService.getFile(id);
-//        byte[] imageData=fileService.downloadImage(id);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .contentType(MediaType.valueOf(imageFile.getType()))
-//                .body(imageData);
-//    }
-//    @GetMapping("/{id}")
-//    public ResponseEntity<byte[]> getFile(@PathVariable UUID id) {
-//        File fileDb = fileService.getFile(id);
-//
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDb.getName() + "\"")
-//                .body(fileDb.getData());
-//    }
-//
-//    @GetMapping("/{id}/delete")
-//    public void deleteFile(@PathVariable UUID id) {
-//        fileService.deleteFile(id);
-//    }
 }

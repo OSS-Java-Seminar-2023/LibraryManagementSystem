@@ -14,11 +14,4 @@ public interface FileService {
     File getFile(UUID id);
 
     void deleteFile(UUID id);
-
-//    File store(MultipartFile file) throws IOException;
-//
-//    byte[] downloadImage(UUID id);
-//
-//    void deleteFile(UUID id);
-//    File getFile(UUID id);
 }

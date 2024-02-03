@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService {
 
         // Get default user role if no roles are defined
         Set<Role> roles = new HashSet<>();
-        System.out.println(request.getRole());
         if(request.getRole() == null) {
             Role defaultRole = roleRepository.getDefaultRole();
             roles.add(defaultRole);
@@ -110,7 +109,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUserDetails() {
         var user = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(user.getName());
         return userRepository.findByEmail(user.getName()).orElseThrow(() -> new RuntimeException("User not found"));
     }
 

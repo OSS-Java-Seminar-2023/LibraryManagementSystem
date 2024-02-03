@@ -78,28 +78,4 @@ public class FileServiceImpl implements FileService{
         // Delete record in db
         fileRepository.delete(file);
     }
-
-//    @Override
-//    public File store(MultipartFile file) throws IOException {
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        File fileDb = new File(fileName, file.getContentType(), ImageUtils.compressImage(file.getBytes()));
-//        return fileRepository.save(fileDb);
-//    }
-//
-//    public byte[] downloadImage(UUID id){
-//        File dbImageData = fileRepository.findById(id).get();
-//        byte[] images=ImageUtils.decompressImage(dbImageData.getData());
-//        return images;
-//    }
-//
-//    @Override
-//    public void deleteFile(UUID id) {
-//        File file = fileRepository.findById(id).orElseThrow(() -> new RuntimeException("File not found"));
-//        fileRepository.delete(file);
-//    }
-//
-//    @Override
-//    public File getFile(UUID id) {
-//        return fileRepository.findById(id).get();
-//    }
 }

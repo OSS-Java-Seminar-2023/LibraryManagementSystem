@@ -25,8 +25,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public String handleMaxSizeException(MaxUploadSizeExceededException e, Model model) {
-        System.out.println("File is too large!, Limit is 2MB");
-        model.addAttribute("error", "File is too large!, Limit is 2MB");
+        model.addAttribute("error", "File is too large!, Limit is 50MB");
         return "error";
     }
 
