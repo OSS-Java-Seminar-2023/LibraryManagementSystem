@@ -1,0 +1,7 @@
+FROM postgres:latest
+
+ENV POSTGRES_DB=library
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=root
+
+EXPOSE 5433
