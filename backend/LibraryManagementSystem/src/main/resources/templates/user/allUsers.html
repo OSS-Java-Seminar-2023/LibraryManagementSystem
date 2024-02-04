@@ -103,6 +103,8 @@
             <a class="btn-details" th:href="@{'/users/myDetails'}" >My Details</a>
         </div>
 
+        <div class="error" th:text="${message}" th:if="${message != null}"></div>
+
         <div class="table-container">
             <div class="none-found" th:if="${users.size() == 0}"><p>No users found...</p></div>
             <table class="table" th:if="${users.size() > 0}">

@@ -75,7 +75,7 @@ public class FileServiceImpl implements FileService{
         java.io.File fileToDelete = new java.io.File(dir + "/" + file.getName());
         fileToDelete.delete();
 
-        // Delete record in db
+        // Delete from db
         fileRepository.delete(file);
     }
 }

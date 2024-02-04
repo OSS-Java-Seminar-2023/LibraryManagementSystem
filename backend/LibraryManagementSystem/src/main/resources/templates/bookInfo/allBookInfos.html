@@ -95,6 +95,8 @@
             <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/bookInfos/add}">Add new Book Information</a>
         </div>
 
+        <div class="error" th:text="${message}" th:if="${message != null}"></div>
+
         <div class="table-container">
             <div class="none-found" th:if="${bookInfos.size() == 0}"><p>No books information found.</p></div>
             <table class="table" th:if="${bookInfos.size() > 0}">

@@ -264,7 +264,7 @@ public class LoanController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @PostMapping("/{bookId}/saveLoan")
     public String startLoan (@PathVariable UUID bookId, @ModelAttribute("loanPayload") LoanDto loanDto, RedirectAttributes redirectAttributes) {
-        // Check if member has more than max laons
+        // Check if member has more than max loans
         var numberOfMembersCurrentActiveLoans = loanRepository.countByMemberIdAndDateReturnedIsNull(loanDto.getMemberId());
 
         if(numberOfMembersCurrentActiveLoans >= MAX_LOANS) {

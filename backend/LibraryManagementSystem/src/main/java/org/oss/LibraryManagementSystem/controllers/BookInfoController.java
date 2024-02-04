@@ -83,8 +83,6 @@ public class BookInfoController {
     @PostMapping("/saveBookInfo")
     public String saveBookInfo(@ModelAttribute BookInfoDto bookInfoDto) {
         BookInfo bookInfo = bookInfoService.createBookInfo(bookInfoDto);
-
-        bookInfoRepository.save(bookInfo);
         return "redirect:/bookInfos";
     }
 

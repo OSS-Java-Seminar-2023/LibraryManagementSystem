@@ -56,7 +56,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     public BookInfo createBookInfo(BookInfoDto bookInfoDto) {
         BookInfo bookInfo = bookInfoMapper.bookInfoDtoToBookInfo(bookInfoDto);
 
-        return bookInfo;
+        return bookInfoRepository.save(bookInfo);
     }
 
     @Override

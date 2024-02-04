@@ -56,8 +56,8 @@ public class AuthorController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'LIBRARIAN')")
     @GetMapping("/add")
-    public String addNewAuthorPage(Model model, CategoryDto categoryDto) {
-        model.addAttribute("categoryDto", categoryDto);
+    public String addNewAuthorPage(Model model, AuthorDto authorDto) {
+        model.addAttribute("authorDto", authorDto);
         return "author/addNewAuthor";
     }
 

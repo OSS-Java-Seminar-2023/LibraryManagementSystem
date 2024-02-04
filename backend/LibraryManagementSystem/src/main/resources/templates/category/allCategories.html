@@ -78,6 +78,8 @@
             <a class="btn-add" sec:authorize="hasAnyAuthority('ADMIN', 'LIBRARIAN')" th:href="@{/categories/add}">Add new Category</a>
         </div>
 
+        <div class="error" th:text="${message}" th:if="${message != null}"></div>
+
         <div class="table-container">
             <div class="none-found" th:if="${categories.size() == 0}"><p>No categories found.</p></div>
             <table class="table" th:if="${categories.size() > 0}">

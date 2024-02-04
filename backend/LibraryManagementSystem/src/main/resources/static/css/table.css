@@ -344,3 +344,14 @@
     align-items: center;
     justify-content: center;
 }
+
+.error {
+    background-color: var(--error-bg);
+    border-radius: .4rem;
+    padding: 1rem 1.6rem;
+    color: var(--error-text);
+    border: 0.4px solid var(--error-text);
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+}

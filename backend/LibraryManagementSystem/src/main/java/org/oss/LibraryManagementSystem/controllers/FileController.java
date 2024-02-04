@@ -24,9 +24,9 @@ public class FileController {
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             fileService.store(file);
-            return ResponseEntity.status(HttpStatus.OK).body("Uploaded the file successfully: \" + file.getOriginalFilename()");
+            return ResponseEntity.status(HttpStatus.OK).body("Uploaded the file successfully:");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("\"Could not upload the file: \" + file.getOriginalFilename() + \"!\";");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Could not upload the file");
         }
     }
 
