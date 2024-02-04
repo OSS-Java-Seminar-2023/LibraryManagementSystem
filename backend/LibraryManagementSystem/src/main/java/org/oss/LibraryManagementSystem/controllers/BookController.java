@@ -153,6 +153,10 @@ public class BookController {
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
         try {
+            Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+            if(book.getFile() != null) {
+                fileService.deleteFile(book.getFile().getId());
+            }
             bookService.deleteBookById(id);
             redirectAttributes.addFlashAttribute("message", "The book with id=" + id + " has been deleted successfully!");
         } catch (Exception e) {
